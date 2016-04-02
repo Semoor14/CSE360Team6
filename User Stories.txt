@@ -1,0 +1,21 @@
+As a player, I want to be able to set up the game so that I can choose custom rules and settings.  
+As a player, I want to be able to play the game so that I can potentially win the game.
+As a player, I want to be able to win the game so that the game will eventually end.  
+As a player, I want to be able to view statistics so that I can look at the performance of others versus my own.
+As a player, I want to be able to view the rules so that I can understand how to play the game and ‘poker hand.
+As a player, I want to be able to choose the number of rounds so that I can control the time it takes to play the game.
+As a player, I want to be able to pick variant rules so that I can keep the game interesting and add to the strategy.
+As a player, I want to be able to establish player order so that turns are tracked.
+As a player, I want to be able to take turn so that I can manipulate the game and come closer to winning.
+As a player, I want to be able to roll the die that I get on each of my turns.
+As a player, I want to be able to choose which of my die add to my score and which to my queue.
+As a player, I want to be able to redeem a poker hand so that I can manipulate the game through special action.
+As a player, I want to be able to take and target a special action so that I can increase my likelihood of winning, or disrupt the strategy of my opponents.
+As a player, I want to be able to view game statistics so that I can track the results of prior games.
+As a player, I want to be able to view player statistics so that I can track the performance of each of the four players..
+As a player, I want to be able to view full game rules so that I can understand how to play the game.
+As a player, I want to be able to view chosen variant rules so that I can reference the rules currently in play.
+As a player, I want to be able to view poker hands so that I can understand the effect of each hand.
+As a player, I want a graphics interface so that I can visually comprehend what is happening in the game.
+As statistics file, I want to be able to record statistics so that players can view the statistics at a later time.
+As a statistics file, I want to be able to display statistics such that the player can track their performance.  
