@@ -11,13 +11,21 @@ public class DiceGame extends StateBasedGame
 	public static final int SETUP = 1;
 	public static final int RULES = 2;
 	public static final int STATISTICS = 3;
-	public static final int GAME = 4;
+	public static final int GAME_37 = 4;
+	
+	public static final int WIDTH   = 640;
+    public static final int HEIGHT  = 640;
+    public static final int FPS     = 60;
 	
 	public static void main (String[] args)
 	{
 		try
 		{
-			AppGameContainer gameContainer = new AppGameContainer(new DiceGame("37 Game"), 600, 600, false);
+			AppGameContainer gameContainer = new AppGameContainer(new DiceGame("37 Game"));
+			gameContainer.setDisplayMode(WIDTH, HEIGHT, false);
+			gameContainer.setTargetFrameRate(FPS);
+			gameContainer.setShowFPS(true);
+			gameContainer.start();
 		} catch (SlickException e)
 		{
 			e.printStackTrace();
@@ -30,10 +38,13 @@ public class DiceGame extends StateBasedGame
 	}
 
 	@Override
-	public void initStatesList(GameContainer arg0) throws SlickException
+	public void initStatesList(GameContainer gameContainer) throws SlickException
 	{
-		// TODO Auto-generated method stub
-		
+		this.addState(new MainMenuGameState(MAIN));
+        this.addState(new SetupGameState(SETUP));
+        this.addState(new RulesGameState(RULES));
+        this.addState(new StatisticsGameState(STATISTICS));
+        this.addState(new Game37GameState(GAME_37));
 	}
 
 }
