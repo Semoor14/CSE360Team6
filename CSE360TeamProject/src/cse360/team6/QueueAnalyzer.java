@@ -1,3 +1,5 @@
+package cse360.team6;
+
 public class QueueAnalyzer 
 {
 	public enum Hands{
