@@ -1,8 +1,11 @@
 package cse360.team6;
 
+import java.awt.Font;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class DiceGame extends StateBasedGame
@@ -16,9 +19,14 @@ public class DiceGame extends StateBasedGame
 	public static final int WIDTH   = 640;
     public static final int HEIGHT  = 640;
     public static final int FPS     = 60;
+    
+    public static TrueTypeFont smallFont;
+    public static TrueTypeFont mediumFont;
+    public static TrueTypeFont largeFont;
 	
 	public static void main (String[] args)
 	{
+	
 		try
 		{
 			AppGameContainer gameContainer = new AppGameContainer(new DiceGame("37 Game"));

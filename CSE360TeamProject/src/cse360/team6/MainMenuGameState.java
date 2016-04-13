@@ -1,23 +1,90 @@
 package cse360.team6;
 
+import java.awt.Font;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class MainMenuGameState  implements GameState
 {
-	public MainMenuGameState(int main)
-	{
-		// TODO Auto-generated constructor stub
+	private static final float gameNameBoxHeightPercent = .1f;
+	private static final float gameNameBoxWidthPercent = .15f;
+	private CenteredTextButton gameNameBox;
+	
+	public MainMenuGameState(int main){}
+	
+	@Override
+	public void init(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException {
 	}
 
 	@Override
-	public void mouseClicked(int arg0, int arg1, int arg2, int arg3) {
+	public void update(GameContainer gameContainer, StateBasedGame stateGame, int arg2) throws SlickException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException {
+		g.setBackground(Color.gray);
+		if (gameNameBox != null)
+			gameNameBox.render(gameContainer, stateGame, g);
+	}
+	
+	@Override
+	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException {
+		//initialize fonts
+		Font sFont = new Font("Arial", Font.PLAIN, 18);
+		DiceGame.smallFont = new TrueTypeFont(sFont,false);
+		
+		Font mFont = new Font("Arial", Font.PLAIN, 26);
+		DiceGame.mediumFont = new TrueTypeFont(mFont,false);
+		
+		Font lFont = new Font("Arial", Font.PLAIN, 40);
+		DiceGame.largeFont = new TrueTypeFont(lFont,false);
+		
+		int boxHeight = (int)(gameContainer.getHeight() * gameNameBoxHeightPercent);
+		int boxWidth = (int)(gameContainer.getWidth() * gameNameBoxWidthPercent);
+		
+		int boxX = (gameContainer.getWidth() - boxWidth)/2;
+		int boxY = (gameContainer.getHeight() - boxHeight)/2;
+		
+		gameNameBox = new CenteredTextButton("37", boxX, boxY, boxWidth, boxHeight, DiceGame.largeFont);
+		gameNameBox.SetSelected(true);
+	}
+
+	@Override
+	public void leave(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void mouseClicked(int button, int x, int y, int numClicked) {
+		if(button == 0){
+	        System.out.println("Left Mouse Clicked");
+	    }else{
+	        System.out.println("Else button clicked");}
+		if (button == Input.MOUSE_LEFT_BUTTON)
+		{
+			boolean gameNameClicked = gameNameBox.isWithinBound(x, y);
+			if (gameNameClicked)
+			{
+				System.out.print("Button clicked!");
+				gameNameBox.InvertSelection();
+			}
+		}
 	}
 
 	@Override
@@ -33,13 +100,13 @@ public class MainMenuGameState  implements GameState
 	}
 
 	@Override
-	public void mousePressed(int arg0, int arg1, int arg2) {
+	public void mousePressed(int button, int arg1, int arg2) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseReleased(int arg0, int arg1, int arg2) {
+	public void mouseReleased(int button, int arg1, int arg2) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -146,40 +213,6 @@ public class MainMenuGameState  implements GameState
 		
 	}
 
-	@Override
-	public void enter(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void leave(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }
