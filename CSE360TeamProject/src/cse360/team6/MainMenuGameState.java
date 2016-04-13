@@ -13,9 +13,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MainMenuGameState  implements GameState
 {
-	private static final float gameNameBoxHeightPercent = .1f;
-	private static final float gameNameBoxWidthPercent = .15f;
-	private CenteredTextButton gameNameBox;
+	private static final float GAME_NAME_BOX_Y_POSITION_PERCENT_FROM_MIDDLE = .1f;
+	private static final float GAME_NAME_BOX_HEIGHT_PERCENT = .1f;
+	private static final float GAME_NAME_BOX_WIDTH_PERCENT = .15f;
+	private CenteredTextBox gameNameBox;
+	
+	private static final float GAME_START_BUTTON_Y_POSITION_PERCENT_FROM_MIDDLE = -.1f;
+	private static final float GAME_START_BUTTON_PERCENT = .1f;
+	private static final float GAME_START_BUTTON_WIDTH_PERCENT = .3f;
+	private CenteredTextButton gameStartButton;
 	
 	public MainMenuGameState(int main){}
 	
@@ -26,7 +32,18 @@ public class MainMenuGameState  implements GameState
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateGame, int arg2) throws SlickException {
 		// TODO Auto-generated method stub
-		
+		Input input = gameContainer.getInput();
+		if (input.isMousePressed(0))
+		{
+			int mouseX = input.getMouseX();
+			int mouseY = input.getMouseY();
+			
+			//ask the game name box if its been clicked
+			if(gameStartButton.isWithinBound(mouseX, mouseY))
+			{
+				stateGame.enterState(DiceGame.GAME_37);
+			}
+		}
 	}
 	
 	@Override
@@ -34,6 +51,8 @@ public class MainMenuGameState  implements GameState
 		g.setBackground(Color.gray);
 		if (gameNameBox != null)
 			gameNameBox.render(gameContainer, stateGame, g);
+		if (gameStartButton != null)
+			gameStartButton.render(gameContainer, stateGame, g);
 	}
 	
 	@Override
@@ -48,14 +67,23 @@ public class MainMenuGameState  implements GameState
 		Font lFont = new Font("Arial", Font.PLAIN, 40);
 		DiceGame.largeFont = new TrueTypeFont(lFont,false);
 		
-		int boxHeight = (int)(gameContainer.getHeight() * gameNameBoxHeightPercent);
-		int boxWidth = (int)(gameContainer.getWidth() * gameNameBoxWidthPercent);
+		int boxHeight = (int)(gameContainer.getHeight() * GAME_NAME_BOX_HEIGHT_PERCENT);
+		int boxWidth = (int)(gameContainer.getWidth() * GAME_NAME_BOX_WIDTH_PERCENT);
 		
 		int boxX = (gameContainer.getWidth() - boxWidth)/2;
 		int boxY = (gameContainer.getHeight() - boxHeight)/2;
+		boxY -= gameContainer.getHeight() * GAME_NAME_BOX_Y_POSITION_PERCENT_FROM_MIDDLE;;
 		
-		gameNameBox = new CenteredTextButton("37", boxX, boxY, boxWidth, boxHeight, DiceGame.largeFont);
-		gameNameBox.SetSelected(true);
+		gameNameBox = new CenteredTextBox("37", boxX, boxY, boxWidth, boxHeight, DiceGame.largeFont);
+		
+		int buttonHeight = (int)(gameContainer.getHeight() * GAME_START_BUTTON_PERCENT);
+		int buttonWidth = (int)(gameContainer.getWidth() * GAME_START_BUTTON_WIDTH_PERCENT);
+		
+		int buttonX = (gameContainer.getWidth() - buttonWidth)/2;
+		int buttonY = (gameContainer.getHeight() - buttonHeight)/2;
+		buttonY -= gameContainer.getHeight() * GAME_START_BUTTON_Y_POSITION_PERCENT_FROM_MIDDLE;
+		
+		gameStartButton = new CenteredTextButton("Start Game", buttonX, buttonY, buttonWidth, buttonHeight, DiceGame.mediumFont);
 	}
 
 	@Override
@@ -67,24 +95,11 @@ public class MainMenuGameState  implements GameState
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return DiceGame.MAIN;
 	}
 
 	@Override
 	public void mouseClicked(int button, int x, int y, int numClicked) {
-		if(button == 0){
-	        System.out.println("Left Mouse Clicked");
-	    }else{
-	        System.out.println("Else button clicked");}
-		if (button == Input.MOUSE_LEFT_BUTTON)
-		{
-			boolean gameNameClicked = gameNameBox.isWithinBound(x, y);
-			if (gameNameClicked)
-			{
-				System.out.print("Button clicked!");
-				gameNameBox.InvertSelection();
-			}
-		}
 	}
 
 	@Override

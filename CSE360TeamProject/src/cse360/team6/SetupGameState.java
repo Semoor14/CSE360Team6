@@ -155,7 +155,7 @@ public class SetupGameState implements GameState
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return DiceGame.SETUP;
 	}
 
 	@Override
