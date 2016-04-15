@@ -111,6 +111,7 @@ public class QueueAnalyzer
 	{		
 		if(que[0]==que[1])
 		{
+			System.out.println("pair");
 			return Hands.PAIR;
 		}
 		else
@@ -133,7 +134,7 @@ public class QueueAnalyzer
 	
 	public Hands isRunOfThree(int[] que)
 	{
-		if(que[2] == que[1]++ && que[1] == que[0]++)
+		if(que[2] == que[1]+1 && que[1] == que[0]+1)
 		{
 			return Hands.RUN_OF_THREE;
 		}
@@ -179,7 +180,7 @@ public class QueueAnalyzer
 	
 	public Hands isRunOfFour(int[] que)
 	{
-		if(que[3] == que[2]++ &&que[2] == que[1]++ && que[1] == que[0]++)
+		if(que[3] == que[2]+1 &&que[2] == que[1]+1 && que[1] == que[0]+1)
 		{
 			return Hands.RUN_OF_FOUR;
 		}
@@ -191,7 +192,7 @@ public class QueueAnalyzer
 	
 	public Hands isRunOfFive(int[] que)
 	{
-		if(que[4] == que[3]++ && que[3] == que[2]++ && que[2] == que[1]++ && que[1] == que[0]++)
+		if(que[4] == que[3]+1 && que[3] == que[2]+1 && que[2] == que[1]+1 && que[1] == que[0]+1)
 		{
 			return Hands.RUN_OF_FIVE;
 		}
