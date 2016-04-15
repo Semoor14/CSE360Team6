@@ -1,4 +1,4 @@
-package cse360.team6;
+package dice.game.myCode;
 
 import java.awt.Font;
 
@@ -8,7 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class CenteredTextBox
+public class MyCenteredTextBox 
 {
 	protected String text;
 	protected int xPosition;
@@ -17,7 +17,7 @@ public class CenteredTextBox
 	protected int height;
 	protected TrueTypeFont textFont;
 	
-	public CenteredTextBox(String text, int xPos, int yPos, int width, int height, TrueTypeFont font)
+	public MyCenteredTextBox(String text, int xPos, int yPos, int width, int height, TrueTypeFont font)
 	{
 		this.text = text;
 		this.xPosition = xPos;
@@ -41,4 +41,5 @@ public class CenteredTextBox
 		
 		g.drawString(text, middleX, middleY);
 	}
+
 }

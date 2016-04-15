@@ -1,4 +1,6 @@
-package cse360.team6;
+package dice.game.myCode;
+
+//import MyCenteredTextBox;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -6,13 +8,16 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class CenteredTextButton extends CenteredTextBox
+public class MyCenteredTextButton extends MyCenteredTextBox
 {
 	private boolean selected;
-	public CenteredTextButton(String text, int xPos, int yPos, int width, int height, TrueTypeFont font) {
+	
+	public MyCenteredTextButton(String text, int xPos, int yPos, int width, int height, TrueTypeFont font) 
+	{
 		super(text, xPos, yPos, width, height, font);
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 	public void SetSelected(boolean selected)
 	{
@@ -27,6 +32,11 @@ public class CenteredTextButton extends CenteredTextBox
 	public boolean GetSelected()
 	{
 		return selected;
+	}
+	
+	public void SetText(String newText)
+	{
+		text = newText;
 	}
 	
 	public boolean isWithinBound(int clickPositionX, int clickPositionY)
