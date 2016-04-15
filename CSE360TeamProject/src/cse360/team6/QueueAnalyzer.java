@@ -159,17 +159,17 @@ public class QueueAnalyzer
 	{
 		if(que[0]==que[1] && que[2]==que[3])
 		{	
-				return Hands.TWO_PAIR;
+			return Hands.TWO_PAIR;
 		}
 		else if(que[0]== que[2] && que[1] == que[3])
 		{
 			
-				return Hands.TWO_PAIR;
+			return Hands.TWO_PAIR;
 		}
 		else if(que[0]== que[3] && que[1] == que[2])
 		{
 			
-				return Hands.TWO_PAIR;
+			return Hands.TWO_PAIR;
 		}
 		else
 		{
@@ -179,17 +179,38 @@ public class QueueAnalyzer
 	
 	public Hands isRunOfFour(int[] que)
 	{
-		return Hands.RUN_OF_FOUR;
+		if(que[3] == que[2]++ &&que[2] == que[1]++ && que[1] == que[0]++)
+		{
+			return Hands.RUN_OF_FOUR;
+		}
+		else 
+		{
+			return Hands.NONE;
+		}
 	}
 	
 	public Hands isRunOfFive(int[] que)
 	{
-		return Hands.RUN_OF_FIVE;
+		if(que[4] == que[3]++ && que[3] == que[2]++ && que[2] == que[1]++ && que[1] == que[0]++)
+		{
+			return Hands.RUN_OF_FIVE;
+		}
+		else 
+		{
+			return Hands.NONE;
+		}
 	}
 	
 	public Hands isFiveOfKind(int[] que)
 	{
-		return Hands.FIVE_OF_KIND;
+		if(que[0] == que[1] && que[0]== que[2] && que[0] == que[3] && que[0] == que[4])
+		{
+			return Hands.FIVE_OF_KIND;
+		}
+		else
+		{
+			return Hands.NONE;
+		}
 	}
 }
 
