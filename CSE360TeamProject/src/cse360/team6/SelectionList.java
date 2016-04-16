@@ -86,4 +86,9 @@ public class SelectionList
 			listOfButtons[index].render(gameContainer, game, g);
 		}
 	}
+	
+	public int sizeOfList()
+	{
+		return listOfButtons.length;
+	}
 }
