@@ -1,6 +1,5 @@
 package cse360.team6;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -8,7 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 /**
  * SelectionList is a class which is a vertical list of buttons with various texts on them,
  * where up to one button can be pressed at any one time
- * @author kyle
+ * @author Kyle Chapman
  */
 public class SelectionList
 {
@@ -54,12 +53,13 @@ public class SelectionList
 	 */
 	public boolean isWithinBound(int clickPositionX, int clickPositionY)
 	{
+		boolean isWithinBounds = false;
 		for (int index = 0; index < listOfButtons.length;index++)
 		{
 			if (listOfButtons[index].isWithinBound(clickPositionX, clickPositionY))
-				return true;
+				isWithinBounds = true;
 		}
-		return false;
+		return isWithinBounds;
 	}
 	
 	/**

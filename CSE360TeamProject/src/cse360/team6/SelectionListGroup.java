@@ -4,10 +4,24 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * A group of selection lists seperated by space.
+ * @author kyle
+ */
 public class SelectionListGroup
 {
+	//an array of all the selection lists in the group
 	private SelectionList[] selectionLists;
 	
+	/**
+	 * Constructor for a group of selection lists.
+	 * @param listOfLists An array of arrays of strings. Each array in the array is the string name of buttons in a single list.
+	 * @param x The x position of the group on the screen.
+	 * @param y The y position of the group on the screen.
+	 * @param width The width of the group on the screen.
+	 * @param listElementheight The height of each button in a list.
+	 * @param spacingBetweenLists The height space between lists.
+	 */
 	public SelectionListGroup (String[][] listOfLists, int x, int y, int width, int listElementheight, int spacingBetweenLists)
 	{
 		selectionLists = new SelectionList[listOfLists.length];
@@ -26,16 +40,28 @@ public class SelectionListGroup
 		}
 	}
 	
+	/**
+	 * Determines if the given click position x and y combo is inside any of the lists in our group.
+	 * @param clickPositionX The x position of the click.
+	 * @param clickPositionY The y position of the click.
+	 * @return Whether or not the given click is inside any lists in our group.
+	 */
 	public boolean isWithinBound(int clickPositionX, int clickPositionY)
 	{
+		boolean isWithinBound = false;
 		for (int index = 0; index < selectionLists.length;index++)
 		{
 			if (selectionLists[index].isWithinBound(clickPositionX, clickPositionY))
-				return true;
+				isWithinBound = true;
 		}
-		return false;
+		return isWithinBound;
 	}
 	
+	/**
+	 * Activates the list button that is being clicked by the given x and y click position.
+	 * @param clickPositionX The x position of the activating click.
+	 * @param clickPositionY The y position of the activating click.
+	 */
 	public void pressListButton(int clickPositionX, int clickPositionY)
 	{
 		for (int index = 0; index < selectionLists.length;index++)
@@ -47,11 +73,22 @@ public class SelectionListGroup
 		}
 	}
 	
+	/**
+	 * Gets the selection list that is at the given index in the array of selection lists.
+	 * @param index
+	 * @return The SelectionList at the given index in the SelectionList array.
+	 */
 	public SelectionList getSelectionListAtIndex(int index)
 	{
 		return selectionLists[index];
 	}
 	
+	/**
+	 * Render the list of SelectionLists to the screen.
+	 * @param gameContainer The container for the whole game.
+	 * @param game The StateBasedGame handler.
+	 * @param g The graphics object.
+	 */
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
 	{
 		for (int index = 0; index < selectionLists.length;index++)
