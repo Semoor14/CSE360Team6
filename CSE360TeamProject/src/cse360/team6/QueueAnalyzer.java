@@ -2,18 +2,34 @@ package cse360.team6;
 
 public class QueueAnalyzer 
 {
-	public enum Hands{
-		PAIR, THREE_OF_KIND, RUN_OF_THREE, FOUR_OF_KIND,
-		TWO_PAIR, RUN_OF_FOUR, RUN_OF_FIVE, FIVE_OF_KIND, NONE
+	public enum Hands
+	{
+		PAIR ("Pair"), THREE_OF_KIND ("Three of a Kind"), RUN_OF_THREE ("Run of Three"), FOUR_OF_KIND ("Four of a Kind"),
+		TWO_PAIR ("Two Pair"), RUN_OF_FOUR ("Run of Four"), RUN_OF_FIVE ("Run of Five"), FIVE_OF_KIND ("Five of a Kind"), NONE ("None");
+		
+		private final String handName;
+		
+		private Hands(String name)
+		{
+			
+			handName = name;
+		}
+		
+		public String toString()
+		{	
+			return this.name();
+		}
 	}
 
 	public QueueAnalyzer(int[] que)
 	{
 		int[] queAnalysis = QueueSort(que);
-		
-		int numElements = queAnalysis.length;
 		 
-		handFinder(queAnalysis,numElements);
+	}
+	
+	public int getNumElements(int[] que)
+	{
+		return que.length;
 	}
 	
 	public int[] QueueSort(int[] que)
