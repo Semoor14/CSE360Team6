@@ -16,7 +16,7 @@ public class QueueAnalyzer
 		
 		public String toString()
 		{	
-			return this.name();
+			return this.handName;
 		}
 	}
 
