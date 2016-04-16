@@ -14,20 +14,20 @@ public class CenteredTextBoxTest {
 	}
 	
 	@Test
-	public void getSelectedTest() {	
+	public void GetSelectedTest() {	
 		CenteredTextBox box = new CenteredTextBox("Text", 24, 24, 40, 40, null);
 		assertFalse(box.getSelected());
 	}
 	
 	@Test
-	public void setSelectedTest() {	
+	public void SetSelectedTest() {	
 		CenteredTextBox box = new CenteredTextBox("Text", 24, 24, 40, 40, null);
 		box.setSelected(true);
 		assertTrue(box.getSelected());
 	}
 	
 	@Test
-	public void invertSelectionTest() {	
+	public void InvertSelectionTest() {	
 		CenteredTextBox box = new CenteredTextBox("Text", 24, 24, 40, 40, null);
 		box.invertSelection();
 		assertTrue(box.getSelected());
