@@ -3,7 +3,7 @@ package cse360.team6;
  * The QueueAnalyzer class takes an array or 'Player Queue' and identifies whether or not the player has any available 
  * hands which they can redeem. The class constructor recieves a queue from the game state and outputs an enumeration with a
  * toString literal.
- * 
+ * @version 4/15/2016
  * @author Scott
  *
  */
@@ -166,10 +166,15 @@ public class QueueAnalyzer
 		}	
 		return hand;
 	}
-	
+	/**
+	 * isPair takes in a que and determines if a pair is available and returns an Enum Hands
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isPair(int[] que)
 	{		
-		if(que[0]==que[1])
+		if(que[0] == que[1])
 		{
 			return Hands.PAIR;
 		}
@@ -178,7 +183,12 @@ public class QueueAnalyzer
 			return Hands.NONE;	
 		}	
 	}
-	
+	/**
+	 * isThreeOfKind takes in a que and determines if three of the same value exists returns an Enum Hands
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isThreeOfKind(int[] que)
 	{
 		if(que[0] == que[1] && que[0] == que[2])
@@ -190,10 +200,15 @@ public class QueueAnalyzer
 			return Hands.NONE;
 		}
 	}
-	
+	/**
+	 * isRunOfThree takes in a que and determines if the values are in rising consecutive orderailable and returns an Enum
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isRunOfThree(int[] que)
 	{
-		if(que[2] == que[1]+1 && que[1] == que[0]+1)
+		if(que[2] == que[1] + 1 && que[1] == que[0] + 1)
 		{
 			return Hands.RUN_OF_THREE;
 		}
@@ -202,10 +217,15 @@ public class QueueAnalyzer
 			return Hands.NONE;
 		}
 	}
-	
+	/**
+	 * isFourOfKind takes in a que and determines if the four values are the same and returns an Enum
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isFourOfKind(int[] que)
 	{
-		if(que[0] == que[1] && que[0] == que[2] && que[0]==que[3])
+		if(que[0] == que[1] && que[0] == que[2] && que[0] == que[3])
 		{
 			return Hands.FOUR_OF_KIND;
 		}
@@ -214,18 +234,23 @@ public class QueueAnalyzer
 			return Hands.NONE;
 		}
 	}
-	
+	/**
+	 * istwoPair takes in a que and determines if a two pairs exists and returns an Enum
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isTwoPair(int[] que)
 	{
-		if(que[0]==que[1] && que[2]==que[3])
+		if(que[0] == que[1] && que[2] == que[3])
 		{	
 			return Hands.TWO_PAIR;
 		}
-		else if(que[0]== que[2] && que[1] == que[3])
+		else if(que[0] == que[2] && que[1] == que[3])
 		{	
 			return Hands.TWO_PAIR;
 		}
-		else if(que[0]== que[3] && que[1] == que[2])
+		else if(que[0] == que[3] && que[1] == que[2])
 		{	
 			return Hands.TWO_PAIR;
 		}
@@ -234,10 +259,16 @@ public class QueueAnalyzer
 			return Hands.NONE;
 		}
 	}
-	
+	/**
+	 * isRunOfFour takes in a que and determines if four elements are in rising consecutive
+	 *     order and returns an Enum
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isRunOfFour(int[] que)
 	{
-		if(que[3] == que[2]+1 &&que[2] == que[1]+1 && que[1] == que[0]+1)
+		if(que[3] == que[2] + 1 && que[2] == que[1] + 1 && que[1] == que[0] + 1)
 		{
 			return Hands.RUN_OF_FOUR;
 		}
@@ -246,10 +277,16 @@ public class QueueAnalyzer
 			return Hands.NONE;
 		}
 	}
-	
+	/**
+	 * isRunOfFive takes in a que and determines if five elements are in rising consecutive
+	 *      order and returns an Enum
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isRunOfFive(int[] que)
 	{
-		if(que[4] == que[3]+1 && que[3] == que[2]+1 && que[2] == que[1]+1 && que[1] == que[0]+1)
+		if(que[4] == que[3] + 1 && que[3] == que[2] + 1 && que[2] == que[1] + 1 && que[1] == que[0] + 1)
 		{
 			return Hands.RUN_OF_FIVE;
 		}
@@ -258,7 +295,12 @@ public class QueueAnalyzer
 			return Hands.NONE;
 		}
 	}
-	
+	/**
+	 * isPair takes in a que and determines if five elements are equal and returns an Enum
+	 * 
+	 * @param que
+	 * @return Hands
+	 */
 	public Hands isFiveOfKind(int[] que)
 	{
 		if(que[0] == que[1] && que[0]== que[2] && que[0] == que[3] && que[0] == que[4])
