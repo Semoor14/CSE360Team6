@@ -10,8 +10,7 @@ public class QueueAnalyzer
 		private final String handName;
 		
 		private Hands(String name)
-		{
-			
+		{	
 			handName = name;
 		}
 		
@@ -23,8 +22,7 @@ public class QueueAnalyzer
 
 	public QueueAnalyzer(int[] que)
 	{
-		int[] queAnalysis = QueueSort(que);
-		 
+		int[] queAnalysis = QueueSort(que);		 
 	}
 	
 	public int getNumElements(int[] que)
@@ -118,8 +116,7 @@ public class QueueAnalyzer
 				hand = Hands.NONE;
 			}
 			break;
-		}
-		
+		}	
 		return hand;
 	}
 	
@@ -179,13 +176,11 @@ public class QueueAnalyzer
 			return Hands.TWO_PAIR;
 		}
 		else if(que[0]== que[2] && que[1] == que[3])
-		{
-			
+		{	
 			return Hands.TWO_PAIR;
 		}
 		else if(que[0]== que[3] && que[1] == que[2])
-		{
-			
+		{	
 			return Hands.TWO_PAIR;
 		}
 		else
