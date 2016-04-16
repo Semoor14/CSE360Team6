@@ -1,4 +1,4 @@
-package dice.game.myCode;
+package cse360.team6.myCode;
 
 import java.util.Random;
 
@@ -7,7 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class MyDiceHandler 
+public class DiceHandler 
 {
 	private int Die1Button_XPos = 248;
 	private int Die2Button_XPos = 328;
@@ -15,8 +15,8 @@ public class MyDiceHandler
 	private int DieButton_Width = 64;
 	private int DieButton_Height = 64;
 	
-	private MyCenteredTextButton Die1Button;
-	private MyCenteredTextButton Die2Button;
+	private CenteredTextButton Die1Button;
+	private CenteredTextButton Die2Button;
 	
 	boolean rolled;
 	
@@ -25,15 +25,15 @@ public class MyDiceHandler
 	int die2;
 	int selected;
 	
-	public MyDiceHandler(TrueTypeFont lFont, TrueTypeFont sFont)
+	public DiceHandler(TrueTypeFont lFont, TrueTypeFont sFont)
 	{
 		selected = 0;
 		rolled = false;
 		die1 = 0;
 		die2 = 0;
 		
-		Die1Button = new MyCenteredTextButton("", Die1Button_XPos, DieButton_YPos, DieButton_Width, DieButton_Height, lFont);
-		Die2Button = new MyCenteredTextButton("", Die2Button_XPos, DieButton_YPos, DieButton_Width, DieButton_Height, lFont);
+		Die1Button = new CenteredTextButton("", Die1Button_XPos, DieButton_YPos, DieButton_Width, DieButton_Height, lFont);
+		Die2Button = new CenteredTextButton("", Die2Button_XPos, DieButton_YPos, DieButton_Width, DieButton_Height, lFont);
 	}
 	
 	public void rollDice()
@@ -43,6 +43,23 @@ public class MyDiceHandler
 		rolled = true;
 		Die1Button.SetText("" + die1);
 		Die2Button.SetText("" + die2);
+	}
+	
+	public void resetDice()
+	{
+		die1 = 0;
+		die2 = 0;
+		Die1Button.SetText("");
+		Die2Button.SetText("");
+		if(selected == 1)
+		{
+			Die1Button.InvertSelection();
+		}
+		if(selected == 2)
+		{
+			Die2Button.InvertSelection();
+		}
+		selected = 0;
 	}
 
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)

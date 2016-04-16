@@ -1,4 +1,4 @@
-package dice.game.myCode;
+package cse360.team6.myCode;
 
 import java.awt.Font;
 
@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class MyDiceGame extends StateBasedGame 
+public class DiceGame extends StateBasedGame 
 {
 	// not used yet so commenting out
 	//public static final int MAIN = 0;
@@ -30,13 +30,13 @@ public class MyDiceGame extends StateBasedGame
     public static void initializeFonts()
     {
 		Font sFont = new Font("Arial", Font.PLAIN, 18);
-		MyDiceGame.smallFont = new TrueTypeFont(sFont,false);
+		DiceGame.smallFont = new TrueTypeFont(sFont,false);
 		
 		Font mFont = new Font("Arial", Font.PLAIN, 26);
-		MyDiceGame.mediumFont = new TrueTypeFont(mFont,false);
+		DiceGame.mediumFont = new TrueTypeFont(mFont,false);
 		
 		Font lFont = new Font("Arial", Font.PLAIN, 40);
-		MyDiceGame.largeFont = new TrueTypeFont(lFont,false);    	
+		DiceGame.largeFont = new TrueTypeFont(lFont,false);    	
     }
     
     /*
@@ -70,7 +70,7 @@ public class MyDiceGame extends StateBasedGame
 	{
 		try
 		{
-			AppGameContainer gameContainer = new AppGameContainer(new MyDiceGame("37 Game"));
+			AppGameContainer gameContainer = new AppGameContainer(new DiceGame("37 Game"));
 			gameContainer.setDisplayMode(WIDTH, HEIGHT, false);
 			gameContainer.setTargetFrameRate(FPS);
 			gameContainer.setShowFPS(false);
@@ -81,7 +81,7 @@ public class MyDiceGame extends StateBasedGame
 		}
 	}
 
-	public MyDiceGame(String name)
+	public DiceGame(String name)
 	{
 		super(name);
 	}
@@ -96,7 +96,7 @@ public class MyDiceGame extends StateBasedGame
 		// this.addState(new My37GameState(GAME_37));
 		// comment out line below to run test state instead of game state
         // this.addState(new My37GameState(GAME_37));
-        this.addState(new My37TestState(TEST_37));
+        this.addState(new Game37State(TEST_37));
 	}
 	
 }

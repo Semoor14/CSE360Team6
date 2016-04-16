@@ -1,0 +1,34 @@
+Current Rules
+Overview: 
+Players: 4
+Objective: Have your score hit 37 exactly
+Setup: 
+All players start at 0 score and have an empty queue. 
+Basic Turn: 
+Use the Roll button next to the die to roll the 2 10 sided dice. Click on one of them (it will invert colors).
+This die with inverted colors will be added to your score and the other die will be added to your queue.
+When the click happens, score and queue will be updated immediately. To switch selection, click on either of the die. 
+Score: 
+If adding a value to your score would put your score over 37, subtract that value from your score instead.
+If subtracting a value from your score would put it below 0, add that value to your score instead.   
+
+
+Planned Rules (Not implemented yet):
+
+Queue: 
+The queue is a first in first out queue. This queue holds 5 values, so when a value is added to a queue of 5
+the first one disappears out of the end the new value is inserted at the beginning. 
+Redeeming Poker Hands
+Before rolling the dice or after rolling them and selecting which values go to score and queue, 
+a player may choose to redeem a poker hand. Only 1 can be redeemed per turn. Poker hands come from 
+having certain values in a queue. These values can appear in any order anywhere in the queue, but all must be present. 
+Then special actions can be taken depending on which poker hand is chosen. To do so, clicking the corresponding button 
+"redeem poker hand." Then an enlarged version of your queue will appear below the dice. 
+Click on the values in the queue that you wish to redeem, they will be shown with inverted colors. To undo a selection, 
+click on a chosen die again. Click confirm to lock it in or cancel to go back to the menu of chosing poker hand or ending 
+turn(enlarged queue disappears). The game will then display which poker hand was made (if none was made, it will display none 
+and only provide a cancel button at the bottom) and give prompts for decisions reguarding the special action. Click the buttons 
+directly to choose. Unfilled arrows on side show which choices are possible, and filled arrows show what has been selected. 
+Alternatively, chosen things will appear in an inverted color. When confirm is clicked, it will update the player's queue to no 
+longer have redeemed values inside of it and end their turn. 
+

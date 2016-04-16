@@ -1,27 +1,23 @@
 Feature Backlog
-Absolutely Necessary
-Button to begin game
-Dice Roll Logic
-Dice Results Queue
-UI for showing whose turn it is, actions during turn, etc.
-Ability to decide between dice (which in queue, which in points)
-Detect when a player has won and end the game
-Ability for player to redeem special hand
-Ability for player to select special action and target of that action
-Stats File, detect and/or create it
-Read stats file and parse its information
-Add game stats during game to stats file
 
-Pretty Necessary
-UI for everything!
-Main menu with button to start game
-Button to view statistics
-Button to set game up (set settings, choose turn order)
-Turn order selection during beginning of game
-
-Would Be Nice
-Ability to set variant game rules
-Ability to to set game options
-Ability to view default game rules
-Ability to view currently active options and variant rules
-Ability to view poker hand combos
+Button to begin game – User story 1, 2
+Dice Roll Logic – User story 10
+Dice Results Queue – User story 12
+UI for showing whose turn it is, actions during turn, etc. – User story 13
+Ability to decide between dice (which in queue, which in points) – User story 9, 11
+Detect when a player has won and end the game  – User story 3
+Ability for player to redeem special hand – User story 12
+Ability for player to select special action and target of that action – User story 12
+Stats File, detect and/or create it– User story 4, 20
+Read stats file and parse its information – User story 14, 15, 21
+Main menu with button to start game (UI) – User story 19
+Button to view statistics– User story 14, 15
+UI for statistics– User story 21
+Button to set game up (set settings, choose turn order) – User story 6
+UI for game setup– User story 1, 19
+Turn order selection during beginning of game– User story 7, 8
+Ability to view default game rules– User story 16
+Ability to set variant game rules– User story 5, 17
+Ability to to set game options– User story 17
+Ability to view currently active options and variant rules– User story 17
+Ability to view poker hand combos User story 18

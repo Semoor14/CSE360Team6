@@ -1,23 +1,28 @@
-package dice.game.myCode;
+package cse360.team6.myCode;
 
-public class MyQueue 
+public class Queue 
 {
 	int [] queueValues; 
 	int numElements;
 	int size; 
 	
-	public MyQueue ()
+	public Queue ()
 	{
 		size = 5;
 		queueValues = new int [5];
 		numElements = 0;
 	}
 	
-	public MyQueue (int _size)
+	public Queue (int _size)
 	{
 		size = _size;
 		queueValues = new int [size];
 		numElements = 0;
+	}
+	
+	public int[] getArray()
+	{
+		return queueValues;
 	}
 	
 	public int getSize ()

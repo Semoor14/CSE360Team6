@@ -1,6 +1,6 @@
-package dice.game.myCode;
+package cse360.team6.myCode;
 
-public class MyQueueAnalyzer 
+public class QueueAnalyzer 
 {
 	public enum Hands
 	{
@@ -8,7 +8,7 @@ public class MyQueueAnalyzer
 		TWO_PAIR, RUN_OF_FOUR, RUN_OF_FIVE, FIVE_OF_KIND, NONE
 	}
 
-	public MyQueueAnalyzer(int[] que)
+	public QueueAnalyzer(int[] que)
 	{
 		int[] queAnalysis = QueueSort(que);
 		

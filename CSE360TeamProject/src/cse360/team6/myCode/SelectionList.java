@@ -1,11 +1,11 @@
-package dice.game.myCode;
+package cse360.team6.myCode;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class MySelectionList 
+public class SelectionList 
 {
 	
 	protected int xPosition;
@@ -13,16 +13,16 @@ public class MySelectionList
 	protected int width;
 	protected int height;
 	
-	private MyCenteredTextButton[] listOfButtons;
+	private CenteredTextButton[] listOfButtons;
 	private int buttonHeight;
 	
-	public MySelectionList(String[] buttonNames, int x, int y, int width, int height)
+	public SelectionList(String[] buttonNames, int x, int y, int width, int height)
 	{
-		listOfButtons = new MyCenteredTextButton[buttonNames.length];
+		listOfButtons = new CenteredTextButton[buttonNames.length];
 		buttonHeight= height/buttonNames.length;
 		for (int index = 0; index < buttonNames.length;index++)
 		{
-			MyCenteredTextButton newButton = new MyCenteredTextButton(buttonNames[index],x, y+index*buttonHeight,width, buttonHeight, MyDiceGame.mediumFont);
+			CenteredTextButton newButton = new CenteredTextButton(buttonNames[index],x, y+index*buttonHeight,width, buttonHeight, DiceGame.mediumFont);
 			listOfButtons[index] = newButton;
 		}
 	}
