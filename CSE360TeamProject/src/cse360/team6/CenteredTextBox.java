@@ -41,8 +41,8 @@ public class CenteredTextBox
 		this.width = width;
 		this.height = height;
 		this.textFont = font;
+		selected = false;
 	}
-	
 	
 	/**
 	 * Set whether the button is selected or not.
@@ -70,7 +70,6 @@ public class CenteredTextBox
 	{
 		return selected;
 	}
-	
 	
 	/**
 	 * Renders this text box to the screen, with different colors if it is selected.
