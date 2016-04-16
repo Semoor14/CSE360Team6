@@ -8,32 +8,16 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class CenteredTextButton extends CenteredTextBox
 {
-	private boolean selected;
 	public CenteredTextButton(String text, int xPos, int yPos, int width, int height, TrueTypeFont font) {
 		super(text, xPos, yPos, width, height, font);
 		// TODO Auto-generated constructor stub
-	}
-	
-	public void SetSelected(boolean selected)
-	{
-		this.selected = selected;
-	}
-	
-	public void InvertSelection()
-	{
-		selected = !selected;
-	}
-	
-	public boolean GetSelected()
-	{
-		return selected;
 	}
 	
 	public boolean isWithinBound(int clickPositionX, int clickPositionY)
 	{
 		boolean xWithinBounds = clickPositionX >= xPosition && clickPositionX <= xPosition + width;
 		boolean yWithinBounds = clickPositionY >= yPosition && clickPositionY <= yPosition + height;
-		return xWithinBounds && yWithinBounds;
+		return (xWithinBounds && yWithinBounds);
 	}
 	
 	@Override

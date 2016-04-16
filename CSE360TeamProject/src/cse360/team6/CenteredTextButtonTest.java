@@ -7,9 +7,15 @@ import org.junit.Test;
 public class CenteredTextButtonTest {
 
 	@Test
-	public void constructorTest() {		
+	public void isWithinBoundsFalseTest() {	
 		CenteredTextButton button = new CenteredTextButton("Text", 24, 24, 40, 40, null);
-		assertNotNull(button);
+		assertFalse(button.isWithinBound(65, 65));
+	}
+	
+	@Test
+	public void isWithinBoundsTrueTest() {	
+		CenteredTextButton button = new CenteredTextButton("Text", 24, 24, 40, 40, null);
+		assertTrue(button.isWithinBound(25, 25));
 	}
 
 }

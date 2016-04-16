@@ -12,5 +12,25 @@ public class CenteredTextBoxTest {
 		CenteredTextBox box = new CenteredTextBox("Text", 24, 24, 40, 40, null);
 		assertNotNull(box);
 	}
+	
+	@Test
+	public void getSelectedTest() {	
+		CenteredTextBox box = new CenteredTextBox("Text", 24, 24, 40, 40, null);
+		assertFalse(box.getSelected());
+	}
+	
+	@Test
+	public void setSelectedTest() {	
+		CenteredTextBox box = new CenteredTextBox("Text", 24, 24, 40, 40, null);
+		box.setSelected(true);
+		assertTrue(box.getSelected());
+	}
+	
+	@Test
+	public void invertSelectionTest() {	
+		CenteredTextBox box = new CenteredTextBox("Text", 24, 24, 40, 40, null);
+		box.invertSelection();
+		assertTrue(box.getSelected());
+	}
 
 }

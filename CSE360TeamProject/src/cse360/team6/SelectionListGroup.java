@@ -38,7 +38,7 @@ public class SelectionListGroup
 	
 	public void pressListButton(int clickPositionX, int clickPositionY)
 	{
-		for (int index = 0; index < selectionLists.length;index++)
+		for (int index = 0; index < selectionLists.length; index++)
 		{
 			if (selectionLists[index].isWithinBound(clickPositionX, clickPositionY))
 			{

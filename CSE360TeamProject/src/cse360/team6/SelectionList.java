@@ -82,12 +82,12 @@ public class SelectionList
 		//if a button was actually pressed, unselect all other buttons
 		if (pressedIndex != -1)
 		{
-			listOfButtons[pressedIndex].SetSelected(true);
+			listOfButtons[pressedIndex].setSelected(true);
 			for (int index = 0; index < listOfButtons.length;index++)
 			{
 				if (index != pressedIndex)
 				{
-					listOfButtons[index].SetSelected(false);;
+					listOfButtons[index].setSelected(false);;
 				}
 			}
 		}
@@ -102,7 +102,7 @@ public class SelectionList
 		int selectedIndex = -1;
 		for (int index = 0; index < listOfButtons.length;index++)
 		{
-			if (listOfButtons[index].GetSelected())
+			if (listOfButtons[index].getSelected())
 			{
 				selectedIndex = index;
 			}
