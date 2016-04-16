@@ -1,0 +1,8 @@
+Build Instructions:
+
+needed external libraries:
+Slick:  http://slick.ninjacave.com/
+        Jars needed: jinput.jar , lwjgl.jar , lwjgl_util.jar , slick.jar
+LWJGL Bundle:  https://sourceforge.net/projects/java-game-lib/files/latest/download?source=files
+	connect native library files for your system (windows etc.) as the native files for slick.jar in the build path
+Please download all class files into eclipse and run
