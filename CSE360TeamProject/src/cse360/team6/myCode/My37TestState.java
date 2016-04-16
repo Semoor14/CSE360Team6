@@ -38,6 +38,21 @@ public class My37TestState implements GameState
 	private MySelectionList confirmCancelList;
 	
 	
+	
+	private MyCenteredTextButton dieSelectedConfirmButton;
+	private int dieSelectedConfirmButton_XPos = 232;
+	private int dieSelectedConfirmButton_YPos = 224;
+	private int dieSelectedConfirmButton_Width = 176;
+	private int dieSelectedConfirmButton_Height = 32;	
+	
+	private MyCenteredTextButton redeemButton;
+	private int redeemButton_XPos = 232;
+	private int redeemButton_YPos = 192;
+	private int redeemButton_Width = 176;
+	private int redeemButton_Height = 32;
+
+	
+	
 	// private MyPokerBox pokerBox;
 	private int rulesButton_XPos = 464;
 	private int rulesButton_YPos = 392;
@@ -58,6 +73,7 @@ public class My37TestState implements GameState
 	private int finishedRedeemBox_Width = 144;
 	private int finishedRedeemBox_Height = 32;
 	
+	private int playerNumberTurn;
 	
 	private boolean hasRolled;
 	private boolean hasRedeemed;
@@ -69,7 +85,54 @@ public class My37TestState implements GameState
 	@Override
 	public void init(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
 	{}
+	
+	public void newTurn()
+	{
+		if((playerNumberTurn+1) < 4)
+		{
+			playerNumberTurn++;
+		}
+		else
+		{
+			playerNumberTurn = 1;
+		}
+	}
+	
+	public void selectDieToScoreAndQueue ()
+	{
+		if(diceHandler.getSelected() == 1)
+		{
+			getCurrentPlayerObject().addDieValue(diceHandler.getDie1(), diceHandler.getDie2());
+		}
+		if(diceHandler.getSelected() == 2)
+		{
+			getCurrentPlayerObject().addDieValue(diceHandler.getDie2(), diceHandler.getDie1());
+		}
+	}
+	
+	public MyPlayer getCurrentPlayerObject()
+	{
+		MyPlayer result;
 		
+		if(playerNumberTurn == 1)
+		{
+			result = player1;
+		}
+		else if(playerNumberTurn == 2)
+		{
+			result = player2;
+		}
+		else if (playerNumberTurn == 3)
+		{
+			result = player3;
+		}
+		else // playerNumberTurn == 4
+		{
+			result = player4;
+		}
+		return result;
+	}
+	
 	// methods for different turn "states"
 	// Update
  	public void redeemingUpdate (int clickPositionX, int clickPositionY) 
@@ -91,7 +154,10 @@ public class My37TestState implements GameState
  	
 	public void noRedeemUpdate(int clickPositionX, int clickPositionY)
 	{
-		diceHandler.isWithinBound(clickPositionX, clickPositionY);
+		if(diceHandler.isWithinBound(clickPositionX, clickPositionY))
+		{
+			selectDieToScoreAndQueue ();
+		}
 		// if(diceHandler selected != 0)
 		// {
 		// 		endTurnButton.isWithinBound(clickPositionX, clickPositionY);
@@ -149,6 +215,11 @@ public class My37TestState implements GameState
 	
 	public void bothUpdate (int clickPositionX, int clickPositionY) 
 	{
+		if(diceHandler.isWithinBound(clickPositionX, clickPositionY))
+		{
+			selectDieToScoreAndQueue ();
+		}
+
 		// diceHandler.isWithinBound(clickPositionX, clickPositionY);
 		// if(diceHandler selected != 0)
 		// {
@@ -179,10 +250,10 @@ public class My37TestState implements GameState
 	{
 		// if DiceHandler selected != 0
 		// {
-		// 		endTurn.render();
+		// 		endTurn.render(gameContainer, stateGame, g);
 		//      if(queueAnalyzerBox isn't none)
 		// 		{
-		// 			redeemButton.render();
+		// 			redeemButton.render(gameContainer, stateGame, g);
 		// 		}
 		// }
 		largeQueue.render(gameContainer, stateGame, g);
@@ -328,9 +399,15 @@ public class My37TestState implements GameState
 		exitButton = new MyCenteredTextButton("Return to Main", exitButton_XPos, exitButton_YPos, exitButton_Width, exitButton_Height, MyDiceGame.smallFont);
 		finishedRedeemBox = new MyCenteredTextBox("Redeemed", finishedRedeemBox_XPos, finishedRedeemBox_YPos, finishedRedeemBox_Width, finishedRedeemBox_Height, MyDiceGame.smallFont); 
 		
+		dieSelectedConfirmButton = new MyCenteredTextButton("Confirm Dice", dieSelectedConfirmButton_XPos, dieSelectedConfirmButton_YPos, dieSelectedConfirmButton_Width, dieSelectedConfirmButton_Height, MyDiceGame.smallFont);		
+		redeemButton = new MyCenteredTextButton("Redeem Hand", redeemButton_XPos, redeemButton_YPos, redeemButton_Width, redeemButton_Height, MyDiceGame.smallFont);
+		
 		hasRolled = false;
 		hasRedeemed = false;
 		hasFinishedRedeeming = false;
+		playerNumberTurn = 0;
+		
+		newTurn();
 	}
 
 	@Override

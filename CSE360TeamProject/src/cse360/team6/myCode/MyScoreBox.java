@@ -25,4 +25,8 @@ public class MyScoreBox
 	{
 		scoreBox.render(gameContainer, game, g);
 	}	
+	public MyCenteredTextBox getBox()
+	{
+		return scoreBox;
+	}
 }

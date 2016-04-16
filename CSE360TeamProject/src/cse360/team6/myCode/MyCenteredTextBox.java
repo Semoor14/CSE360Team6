@@ -41,5 +41,10 @@ public class MyCenteredTextBox
 		
 		g.drawString(text, middleX, middleY);
 	}
+	
+	public void SetText(String newText)
+	{
+		text = newText;
+	}
 
 }
