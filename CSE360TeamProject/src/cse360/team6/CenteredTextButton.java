@@ -28,33 +28,6 @@ public class CenteredTextButton extends CenteredTextBox
 	}
 	
 	/**
-	 * Set whether the button is selected or not.
-	 * @param selected Whether the button is selected or not.
-	 */
-	public void SetSelected(boolean selected)
-	{
-		this.selected = selected;
-	}
-	
-	/**
-	 * Invert whether the button is selected or not.
-	 * The status of the will be made opposite of what it is.
-	 */
-	public void InvertSelection()
-	{
-		selected = !selected;
-	}
-	
-	/**
-	 * Get whether or not the button is selected.
-	 * @return Whether or not the button is selected.
-	 */
-	public boolean GetSelected()
-	{
-		return selected;
-	}
-	
-	/**
 	 * Get whether the given set of x and y screen positions is inside this button.
 	 * @param clickPositionX The x position on the screen.
 	 * @param clickPositionY The y position on the screen.
