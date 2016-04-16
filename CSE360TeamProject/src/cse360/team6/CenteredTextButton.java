@@ -13,9 +13,6 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class CenteredTextButton extends CenteredTextBox
 {
-	//Whether or not the button is selected or not. If true, the color is inverted.
-	private boolean selected;
-	
 	/**
 	 * Constructor for the CenteredTextButton.
 	 * @param text The text to display on the button.
@@ -68,36 +65,5 @@ public class CenteredTextButton extends CenteredTextBox
 		boolean xWithinBounds = clickPositionX >= xPosition && clickPositionX <= xPosition + width;
 		boolean yWithinBounds = clickPositionY >= yPosition && clickPositionY <= yPosition + height;
 		return xWithinBounds && yWithinBounds;
-	}
-	
-	/**
-	 * Renders this button to the screen, with different colors if it is selected.
-	 * @param gameContainer The container for the whole game.
-	 * @param game The StateBasedGame handler.
-	 * @param g The graphics object.
-	 */
-	@Override
-	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
-	{
-		g.setColor(Color.black);
-		if (selected)
-		{
-			g.fillRect(xPosition, yPosition, width, height);
-			g.setColor(Color.white);
-		}
-		else
-		{
-			g.drawRect(xPosition, yPosition, width, height);
-			g.setColor(Color.black);
-		}
-		
-		g.setFont(textFont);
-		int lineHeight = textFont.getLineHeight();
-		int lineWidth = textFont.getWidth(text);
-		
-		int middleX = xPosition + (width - lineWidth)/2;
-		int middleY = yPosition + (height - lineHeight)/2;
-		
-		g.drawString(text, middleX, middleY);
 	}
 }

@@ -21,6 +21,9 @@ public class CenteredTextBox
 	//the font of the text in the box
 	protected TrueTypeFont textFont;
 	
+	//Whether or not the box is selected or not. If true, the color is inverted.
+	protected boolean selected;
+	
 	/**
 	 * Constructor for the CenteredTextBox.
 	 * @param text The text to be displayed in the both.
@@ -40,8 +43,37 @@ public class CenteredTextBox
 		this.textFont = font;
 	}
 	
+	
 	/**
-	 * Renders the text box to the screen.
+	 * Set whether the button is selected or not.
+	 * @param selected Whether the button is selected or not.
+	 */
+	public void SetSelected(boolean selected)
+	{
+		this.selected = selected;
+	}
+	
+	/**
+	 * Invert whether the button is selected or not.
+	 * The status of the will be made opposite of what it is.
+	 */
+	public void InvertSelection()
+	{
+		selected = !selected;
+	}
+	
+	/**
+	 * Get whether or not the button is selected.
+	 * @return Whether or not the button is selected.
+	 */
+	public boolean GetSelected()
+	{
+		return selected;
+	}
+	
+	
+	/**
+	 * Renders this text box to the screen, with different colors if it is selected.
 	 * @param gameContainer The container for the whole game.
 	 * @param game The StateBasedGame handler.
 	 * @param g The graphics object.
@@ -49,7 +81,16 @@ public class CenteredTextBox
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
 	{
 		g.setColor(Color.black);
-		g.drawRect(xPosition, yPosition, width, height);
+		if (selected)
+		{
+			g.fillRect(xPosition, yPosition, width, height);
+			g.setColor(Color.white);
+		}
+		else
+		{
+			g.drawRect(xPosition, yPosition, width, height);
+			g.setColor(Color.black);
+		}
 		
 		g.setFont(textFont);
 		int lineHeight = textFont.getLineHeight();
