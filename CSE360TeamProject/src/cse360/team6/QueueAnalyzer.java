@@ -60,7 +60,7 @@ public class QueueAnalyzer
 	 * QueueSort takes an array and uses insertion sort to sort the array.
 	 * 
 	 * @param que
-	 * @return que que array is returned as a descending sorted array
+	 * @return que que array is returned as a ascending sorted array
 	 */
 	public int[] QueueSort(int[] que)
 	{	
@@ -170,147 +170,131 @@ public class QueueAnalyzer
 	 * isPair takes in a que and determines if a pair is available and returns an Enum Hands
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isPair(int[] que)
 	{		
+		Hands result = Hands.NONE;
 		if(que[0] == que[1])
 		{
-			return Hands.PAIR;
+			result = Hands.PAIR;
 		}
-		else
-		{
-			return Hands.NONE;	
-		}	
+		return result;	
 	}
 	/**
 	 * isThreeOfKind takes in a que and determines if three of the same value exists returns an Enum Hands
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isThreeOfKind(int[] que)
 	{
+		Hands result = Hands.NONE;
 		if(que[0] == que[1] && que[0] == que[2])
 		{
-			return Hands.THREE_OF_KIND;
+			result = Hands.THREE_OF_KIND;
 		}
-		else
-		{
-			return Hands.NONE;
-		}
+		return result;
 	}
 	/**
 	 * isRunOfThree takes in a que and determines if the values are in rising consecutive orderailable and returns an Enum
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isRunOfThree(int[] que)
 	{
+		Hands result = Hands.NONE;
 		if(que[2] == que[1] + 1 && que[1] == que[0] + 1)
 		{
-			return Hands.RUN_OF_THREE;
+			result = Hands.RUN_OF_THREE;
 		}
-		else 
-		{
-			return Hands.NONE;
-		}
+		return result;
 	}
 	/**
 	 * isFourOfKind takes in a que and determines if the four values are the same and returns an Enum
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isFourOfKind(int[] que)
 	{
+		Hands result = Hands.NONE;
 		if(que[0] == que[1] && que[0] == que[2] && que[0] == que[3])
 		{
-			return Hands.FOUR_OF_KIND;
+			result = Hands.FOUR_OF_KIND;
 		}
-		else 
-		{
-			return Hands.NONE;
-		}
+		return result;
 	}
 	/**
 	 * istwoPair takes in a que and determines if a two pairs exists and returns an Enum
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isTwoPair(int[] que)
 	{
+		Hands result = Hands.NONE;
 		if(que[0] == que[1] && que[2] == que[3])
 		{	
-			return Hands.TWO_PAIR;
+			result = Hands.TWO_PAIR;
 		}
 		else if(que[0] == que[2] && que[1] == que[3])
 		{	
-			return Hands.TWO_PAIR;
+			result = Hands.TWO_PAIR;
 		}
 		else if(que[0] == que[3] && que[1] == que[2])
 		{	
-			return Hands.TWO_PAIR;
+			result = Hands.TWO_PAIR;
 		}
-		else
-		{
-			return Hands.NONE;
-		}
+		return result;
 	}
 	/**
 	 * isRunOfFour takes in a que and determines if four elements are in rising consecutive
 	 *     order and returns an Enum
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isRunOfFour(int[] que)
 	{
+		Hands result = Hands.NONE;
 		if(que[3] == que[2] + 1 && que[2] == que[1] + 1 && que[1] == que[0] + 1)
 		{
-			return Hands.RUN_OF_FOUR;
+			result = Hands.RUN_OF_FOUR;
 		}
-		else 
-		{
-			return Hands.NONE;
-		}
+		return result;
 	}
 	/**
 	 * isRunOfFive takes in a que and determines if five elements are in rising consecutive
 	 *      order and returns an Enum
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isRunOfFive(int[] que)
 	{
+		Hands result = Hands.NONE;
 		if(que[4] == que[3] + 1 && que[3] == que[2] + 1 && que[2] == que[1] + 1 && que[1] == que[0] + 1)
 		{
-			return Hands.RUN_OF_FIVE;
+			result = Hands.RUN_OF_FIVE;
 		}
-		else 
-		{
-			return Hands.NONE;
-		}
+		return result;
 	}
 	/**
 	 * isPair takes in a que and determines if five elements are equal and returns an Enum
 	 * 
 	 * @param que
-	 * @return Hands
+	 * @return result
 	 */
 	public Hands isFiveOfKind(int[] que)
 	{
+		Hands result = Hands.NONE;
 		if(que[0] == que[1] && que[0]== que[2] && que[0] == que[3] && que[0] == que[4])
 		{
-			return Hands.FIVE_OF_KIND;
+			result = Hands.FIVE_OF_KIND;
 		}
-		else
-		{
-			return Hands.NONE;
-		}
+		return result;
 	}
 }
 
