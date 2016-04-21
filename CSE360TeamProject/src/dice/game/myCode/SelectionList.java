@@ -1,4 +1,4 @@
-package cse360.team6.myCode;
+package dice.game.myCode;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

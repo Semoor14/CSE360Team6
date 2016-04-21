@@ -1,4 +1,4 @@
-package cse360.team6.myCode;
+package dice.game.myCode;
 
 public class QueueAnalyzer 
 {

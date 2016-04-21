@@ -1,4 +1,4 @@
-package cse360.team6.myCode;
+package dice.game.myCode;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -6,13 +6,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class SmallQueue 
-{
-	private int QBox1XPosition = 16;
-	private int MySmallQueue1YPosition = 128;
-	private int QBoxWidth = 32;
-	private int QBoxHeight = 32;
-	private int YPositionChange = 96;
-	
+{	
 	private CenteredTextBox QBox1;
 	private CenteredTextBox QBox2;
 	private CenteredTextBox QBox3;
@@ -21,12 +15,12 @@ public class SmallQueue
 
 	public SmallQueue(int YMultiplier, TrueTypeFont sFont)
 	{
-		int YPosition = MySmallQueue1YPosition + YPositionChange * YMultiplier;
-		QBox1 = new CenteredTextBox("", QBox1XPosition, YPosition, QBoxWidth, QBoxHeight, sFont);
-		QBox2 = new CenteredTextBox("", QBox1XPosition + QBoxWidth, YPosition, QBoxWidth, QBoxHeight, sFont);
-		QBox3 = new CenteredTextBox("", QBox1XPosition + QBoxWidth * 2, YPosition, QBoxWidth, QBoxHeight, sFont);
-		QBox4 = new CenteredTextBox("", QBox1XPosition + QBoxWidth * 3, YPosition, QBoxWidth, QBoxHeight, sFont);
-		QBox5 = new CenteredTextBox("", QBox1XPosition + QBoxWidth * 4, YPosition, QBoxWidth, QBoxHeight, sFont);
+		int YPosition = Place.SQ_BOX1_YPOS + Place.SQ_BOX_YCHANGE * YMultiplier;
+		QBox1 = new CenteredTextBox("", Place.SQ_BOX1_XPOS, YPosition, Place.SQ_BOX_WIDTH, Place.SQ_BOX_HEIGHT, sFont);
+		QBox2 = new CenteredTextBox("", Place.SQ_BOX1_XPOS + Place.SQ_BOX_WIDTH, YPosition, Place.SQ_BOX_WIDTH, Place.SQ_BOX_HEIGHT, sFont);
+		QBox3 = new CenteredTextBox("", Place.SQ_BOX1_XPOS + Place.SQ_BOX_WIDTH*2, YPosition, Place.SQ_BOX_WIDTH, Place.SQ_BOX_HEIGHT, sFont);		
+		QBox4 = new CenteredTextBox("", Place.SQ_BOX1_XPOS + Place.SQ_BOX_WIDTH*3, YPosition, Place.SQ_BOX_WIDTH, Place.SQ_BOX_HEIGHT, sFont);
+		QBox5 = new CenteredTextBox("", Place.SQ_BOX1_XPOS + Place.SQ_BOX_WIDTH*4, YPosition, Place.SQ_BOX_WIDTH, Place.SQ_BOX_HEIGHT, sFont);		
 	}
 	
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
@@ -55,7 +49,5 @@ public class SmallQueue
 		QBox3.InvertSelection();
 		QBox2.InvertSelection();
 		QBox1.InvertSelection();
-	}
-	
-	
+	}	
 }

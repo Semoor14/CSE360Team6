@@ -1,17 +1,14 @@
-package cse360.team6.myCode;
-
-import java.awt.Font;
+package dice.game.myCode;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Game37State implements GameState
+public class Game37State extends ParentGameState
 {
 	// first turn
 	private boolean firstTurn;
@@ -24,56 +21,26 @@ public class Game37State implements GameState
 	
 	private CenteredTextButton endTurnButton;
 	private CenteredTextButton rollButton;
-	private int endTurnRoll_XPos = 412; 
-	private int endTurnRoll_YPos = 32;
-	private int endTurnRoll_Width = 96;
-	private int endTurnRoll_Height = 32;
 	
 	private CenteredTextBox QPromptBox;
-	private int QPromptBox_XPos = 232;
-	private int QPromptBox_YPos = 160;
-	private int QPromptBox_Width = 176;
-	private int QPromptBox_Height = 32;
 	
 	private CenteredTextButton redeemQueueButton;
 	// private groupOfSelectionLists handGroup;
 	private SelectionList confirmCancelList;
-	
-	
-	
+		
 	private CenteredTextButton dieSelectedConfirmButton;
-	private int dieSelectedConfirmButton_XPos = 232;
-	private int dieSelectedConfirmButton_YPos = 224;
-	private int dieSelectedConfirmButton_Width = 176;
-	private int dieSelectedConfirmButton_Height = 32;	
 	
 	private CenteredTextButton redeemButton;
-	private int redeemButton_XPos = 232;
-	private int redeemButton_YPos = 192;
-	private int redeemButton_Width = 176;
-	private int redeemButton_Height = 32;
-
-	
 	
 	// private MyPokerBox pokerBox;
-	private int rulesButton_XPos = 464;
-	private int rulesButton_YPos = 392;
-	private int rulesButton_Width = 160;
-	private int rulesButton_Height = 32;
 	
-	private int exitButton_XPos = 464;
-	private int exitButton_YPos = 432;
-	private int exitButton_Width = 160;
-	private int exitButton_Height = 32;
-
 	private CenteredTextButton rulesButton;
 	private CenteredTextButton exitButton;
 	
 	private CenteredTextBox finishedRedeemBox;
-	private int finishedRedeemBox_XPos = 248;
-	private int finishedRedeemBox_YPos = 96;
-	private int finishedRedeemBox_Width = 144;
-	private int finishedRedeemBox_Height = 32;
+	
+	// temporary to see if there can be a winner
+	private CenteredTextBox whoWonTheGameBox;
 	
 	private int playerNumberTurn;
 	
@@ -85,12 +52,10 @@ public class Game37State implements GameState
 	private boolean endCurrentTurn;
 	private int whoWonTheGame;
 	
-	public Game37State(int main)
-	{}
-
-	@Override
-	public void init(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
-	{}
+	public Game37State(int sID)
+	{
+		super(sID);
+	}
 	
 	public void confirmDieSelected(int dieSelected, int unSelected)
 	{
@@ -99,7 +64,6 @@ public class Game37State implements GameState
 	
 	public void newTurn()
 	{
-		System.out.println("newTurn");
 		if(firstTurn)
 		{
 			
@@ -156,7 +120,7 @@ public class Game37State implements GameState
 	
 	// always Update
 
-	public void updateAlways()
+	public int checkForWin()
 	{
 		int winnerIs = 0;
 		
@@ -176,7 +140,22 @@ public class Game37State implements GameState
 		{
 			winnerIs = player4.checkForWin();
 		}
-		whoWonTheGame = winnerIs;
+		return winnerIs;
+	}
+	
+	public void updateAlwaysNoClicking()
+	{
+		whoWonTheGame = checkForWin();
+	}
+	
+	public void updateAlwaysClicking(StateBasedGame stateGame, int clickPositionX, int clickPositionY)
+	{
+		if(exitButton.isWithinBound(clickPositionX, clickPositionY))
+		{
+			stateGame.enterState(DiceGame.MAIN);			
+		}
+		
+		
 	}
 	
 	// write game over method
@@ -213,13 +192,12 @@ public class Game37State implements GameState
 				if(diceHandler.getSelected() == 1)
 				{
 					confirmDieSelected(diceHandler.getDie1(), diceHandler.getDie2());
-					hasConfirmedRoll = true;
 				}
 				else // diceHandler.getSelected() == 2
 				{
 					confirmDieSelected(diceHandler.getDie2(), diceHandler.getDie1());
-					hasConfirmedRoll = true;
 				}
+				hasConfirmedRoll = true;
 			}
 		}
 		// if(dieselected != 0)
@@ -257,9 +235,16 @@ public class Game37State implements GameState
 	
 	public void updateNoConfirmRedeem (int clickPositionX, int clickPositionY)
 	{
-		/*
-		 Skipping for now
-		 */
+		// isWithinBound handGroup
+		// if (all selectionLists of HandGroup have a selection)
+		// {
+		// 		isWithinBound confirmCancelHandList	
+		// }
+		// transitions
+		// if(isWithinBound confirmCancelHandList Selected is Confirm)
+		// 		hasConfirmedRedeem = true;
+		// if(isWithinBound confirmCancelHandList Selected is Cancel)
+		// 		hasRedeemed = false; 		
 	}
 	
 	public void updateAllConfirmed(int clickPositionX, int clickPositionY)
@@ -276,23 +261,50 @@ public class Game37State implements GameState
 	
 	public void updateNoRollNoConfirmRedeem(int clickPositionX, int clickPositionY)
 	{
-		/*
-		 Skip
-		 */
+		// isWithinBound handGroup
+		// if(all handGroup lists have a selection)
+		// {
+		// 		isWithinBound confirmCancelHandList 		
+		// }
+		// if(isWithinBound confirmCancelHandList selects confirm
+		// 		hasConfirmedRedeem = true;
+		// if(isWithinBound confirmCancelHandList selects cancel
+		// 		hasRedeemed = false;
 	}
 	
 	public void updateNoRoll(int clickPositionX, int clickPositionY)
 	{
-		/*
-		 Skip
-		 */
+		rollButton.isWithinBound(clickPositionX, clickPositionY);
+		// transitions
+		// if(isWithinBound rollButton)
+		// 		hasRolled = true;
 	}
 	
 	public void updateNoConfirmRoll (int clickPositionX, int clickPositionY)
 	{
-		/*
-		  Skip
-		 */
+		diceHandler.isWithinBound(clickPositionX, clickPositionY);
+		if(diceHandler.getSelected() != 0)
+		{
+			if(dieSelectedConfirmButton.isWithinBound(clickPositionX, clickPositionY))
+			{
+				if(diceHandler.getSelected() == 1)
+				{
+					confirmDieSelected(diceHandler.getDie1(), diceHandler.getDie2());
+				}
+				else // diceHandler.getSelected() == 2
+				{
+					confirmDieSelected(diceHandler.getDie2(), diceHandler.getDie1());
+				}
+				hasConfirmedRoll = true;
+			}
+		}
+		// if(dieSelected != 0)
+		// {
+		// 		confirmDieSelectedButton.isWithinBound(clickpositionX, clickPositionY);
+		// }
+		// transitions
+		// if(isWithinBound confirmDieSelectedButton)
+		// 		hasConfirmedRoll = true;
 	}
 	
 	// Rendering
@@ -328,44 +340,55 @@ public class Game37State implements GameState
 		// 		render RedeemButton	
 		// }
 		endTurnButton.render(gameContainer, stateGame, g);
-		QPromptBox.render(gameContainer, stateGame, g);
-		
-		
+		QPromptBox.render(gameContainer, stateGame, g);	
 	}
 	
 	public void renderNoConfirmRedeem (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
 	{
-		/*
-		 Skip
-		 */
+		diceHandler.render(gameContainer, stateGame, g);
+		largeQueue.render(gameContainer, stateGame, g);
+		// render handGroup
+		// if (all selectionLists of handGroup have a selection)
+		// {
+		// 		render confirmCancelHandList
+		// }
+		QPromptBox.render(gameContainer, stateGame, g);
 	}
 	
 	public void renderAllConfirmed(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
 	{
 		diceHandler.render(gameContainer, stateGame, g);
 		endTurnButton.render(gameContainer, stateGame, g);
-		// render finished RedeemBox
+		finishedRedeemBox.render(gameContainer, stateGame, g);
 	}
 	
 	public void renderNoRollNoConfirmRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
 	{
-		/*
-		 Skip
-		 */
+		diceHandler.render(gameContainer, stateGame, g);
+		largeQueue.render(gameContainer, stateGame, g);
+		// render handGroup
+		// if(all HandGroup lists have a selection)
+		// {
+		// 		render confirmCancelHandList
+		// }
+		QPromptBox.render(gameContainer, stateGame, g);
 	}
 	
 	public void renderNoRoll(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
 	{
-		/*
-		 Skip
-		 */
+		rollButton.render(gameContainer, stateGame, g);
+		diceHandler.render(gameContainer, stateGame, g);
+		finishedRedeemBox.render(gameContainer, stateGame, g);
 	}
 	
 	public void renderNoConfirmRoll (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
 	{
-		/*
-		 Skip
-		 */
+		diceHandler.render(gameContainer, stateGame, g);
+		if(diceHandler.getSelected() != 0)
+		{
+			dieSelectedConfirmButton.render(gameContainer, stateGame, g);
+		}
+		finishedRedeemBox.render(gameContainer, stateGame, g);
 	}
 
 	
@@ -385,12 +408,14 @@ public class Game37State implements GameState
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateGame, int delta) throws SlickException 
 	{
-		updateAlways();
+		updateAlwaysNoClicking();
 		Input input = gameContainer.getInput();
 		if (input.isMousePressed(0))
 		{
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
+			
+			updateAlwaysClicking(stateGame, mouseX, mouseY);
 			
 			if(!hasRolled && !hasRedeemed)
 			{
@@ -423,7 +448,7 @@ public class Game37State implements GameState
 			else if (hasRolled && !hasConfirmedRoll && !hasConfirmedRedeem)
 			{
 				updateNoConfirmRoll(mouseX, mouseY);
-			}			
+			}
 			if(endCurrentTurn == true)
 			{
 				newTurn();
@@ -468,38 +493,39 @@ public class Game37State implements GameState
 		else if (hasRolled && !hasConfirmedRoll && !hasConfirmedRedeem)
 		{
 			renderNoConfirmRoll(gameContainer, stateGame, g);
-		}
-				
-		/*
-		if (largeQueue != null)
-			largeQueue.render(gameContainer, stateGame, g);
-		if(player1 != null)
-			player1.render(gameContainer, stateGame, g);
-		if(diceHandler != null)
-			diceHandler.render(gameContainer, stateGame, g);
-		*/
+		}		
+		// works but looks bad and probably want other behavior
+		if(whoWonTheGame != 0)
+		{
+			whoWonTheGameBox.SetText("Player " + whoWonTheGame + "Won!");
+			whoWonTheGameBox.render(gameContainer, stateGame, g);
+			
+		}				
 	}
 	
 	@Override
 	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
 	{
-		//initialize fonts
-		DiceGame.initializeFonts();
+		super.enter(gameContainer, stateGame);
+		
 		largeQueue = new LargeQueue(DiceGame.mediumFont);
 		player1 = new Player("Player 1", 1, DiceGame.smallFont);
 		player2 = new Player("Player 2", 2, DiceGame.smallFont);
 		player3 = new Player("Player 3", 3, DiceGame.smallFont);
 		player4 = new Player("Player 4", 4, DiceGame.smallFont);
 		diceHandler = new DiceHandler(DiceGame.largeFont, DiceGame.smallFont);
-		endTurnButton = new CenteredTextButton("End Turn", endTurnRoll_XPos, endTurnRoll_YPos, endTurnRoll_Width, endTurnRoll_Height, DiceGame.smallFont);
-		rollButton = new CenteredTextButton("Roll", endTurnRoll_XPos, endTurnRoll_YPos, endTurnRoll_Width, endTurnRoll_Height, DiceGame.smallFont);
-		QPromptBox = new CenteredTextBox("None", QPromptBox_XPos, QPromptBox_YPos, QPromptBox_Width, QPromptBox_Height, DiceGame.smallFont);
-		rulesButton = new CenteredTextButton("View Rules", rulesButton_XPos, rulesButton_YPos, rulesButton_Width, rulesButton_Height, DiceGame.smallFont);
-		exitButton = new CenteredTextButton("Return to Main", exitButton_XPos, exitButton_YPos, exitButton_Width, exitButton_Height, DiceGame.smallFont);
-		finishedRedeemBox = new CenteredTextBox("Redeemed", finishedRedeemBox_XPos, finishedRedeemBox_YPos, finishedRedeemBox_Width, finishedRedeemBox_Height, DiceGame.smallFont); 
+		endTurnButton = new CenteredTextButton("End Turn", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);
+		rollButton = new CenteredTextButton("Roll", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);
+		QPromptBox = new CenteredTextBox("None", Place.GS_QPROMPTBOX_XPOS, Place.GS_QPROMPTBOX_YPOS, Place.GS_QPROMPTBOX_WIDTH, Place.GS_QPROMPTBOX_HEIGHT, DiceGame.smallFont);
+		rulesButton = new CenteredTextButton("View Rules", Place.GS_RULESBUTTON_XPOS, Place.GS_RULESBUTTON_YPOS, Place.GS_RULESBUTTON_WIDTH, Place.GS_RULESBUTTON_HEIGHT, DiceGame.smallFont);
+		exitButton = new CenteredTextButton("Return to Main", Place.GS_EXITBUTTON_XPOS, Place.GS_EXITBUTTON_YPOS, Place.GS_EXITBUTTON_WIDTH, Place.GS_EXITBUTTON_HEIGHT, DiceGame.smallFont);
+		finishedRedeemBox = new CenteredTextBox("Redeemed", Place.GS_FINISHEDREDEEMBOX_XPOS, Place.GS_FINISHEDREDEEMBOX_YPOS, Place.GS_FINISHEDREDEEMBOX_WIDTH, Place.GS_FINISHEDREDEEMBOX_HEIGHT, DiceGame.smallFont); 
 		
-		dieSelectedConfirmButton = new CenteredTextButton("Confirm Dice", dieSelectedConfirmButton_XPos, dieSelectedConfirmButton_YPos, dieSelectedConfirmButton_Width, dieSelectedConfirmButton_Height, DiceGame.smallFont);		
-		redeemButton = new CenteredTextButton("Redeem Hand", redeemButton_XPos, redeemButton_YPos, redeemButton_Width, redeemButton_Height, DiceGame.smallFont);
+		dieSelectedConfirmButton = new CenteredTextButton("Confirm Dice", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);		
+		redeemButton = new CenteredTextButton("Redeem Hand", Place.GS_REDEEMBUTTON_XPOS, Place.GS_REDEEMBUTTON_YPOS, Place.GS_REDEEMBUTTON_WIDTH, Place.GS_REDEEMBUTTON_HEIGHT, DiceGame.smallFont);
+		
+		// whoWonTheGameBox
+		whoWonTheGameBox = new CenteredTextBox("", Place.GS_WHOWONTHEGAMEBOX_XPOS, Place.GS_WHOWONTHEGAMEBOX_YPOS, Place.GS_WHOWONTHEGAMEBOX_WIDTH, Place.GS_WHOWONTHEGAMEBOX_HEIGHT, DiceGame.mediumFont);
 		
 		hasRolled = false;
 		hasRedeemed = false;
@@ -508,111 +534,8 @@ public class Game37State implements GameState
 		playerNumberTurn = 0;
 		endCurrentTurn = false;
 		firstTurn = true;
+		whoWonTheGame = 0;
 		
 		newTurn();
 	}
-
-	@Override
-	public void leave(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public int getID() 
-	{
-		// TODO Auto-generated method stub
-		return DiceGame.GAME_37;
-	}
-
-	@Override
-	public void mouseClicked(int button, int x, int y, int numClicked) 
-	{}
-
-	@Override
-	public void mouseDragged(int arg0, int arg1, int arg2, int arg3) 
-	{}
-
-	@Override
-	public void mouseMoved(int arg0, int arg1, int arg2, int arg3) 
-	{}
-
-	@Override
-	public void mousePressed(int button, int arg1, int arg2) 
-	{}
-
-	@Override
-	public void mouseReleased(int button, int arg1, int arg2) 
-	{}
-
-	@Override
-	public void mouseWheelMoved(int arg0) 
-	{}
-
-	@Override
-	public void inputEnded() 
-	{}
-
-	@Override
-	public void inputStarted() 
-	{}
-
-	@Override
-	public boolean isAcceptingInput() 
-	{
-		return false;
-	}
-
-	@Override
-	public void setInput(Input arg0) 
-	{}
-
-	@Override
-	public void keyPressed(int arg0, char arg1) 
-	{}
-
-	@Override
-	public void keyReleased(int arg0, char arg1) 
-	{}
-
-	@Override
-	public void controllerButtonPressed(int arg0, int arg1) 
-	{}
-
-	@Override
-	public void controllerButtonReleased(int arg0, int arg1) 
-	{}
-
-	@Override
-	public void controllerDownPressed(int arg0) 
-	{}
-
-	@Override
-	public void controllerDownReleased(int arg0) 
-	{}
-
-	@Override
-	public void controllerLeftPressed(int arg0) 
-	{}
-
-	@Override
-	public void controllerLeftReleased(int arg0) 
-	{}
-
-	@Override
-	public void controllerRightPressed(int arg0) 
-	{}
-
-	@Override
-	public void controllerRightReleased(int arg0) 
-	{}
-
-	@Override
-	public void controllerUpPressed(int arg0) 
-	{}
-
-	@Override
-	public void controllerUpReleased(int arg0) 
-	{}
 }

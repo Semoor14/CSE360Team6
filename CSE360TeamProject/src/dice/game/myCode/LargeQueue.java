@@ -1,4 +1,4 @@
-package cse360.team6.myCode;
+package dice.game.myCode;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -8,10 +8,10 @@ import org.newdawn.slick.state.StateBasedGame;
 public class LargeQueue 
 {
 	// should be final but I'll wait on that
-	private int Button1XPos = 200; // only 1st, calculate the rest
-	private int ButtonYPos = 96; 
-	private int ButtonWidth = 48; 
-	private int ButtonHeight = 48; 
+//	private int Button1XPos = 200; // only 1st, calculate the rest
+//	private int ButtonYPos = 96; 
+//	private int ButtonWidth = 48; 
+//	private int ButtonHeight = 48; 
 
 	private CenteredTextButton QButton1;
 	private CenteredTextButton QButton2;
@@ -21,11 +21,11 @@ public class LargeQueue
 	
 	public LargeQueue (TrueTypeFont mediumFont)
 	{
-		QButton1 = new CenteredTextButton("", Button1XPos, ButtonYPos, ButtonWidth, ButtonHeight, mediumFont);
-		QButton2 = new CenteredTextButton("", Button1XPos + ButtonWidth, ButtonYPos, ButtonWidth, ButtonHeight, mediumFont);
-		QButton3 = new CenteredTextButton("", Button1XPos + ButtonWidth*2, ButtonYPos, ButtonWidth, ButtonHeight, mediumFont);
-		QButton4 = new CenteredTextButton("", Button1XPos + ButtonWidth*3, ButtonYPos, ButtonWidth, ButtonHeight, mediumFont);
-		QButton5 = new CenteredTextButton("", Button1XPos + ButtonWidth*4, ButtonYPos, ButtonWidth, ButtonHeight, mediumFont);
+		QButton1 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);
+		QButton2 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS + Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);
+		QButton3 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS + Place.LQ_BUTTON_WIDTH*2, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);
+		QButton4 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS + Place.LQ_BUTTON_WIDTH*3, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);		
+		QButton5 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS + Place.LQ_BUTTON_WIDTH*4, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);
 	}
 	
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)

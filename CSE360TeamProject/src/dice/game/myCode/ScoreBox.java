@@ -1,4 +1,4 @@
-package cse360.team6.myCode;
+package dice.game.myCode;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,8 +17,8 @@ public class ScoreBox
 	
 	public ScoreBox(String message, int YMultiplier, TrueTypeFont sFont) // small Font
 	{
-		int YPosition = ScoreBox1YPosition + ScoreBoxYChange * YMultiplier;
-		scoreBox = new CenteredTextBox(message, ScoreBoxXPosition, YPosition, ScoreBoxWidth, ScoreBoxHeight, sFont);
+		int YPosition = Place.SB_BOX1_YPOS + + Place.SB_BOX_YCHANGE * YMultiplier;
+		scoreBox = new CenteredTextBox(message, Place.SB_BOX_XPOS, YPosition, Place.SB_BOX_WIDTH, Place.SB_BOX_HEIGHT, sFont);
 	}
 	
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
@@ -30,3 +30,4 @@ public class ScoreBox
 		return scoreBox;
 	}
 }
+

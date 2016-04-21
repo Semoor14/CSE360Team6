@@ -1,4 +1,4 @@
-package cse360.team6.myCode;
+package dice.game.myCode;
 
 import java.util.Random;
 
@@ -8,13 +8,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class DiceHandler 
-{
-	private int Die1Button_XPos = 248;
-	private int Die2Button_XPos = 328;
-	private int DieButton_YPos = 16;
-	private int DieButton_Width = 64;
-	private int DieButton_Height = 64;
-	
+{	
 	private CenteredTextButton Die1Button;
 	private CenteredTextButton Die2Button;
 	
@@ -32,8 +26,8 @@ public class DiceHandler
 		die1 = 0;
 		die2 = 0;
 		
-		Die1Button = new CenteredTextButton("", Die1Button_XPos, DieButton_YPos, DieButton_Width, DieButton_Height, lFont);
-		Die2Button = new CenteredTextButton("", Die2Button_XPos, DieButton_YPos, DieButton_Width, DieButton_Height, lFont);
+		Die1Button = new CenteredTextButton("", Place.DH_DIE1BUTTON_XPOS, Place.DH_DIEBUTTON_YPOS, Place.DH_DIEBUTTON_WIDTH, Place.DH_DIEBUTTON_HEIGHT, lFont);
+		Die2Button = new CenteredTextButton("", Place.DH_DIE2BUTTON_XPOS, Place.DH_DIEBUTTON_YPOS, Place.DH_DIEBUTTON_WIDTH, Place.DH_DIEBUTTON_HEIGHT, lFont);
 	}
 	
 	public void rollDice()
