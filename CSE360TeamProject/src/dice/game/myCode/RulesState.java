@@ -21,9 +21,9 @@ public class RulesState extends ParentGameState
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException 
+	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
 	{
-		// TODO Auto-generated method stub
+		g.drawString("Rules", 20, 20);
 		
 	}
 

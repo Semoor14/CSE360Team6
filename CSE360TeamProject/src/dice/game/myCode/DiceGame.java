@@ -17,7 +17,6 @@ public class DiceGame extends StateBasedGame
 	public static final int STATISTICS = 3;
 	public static final int GAME_37 = 4;
 	
-	
 	public static final int WIDTH   = 640;
     public static final int HEIGHT  = 480;
     public static final int FPS     = 60;

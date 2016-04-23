@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import dice.game.myCode.QueueAnalyzer.Hands;
+
 public class Game37State extends ParentGameState
 {
 	// first turn
@@ -52,6 +54,10 @@ public class Game37State extends ParentGameState
 	private boolean endCurrentTurn;
 	private int whoWonTheGame;
 	
+	private QueueAnalyzer queueAnalyzer;
+	
+	private Hands currentHand;
+	
 	public Game37State(int sID)
 	{
 		super(sID);
@@ -60,10 +66,20 @@ public class Game37State extends ParentGameState
 	public void confirmDieSelected(int dieSelected, int unSelected)
 	{
 		getCurrentPlayerObject().addDieValue(dieSelected, unSelected);
+		largeQueue.setValues(getCurrentPlayerObject().getQueueValues());
+	}
+	
+	// when I click on the largeQueue I need to setCurrentHand, and update QPromptBox 
+	public void setCurrentHand()
+	{
+		queueAnalyzer = new QueueAnalyzer (largeQueue.getSelectedValues());
+		currentHand = queueAnalyzer.handFinder();
+		QPromptBox.SetText(currentHand.toString());
 	}
 	
 	public void newTurn()
 	{
+		// firstTurn logic
 		if(firstTurn)
 		{
 			
@@ -72,7 +88,7 @@ public class Game37State extends ParentGameState
 		{
 			getCurrentPlayerObject().InvertAllBoxes();
 		}
-		
+		// update playerNumberTurn
 		if((playerNumberTurn) < 4)
 		{
 			playerNumberTurn++;
@@ -81,15 +97,26 @@ public class Game37State extends ParentGameState
 		{
 			playerNumberTurn = 1;
 		}
+		// show selected player
 		getCurrentPlayerObject().InvertAllBoxes();
 		
+		
+		// Reset Booleans
 		hasRolled = false;
 		hasRedeemed = false;
 		hasConfirmedRoll = false;
 		hasConfirmedRedeem = false;
 		endCurrentTurn = false;
+		// reset enums
+		currentHand = Hands.NONE;
 		
+		// reset objects
 		diceHandler.resetDice();
+		largeQueue.resetSelections();
+		// set largeQueue values
+		largeQueue.setValues(getCurrentPlayerObject().getQueueValues());
+		
+		// first turn logic
 		firstTurn = false;
 	}
 	
@@ -160,6 +187,7 @@ public class Game37State extends ParentGameState
 	
 	// write game over method
 	
+	
 	// Update
 	public void updateNoRollNoRedeem(int clickPositionX, int clickPositionY)
 	{
@@ -168,11 +196,23 @@ public class Game37State extends ParentGameState
 			diceHandler.rollDice();
 			hasRolled = true;
 		}
-		largeQueue.isWithinBound(clickPositionX, clickPositionY);
+		
+		if(largeQueue.isWithinBound(clickPositionX, clickPositionY))
+		{
+			setCurrentHand();
+		}
 		// if(selectedLargeQueuvalues form a hand)
 		// { 
 		// 		isWithinBound redeemButton
 		// }
+		
+		if(currentHand != Hands.NONE)
+		{
+			if(redeemButton.isWithinBound(clickPositionX, clickPositionY))
+			{
+				hasRedeemed = true;
+			}
+		}
 		
 		// transitions
 		// if(isWithinBoundRollButton)
@@ -206,7 +246,10 @@ public class Game37State extends ParentGameState
 		// 		selected == 1
 		// 		selected == 2
 		// }
-		largeQueue.isWithinBound(clickPositionX, clickPositionY);
+		if(largeQueue.isWithinBound(clickPositionX, clickPositionY))
+		{
+			setCurrentHand();
+		}
 		
 		// transitions
 		// if(isWithinBound confirmDieSelectedButton)
@@ -217,11 +260,23 @@ public class Game37State extends ParentGameState
 	
 	public void updateNoRedeem(int clickPositionX, int clickPositionY)
 	{
-		largeQueue.isWithinBound(clickPositionX, clickPositionY);
+		if(largeQueue.isWithinBound(clickPositionX, clickPositionY))
+		{
+			setCurrentHand();
+		}
 		// if(selectedLargeQueue values form a hand)
 		// {
 		// 		isWithinBound redeemButton
 		// }
+		
+		if(currentHand != Hands.NONE)
+		{
+			if(redeemButton.isWithinBound(clickPositionX, clickPositionY))
+			{
+				hasRedeemed = true;
+			}
+		}
+		
 		if(endTurnButton.isWithinBound(clickPositionX, clickPositionY))
 		{
 			endCurrentTurn = true;
@@ -240,6 +295,7 @@ public class Game37State extends ParentGameState
 		// {
 		// 		isWithinBound confirmCancelHandList	
 		// }
+		
 		// transitions
 		// if(isWithinBound confirmCancelHandList Selected is Confirm)
 		// 		hasConfirmedRedeem = true;
@@ -313,10 +369,10 @@ public class Game37State extends ParentGameState
 		rollButton.render(gameContainer, stateGame, g);
 		diceHandler.render(gameContainer, stateGame, g);
 		largeQueue.render(gameContainer, stateGame, g);
-		// if selectedLArgeQueueValues form a hand
-		// {
-		// 		render redeemButton
-		// }
+		if(currentHand != Hands.NONE)
+		{
+			redeemButton.render(gameContainer, stateGame, g);
+		}
 		QPromptBox.render(gameContainer, stateGame, g);
 	}
 	
@@ -335,10 +391,10 @@ public class Game37State extends ParentGameState
 	{
 		diceHandler.render(gameContainer, stateGame, g);
 		largeQueue.render(gameContainer, stateGame, g);
-		// if(selectedLargeQueue values form a hand)
-		// {
-		// 		render RedeemButton	
-		// }
+		if(currentHand != Hands.NONE)
+		{
+			redeemButton.render(gameContainer, stateGame, g);
+		}
 		endTurnButton.render(gameContainer, stateGame, g);
 		QPromptBox.render(gameContainer, stateGame, g);	
 	}
@@ -535,6 +591,8 @@ public class Game37State extends ParentGameState
 		endCurrentTurn = false;
 		firstTurn = true;
 		whoWonTheGame = 0;
+		
+		currentHand = Hands.NONE;
 		
 		newTurn();
 	}

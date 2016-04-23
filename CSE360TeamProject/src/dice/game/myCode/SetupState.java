@@ -22,13 +22,14 @@ public class SetupState extends ParentGameState
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		// TODO Auto-generated method stub
+	public void render(GameContainer gamContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
+	{
+		g.drawString("Setup", 20, 20);
 		
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+	public void update(GameContainer gameContainer, StateBasedGame stateGame, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		
 	}

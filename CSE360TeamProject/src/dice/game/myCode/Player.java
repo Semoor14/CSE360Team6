@@ -21,6 +21,7 @@ public class Player
 		playerNumber = pNum;
 		scoreBox = new ScoreBox(name + ": " + score, pNum - 1, sFont);
 		smallQueue = new SmallQueue(pNum-1, sFont);
+		smallQueue.changeAllBoxesText(que.getArray());
 		hasSelectedDieValue = false;
 	}
 	
@@ -30,12 +31,17 @@ public class Player
 		smallQueue.render(gameContainer, game, g);
 	}
 	
+	public int [] getQueueValues()
+	{
+		return que.getArray();
+	}
+	
 	public void changeScore (int value, boolean addSubtract)
 	{
 		// change value
 		if(addSubtract)
 		{
-			if((score + value) <= 37) // don't allow going over 37
+			if((score + value) <= 59) // don't allow going over 37
 			{
 				score += value;
 			}
@@ -62,7 +68,7 @@ public class Player
 	{
 		int winID = 0;
 		
-		if(score == 37)
+		if(score == 59)
 		{
 			winID = playerNumber;		
 		}	

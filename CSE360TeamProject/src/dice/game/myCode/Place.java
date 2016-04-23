@@ -73,10 +73,30 @@ public class Place
 	public static final int MS_GAMENAMEBOX_WIDTH = 96;
 	public static final int MS_GAMENAMEBOX_HEIGHT = 64;	
 	
+	// other buttons
 	public static final int MS_GAMESTARTBUTTON_XPOS = 224;
 	public static final int MS_GAMESTARTBUTTON_YPOS = 144;
 	public static final int MS_GAMESTARTBUTTON_WIDTH = 192;
 	public static final int MS_GAMESTARTBUTTON_HEIGHT = 48;	
-	
+
+	public static final int MS_GAMESETUPBUTTON_XPOS = 224;
+	public static final int MS_GAMESETUPBUTTON_YPOS = 144+64;
+	public static final int MS_GAMESETUPBUTTON_WIDTH = 192;
+	public static final int MS_GAMESETUPBUTTON_HEIGHT = 48;	
+
+	public static final int MS_GAMERULESBUTTON_XPOS = 224;
+	public static final int MS_GAMERULESBUTTON_YPOS = 144+128;
+	public static final int MS_GAMERULESBUTTON_WIDTH = 192;
+	public static final int MS_GAMERULESBUTTON_HEIGHT = 48;	
+
+	public static final int MS_GAMESTATISTICSBUTTON_XPOS = 224;
+	public static final int MS_GAMESTATISTICSBUTTON_YPOS = 144+192;
+	public static final int MS_GAMESTATISTICSBUTTON_WIDTH = 192;
+	public static final int MS_GAMESTATISTICSBUTTON_HEIGHT = 48;	
+
+	public static final int MS_GAMEEXITBUTTON_XPOS = 224;
+	public static final int MS_GAMEEXITBUTTON_YPOS = 144+256;
+	public static final int MS_GAMEEXITBUTTON_WIDTH = 192;
+	public static final int MS_GAMEEXITBUTTON_HEIGHT = 48;	
 	
 }

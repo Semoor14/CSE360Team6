@@ -14,8 +14,12 @@ import org.newdawn.slick.state.StateBasedGame;
 public class MainMenuState  extends ParentGameState
 {	
 	private CenteredTextBox gameNameBox;
-
 	private CenteredTextButton gameStartButton;
+	private CenteredTextButton gameSetupButton;
+	private CenteredTextButton gameRulesButton;
+	private CenteredTextButton gameStatisticsButton;
+	private CenteredTextButton gameExitButton;
+	
 	
 	public MainMenuState(int sID)
 	{
@@ -37,17 +41,41 @@ public class MainMenuState  extends ParentGameState
 			{
 				stateGame.enterState(DiceGame.GAME_37);
 			}
+			if(gameSetupButton.isWithinBound(mouseX, mouseY))
+			{
+				stateGame.enterState(DiceGame.SETUP);
+			}
+			if(gameRulesButton.isWithinBound(mouseX, mouseY))
+			{
+				stateGame.enterState(DiceGame.RULES);
+			}
+			if(gameStatisticsButton.isWithinBound(mouseX, mouseY))
+			{
+				stateGame.enterState(DiceGame.STATISTICS);
+			}
+			if(gameExitButton.isWithinBound(mouseX, mouseY))
+			{
+				gameContainer.exit();
+			}
 		}
 	}
 	
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
 	{
-		g.setBackground(Color.gray);
+		g.setBackground(Color.white);
 		if (gameNameBox != null)
 			gameNameBox.render(gameContainer, stateGame, g);
 		if (gameStartButton != null)
 			gameStartButton.render(gameContainer, stateGame, g);
+		if (gameSetupButton != null)
+			gameSetupButton.render(gameContainer, stateGame, g);
+		if (gameRulesButton != null)
+			gameRulesButton.render(gameContainer, stateGame, g);
+		if (gameStatisticsButton != null)
+			gameStatisticsButton.render(gameContainer, stateGame, g);
+		if (gameExitButton != null)
+			gameExitButton.render(gameContainer, stateGame, g);
 	}
 	
 	@Override
@@ -55,7 +83,11 @@ public class MainMenuState  extends ParentGameState
 	{
 		super.enter(gameContainer, stateGame);
 		
-		gameNameBox = new CenteredTextBox("37", Place.MS_GAMENAMEBOX_XPOS, Place.MS_GAMENAMEBOX_YPOS, Place.MS_GAMENAMEBOX_WIDTH, Place.MS_GAMENAMEBOX_HEIGHT, DiceGame.veryLargeFont);				
+		gameNameBox = new CenteredTextBox("59", Place.MS_GAMENAMEBOX_XPOS, Place.MS_GAMENAMEBOX_YPOS, Place.MS_GAMENAMEBOX_WIDTH, Place.MS_GAMENAMEBOX_HEIGHT, DiceGame.veryLargeFont);				
 		gameStartButton = new CenteredTextButton("Play Game", Place.MS_GAMESTARTBUTTON_XPOS, Place.MS_GAMESTARTBUTTON_YPOS, Place.MS_GAMESTARTBUTTON_WIDTH, Place.MS_GAMESTARTBUTTON_HEIGHT, DiceGame.mediumFont);
+		gameSetupButton = new CenteredTextButton("Setup", Place.MS_GAMESETUPBUTTON_XPOS, Place.MS_GAMESETUPBUTTON_YPOS, Place.MS_GAMESETUPBUTTON_WIDTH, Place.MS_GAMESETUPBUTTON_HEIGHT, DiceGame.mediumFont); 
+		gameRulesButton = new CenteredTextButton("Rules", Place.MS_GAMERULESBUTTON_XPOS, Place.MS_GAMERULESBUTTON_YPOS, Place.MS_GAMERULESBUTTON_WIDTH, Place.MS_GAMERULESBUTTON_HEIGHT, DiceGame.mediumFont); 
+		gameStatisticsButton = new CenteredTextButton("Statistics", Place.MS_GAMESTATISTICSBUTTON_XPOS, Place.MS_GAMESTATISTICSBUTTON_YPOS, Place.MS_GAMESTATISTICSBUTTON_WIDTH, Place.MS_GAMESTATISTICSBUTTON_HEIGHT, DiceGame.mediumFont);
+		gameExitButton = new CenteredTextButton("Exit", Place.MS_GAMEEXITBUTTON_XPOS, Place.MS_GAMEEXITBUTTON_YPOS, Place.MS_GAMEEXITBUTTON_WIDTH, Place.MS_GAMEEXITBUTTON_HEIGHT, DiceGame.mediumFont);
 	}
 }
