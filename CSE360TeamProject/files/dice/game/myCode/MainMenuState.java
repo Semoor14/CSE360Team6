@@ -11,6 +11,11 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Main menu game state, from main menu you can enter states: 
+ * Start game, setup, rules stats and you may close the game window.
+ * @author Scott
+ */
 public class MainMenuState  extends ParentGameState
 {	
 	private CenteredTextBox gameNameBox;
@@ -20,16 +25,25 @@ public class MainMenuState  extends ParentGameState
 	private CenteredTextButton gameStatisticsButton;
 	private CenteredTextButton gameExitButton;
 	
-	
+	/**
+	 * @param sID state ID identifies which game state to enter. 
+	 */
 	public MainMenuState(int sID)
 	{
 		super(sID);
 	}
 	
+	/**
+	 * Handles button click location and changes game state based on 
+	 * X/Y click locations.
+	 * @param gameContainer
+	 * @param stateGame
+	 * @param arg2
+	 * @throws SlickException
+	 */
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateGame, int arg2) throws SlickException 
 	{
-		// TODO Auto-generated method stub
 		Input input = gameContainer.getInput();
 		if (input.isMousePressed(0))
 		{
@@ -39,7 +53,7 @@ public class MainMenuState  extends ParentGameState
 			//ask the game name box if its been clicked
 			if(gameStartButton.isWithinBound(mouseX, mouseY))
 			{
-				stateGame.enterState(DiceGame.GAME_37);
+				stateGame.enterState(DiceGame.GAME_59);
 			}
 			if(gameSetupButton.isWithinBound(mouseX, mouseY))
 			{
@@ -60,6 +74,13 @@ public class MainMenuState  extends ParentGameState
 		}
 	}
 	
+	/**
+	 * Renders main menu game state including centered text buttons for start game setup rules and statistics.
+	 * @param gameContainer
+	 * @param stateGame
+	 * @param g
+	 * @throws SlickException
+	 */
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
 	{
@@ -78,6 +99,13 @@ public class MainMenuState  extends ParentGameState
 			gameExitButton.render(gameContainer, stateGame, g);
 	}
 	
+	/**
+	 * Enter creates centered text buttons, which check if a click has occured within bounds of the click. 
+	 * Then changes the game state based on what was clicked.
+	 * @param gameContainer
+	 * @param stateGame
+	 * @throws SlickException
+	 */
 	@Override
 	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
 	{

@@ -1,36 +1,46 @@
 package dice.game.myCode;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.GameState;
-import org.newdawn.slick.state.StateBasedGame;
-
-public class RulesState extends ParentGameState
+import org.newdawn.slick.*; import org.newdawn.slick.state.StateBasedGame;   
+// Referenced classes of package dice.game.myCode: 
+// ParentGameState, CenteredTextButton, DiceGame, ReadRules   
+public class RulesState extends ParentGameState 
 {
-	public RulesState(int sID)
-	{
-		super(sID);
-	}
+	private CenteredTextButton exitButton; 
+	private String rules; 
 	
-	@Override
+	public RulesState(int sID) 
+	{
+		super(sID); 
+	}   
+	
 	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
-	{
-		super.enter(gameContainer, stateGame);
-	}
-
-	@Override
+	{ 
+		super.enter(gameContainer, stateGame); 
+		exitButton = new CenteredTextButton("Return to Main", 464, 432, 160, 32, DiceGame.smallFont); 
+		rules = ReadRules.read(); 
+	}   
 	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
-	{
-		g.drawString("Rules", 20, 20);
-		
-	}
-
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException 
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{ 
+		g.drawString(rules, 20F, 20F); 
+		exitButton.render(gameContainer, stateGame, g); 
+	}   
+	
+	public void update(GameContainer gameContainer, StateBasedGame stateGame, int arg2) throws SlickException 
+	{ 
+		Input input = gameContainer.getInput(); if(input.isMousePressed(0)) 
+		{ 
+			int mouseX = input.getMouseX(); 
+			int mouseY = input.getMouseY(); 
+			updateAlwaysClicking(stateGame, mouseX, mouseY); 
+			} 
+		}   
+	
+	public void updateAlwaysClicking(StateBasedGame stateGame, int clickPositionX, int clickPositionY) 
+	{ 
+		if(exitButton.isWithinBound(clickPositionX, clickPositionY))
+		{
+			stateGame.enterState(DiceGame.MAIN);
+		}
+	}   
 }
+

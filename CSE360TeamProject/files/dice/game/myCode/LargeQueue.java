@@ -5,20 +5,24 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Large que builds and adds functionality to the larger string of 
+ * five boxes which spans the width of the screen under the dice boxes
+ * Class sets text and allows user to select boxes to redeme when it is 
+ * their turn.
+ * @author Scott
+ */
 public class LargeQueue 
 {
-	// should be final but I'll wait on that
-//	private int Button1XPos = 200; // only 1st, calculate the rest
-//	private int ButtonYPos = 96; 
-//	private int ButtonWidth = 48; 
-//	private int ButtonHeight = 48; 
-
+	// initialize queue buttons
 	private CenteredTextButton QButton1;
 	private CenteredTextButton QButton2;
 	private CenteredTextButton QButton3;
 	private CenteredTextButton QButton4;
 	private CenteredTextButton QButton5;
 	private int [] values;
+	
+	private int numSelected; 
 	
 	public LargeQueue (TrueTypeFont mediumFont)
 	{
@@ -28,8 +32,10 @@ public class LargeQueue
 		QButton4 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS + Place.LQ_BUTTON_WIDTH*3, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);		
 		QButton5 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS + Place.LQ_BUTTON_WIDTH*4, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);
 		values = new int [5];
+		numSelected = 0;
 	}
 	
+	//renders qeueue buttons in game container with font and font size used from 
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
 	{
 		QButton1.render(gameContainer, game, g);
@@ -39,6 +45,13 @@ public class LargeQueue
 		QButton5.render(gameContainer, game, g);
 	}
 	
+	/**
+	 * checks click position is within bound of each of the five
+	 * queue boxes, if the box contains a 0 the box is not clickable.
+	 * @param clickPositionX
+	 * @param clickPositionY
+	 * @return
+	 */
 	public boolean isWithinBound(int clickPositionX, int clickPositionY)
 	{
 		boolean result = false;
@@ -70,6 +83,10 @@ public class LargeQueue
 		return result;
 	}
 	
+	/**
+	 * sets rolled value to the queue 
+	 * @param newValues rolled value
+	 */
 	public void setValues(int [] newValues)
 	{
 		values[0] = newValues[0];
@@ -80,6 +97,9 @@ public class LargeQueue
 		setBoxesText();
 	}
 	
+	/**
+	 * sets the displayed text of the large que box equal to the value
+	 */
 	public void setBoxesText()
 	{
 		QButton1.SetText(values[4] + "");
@@ -89,6 +109,9 @@ public class LargeQueue
 		QButton5.SetText(values[0] + "");		
 	}
 	
+	/**
+	 * used to reset selection at the end of each turn
+	 */
 	public void resetSelections()
 	{
 		QButton1.SetSelected(false);
@@ -96,11 +119,17 @@ public class LargeQueue
 		QButton3.SetSelected(false);
 		QButton4.SetSelected(false);
 		QButton5.SetSelected(false);
+		numSelected = 0;
 	}
-	
-	public int[] getSelectedValues()
+
+	/**
+	 * formats selected que value into an array based on selected boxes
+	 * array used in queue and queue analyse for turn logic.
+	 * @return
+	 */
+	public boolean [] getBooleanSelectedIndexes()
 	{
-		int numSelected = 0;
+		numSelected = 0;
 		boolean[] selectedQueue = new boolean[5];
 		if(QButton1.GetSelected())
 		{
@@ -127,6 +156,12 @@ public class LargeQueue
 			selectedQueue[0] = true;
 			numSelected++;
 		}
+		return selectedQueue;
+	}
+	
+	public int[] getSelectedValues()
+	{
+		boolean [] selectedQueue = getBooleanSelectedIndexes();
 		int[] result = new int[numSelected];
 		int indexToInsert = 0;
 		for(int index = 0; index < 5; index++)
@@ -137,8 +172,27 @@ public class LargeQueue
 				indexToInsert++;
 			}
 		}
-			
 		return result;
 	}
+
+	public int [] getSelectedIndexes()
+	{
+
+		boolean [] selectedQueue = getBooleanSelectedIndexes();
+		int [] result = new int [numSelected];
+		int indexToInsert = 0;
+		for (int index = 0; index < 5; index++)
+		{
+			if(selectedQueue[index])
+			{
+				result[indexToInsert] = index;
+				indexToInsert++;
+				
+			}
+		}
+		return result;
+	}
+	
+	
 	
 }

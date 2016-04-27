@@ -71,6 +71,7 @@ public class Queue
 	 * Add the given integer value to the queue.
 	 * @param value The integer value to add to the queue.
 	 */
+
 	public void addValue (int value)
 	{
 		for(int moveIndex = 0; moveIndex < size - 1; moveIndex++)
@@ -82,7 +83,10 @@ public class Queue
 		{
 			numElements++;
 		}
-	}	
+	}
+
+
+
 	
 	/**
 	 * Delete the values in the queue at the given indices.
@@ -90,10 +94,15 @@ public class Queue
 	 */
 	public void deleteValues(int [] indices) // indices must be in descending order
 	{
-		for(int valueIndex = indices.length - 1; valueIndex >= 0; valueIndex--)
+		int[] tempArray = new int[indices.length];
+		for(int swapIndex = indices.length - 1; swapIndex >= 0; swapIndex--)
 		{
-			queueValues[indices[valueIndex]] = 0;
-			for(int queueIndex = indices[valueIndex]; queueIndex > 0; queueIndex--)
+			tempArray[indices.length - swapIndex - 1] = indices[swapIndex];
+		}
+		for(int valueIndex = tempArray.length - 1; valueIndex >= 0; valueIndex--)
+		{
+			queueValues[tempArray[valueIndex]] = 0;
+			for(int queueIndex = tempArray[valueIndex]; queueIndex > 0; queueIndex--)
 			{
 				int temp = queueValues[queueIndex];
 				queueValues[queueIndex] = queueValues[queueIndex - 1];
@@ -101,4 +110,13 @@ public class Queue
 			}
 		}	
 	}
+	
+	public void deleteFirstOut()
+	{
+		if(numElements != 0)
+		{
+			
+		}
+	}
+	
 }

@@ -84,6 +84,15 @@ public class SelectionListGroup
 		return selectionLists[index];
 	}
 	
+	// new method for resetting selections of all selections lists
+	public void resetSelection()
+	{
+		for(int listIndex = 0; listIndex < selectionLists.length; listIndex++)
+		{
+			selectionLists[listIndex].resetSelection();
+		}
+	}
+	
 	/**
 	 * Render the list of SelectionLists to the screen.
 	 * @param gameContainer The container for the whole game.

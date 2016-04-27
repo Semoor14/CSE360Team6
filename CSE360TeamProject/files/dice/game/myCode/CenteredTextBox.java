@@ -105,5 +105,4 @@ public class CenteredTextBox
 		
 		g.drawString(text, middleX, middleY);
 	}
-
 }

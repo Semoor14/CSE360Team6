@@ -7,6 +7,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Auto generated methods from slick as well as super method which is run
+ * by all other game states.
+ * @author Scott
+ */
 public abstract class ParentGameState implements GameState
 {	
 	private int stateID;
@@ -16,6 +21,7 @@ public abstract class ParentGameState implements GameState
 		stateID = sID;
 	}
 	
+	//All states run this method as their super.
 	@Override
 	public void enter(GameContainer arg0, StateBasedGame arg1) throws SlickException 
 	{

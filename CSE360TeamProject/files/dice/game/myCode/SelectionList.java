@@ -7,7 +7,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class SelectionList 
 {
-	
 	protected int xPosition;
 	protected int yPosition;
 	protected int width;
@@ -22,7 +21,7 @@ public class SelectionList
 		buttonHeight= height/buttonNames.length;
 		for (int index = 0; index < buttonNames.length;index++)
 		{
-			CenteredTextButton newButton = new CenteredTextButton(buttonNames[index],x, y+index*buttonHeight,width, buttonHeight, DiceGame.mediumFont);
+			CenteredTextButton newButton = new CenteredTextButton(buttonNames[index],x, y+index*buttonHeight,width, buttonHeight, DiceGame.smallFont);
 			listOfButtons[index] = newButton;
 		}
 	}
@@ -61,6 +60,15 @@ public class SelectionList
 			}
 		}
 	}
+	
+	public void resetSelection()
+	{
+		for (int index = 0; index < listOfButtons.length;index++)
+		{
+			listOfButtons[index].SetSelected(false);
+		}
+	}
+
 	
 	public int getSelectedIndex()
 	{

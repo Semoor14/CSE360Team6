@@ -11,5 +11,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="D:/Java External Libraries/lwjgl-2.9.3/native/windows"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/Java External Libraries/json/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
