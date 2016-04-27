@@ -50,6 +50,8 @@ public class Game59State extends ParentGameState
 	private boolean hasConfirmedRoll;
 	private boolean hasConfirmedRedeem;
 	
+	private Hands confirmedHandForThisTurn;
+	
 	private boolean endCurrentTurn;
 	private int whoWonTheGame;
 	
@@ -122,6 +124,7 @@ public class Game59State extends ParentGameState
 		// reset enums
 
 		currentHand = Hands.NONE;
+		confirmedHandForThisTurn = Hands.NONE;
 	
 		// reset objects
 		mainDiceHandler.resetDice();
@@ -325,6 +328,7 @@ public class Game59State extends ParentGameState
 			hasConfirmedRedeem = true;
 			getCurrentPlayerObject().deleteRedeemedValuesFromQueue(largeQueue.getSelectedIndexes());
 			finishedRedeemBox.SetText("Redeemed " + currentHand.toString());
+			confirmedHandForThisTurn = currentHand;
 			if(currentHand == Hands.RUN_OF_THREE)
 			{
 				isConfirmingRun = true;
@@ -393,6 +397,7 @@ public class Game59State extends ParentGameState
 			hasConfirmedRedeem = true;
 			getCurrentPlayerObject().deleteRedeemedValuesFromQueue(largeQueue.getSelectedIndexes());
 			finishedRedeemBox.SetText("Redeemed " + currentHand.toString());
+			confirmedHandForThisTurn = currentHand;
 			// runs actions for 3OfAKind and 4OfAKind confirming in their update methods 
 			if(currentHand == Hands.RUN_OF_THREE)
 			{
@@ -864,8 +869,11 @@ public class Game59State extends ParentGameState
 			if(endCurrentTurn == true)
 			{
 				// logic for pair
-				if(currentHand == Hands.PAIR && hasConfirmedRedeem == true)
+				if(confirmedHandForThisTurn == Hands.PAIR)
 				{
+					// by re-checking the hand when dice confirmed it overrides what was there
+					// only affecting pair. 
+					System.out.println ("TRIED TO SKIP TURN");
 					newTurn();
 				}
 				newTurn();
@@ -976,6 +984,7 @@ public class Game59State extends ParentGameState
 		whoWonTheGame = 0;
 		
 		currentHand = Hands.NONE;
+		confirmedHandForThisTurn = Hands.NONE;
 		
 		newTurn();
 	}
