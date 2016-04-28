@@ -142,6 +142,31 @@ public class Player
 		addToQueue(unSelected);
 	}
 	
+	public void addMainDieValueDoubles(int die1, int die2, int diceSelected)
+	{
+		if(diceSelected == 0)
+		{
+			addToQueue(die1);
+			addToQueue(die2);
+		}
+		else if (diceSelected == 1)
+		{
+			changeScore(die1, true);
+			addToQueue(die2);
+		}
+		else if (diceSelected == 2)
+		{
+			changeScore(die2, true);
+			addToQueue(die1);
+		}
+		else // diceSelected == 3
+		{
+			changeScore(die1, true);
+			changeScore(die2, true);
+		}
+
+	}
+	
 	public void addRunDie(int dieSelected)
 	{
 		addToQueue(dieSelected);

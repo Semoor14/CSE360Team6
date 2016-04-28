@@ -23,11 +23,6 @@ public class Place
 	public static final int GS_REDEEMBUTTON_WIDTH = 176;
 	public static final int GS_REDEEMBUTTON_HEIGHT = 32;
 
-	public static final int GS_RULESBUTTON_XPOS = 464;
-	public static final int GS_RULESBUTTON_YPOS = 392;
-	public static final int GS_RULESBUTTON_WIDTH = 160;
-	public static final int GS_RULESBUTTON_HEIGHT = 32;
-
 	public static final int GS_EXITBUTTON_XPOS = 464;
 	public static final int GS_EXITBUTTON_YPOS = 432;
 	public static final int GS_EXITBUTTON_WIDTH = 160;
@@ -107,6 +102,10 @@ public class Place
 	public static final int PB_LARGEBOX_YPOS = 128+32;
 	public static final int PB_LARGEBOX_HEIGHT = 256-32;
 	
+	public static final int PB_STRING_XSPACING = 4;
+	public static final int PB_STRING_YSPACING = 2;
+	public static final int PB_STRING_YDIFFERENCE = 20;
+	
 	// MainMenuState
 	public static final int MS_GAMENAMEBOX_XPOS = 272;
 	public static final int MS_GAMENAMEBOX_YPOS = 48;
@@ -144,12 +143,20 @@ public class Place
 	public static final int SS_EXITBUTTON_WIDTH = 160;
 	public static final int SS_EXITBUTTON_HEIGHT = 32;
 	
-	public static final int SS_SUMRULEBUTTON_XPOS = 120;
-	public static final int SS_SUMRULEBUTTON_YPOS = 120;
-	public static final int SS_SUMRULEBUTTON_WIDTH = 160;
-	public static final int SS_SUMRULEBUTTON_HEIGHT = 32;
+	public static final int SS_SUMRULEBUTTON_XPOS = 224;
+	public static final int SS_SUMRULEBUTTON_YPOS = 112;
+	public static final int SS_SUMRULEBUTTON_WIDTH = 192;
+	public static final int SS_SUMRULEBUTTON_HEIGHT = 48;
 
+	public static final int SS_DOUBLESRULEBUTTON_XPOS = 224;
+	public static final int SS_DOUBLESRULEBUTTON_YPOS = 192;
+	public static final int SS_DOUBLESRULEBUTTON_WIDTH = 192;
+	public static final int SS_DOUBLESRULEBUTTON_HEIGHT = 48;
 	
+	public static final int SS_TITLEBOX_XPOS = 200;
+	public static final int SS_TITLEBOX_YPOS = 32;
+	public static final int SS_TITLEBOX_WIDTH = 240;
+	public static final int SS_TITLEBOX_HEIGHT = 48;
 	
 	
 

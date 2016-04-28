@@ -21,7 +21,7 @@ public class QueueAnalyzer
 	public enum Hands
 	{
 		PAIR ("Pair"), THREE_OF_KIND ("Three of a Kind"), RUN_OF_THREE ("Run of Three"), FOUR_OF_KIND ("Four of a Kind"),
-		TWO_PAIR ("Two Pair"), RUN_OF_FOUR ("Run of Four"), RUN_OF_FIVE ("Run of Five"), FIVE_OF_KIND ("Five of a Kind"), NONE ("None");
+		RUN_OF_FOUR ("Run of Four"), RUN_OF_FIVE ("Run of Five"), FIVE_OF_KIND ("Five of a Kind"), NONE ("None");
 		
 		private final String handName;
 		
@@ -135,14 +135,9 @@ public class QueueAnalyzer
 			break;
 			
 		case 4: elements = 4;
-		
 			if(isFourOfKind(queAnalysis)!= Hands.NONE)
 			{
 				hand = isFourOfKind(queAnalysis);
-			}
-			else if(isTwoPair(queAnalysis) != Hands.NONE)
-			{
-				hand = isTwoPair(queAnalysis);
 			}
 			else if (isRunOfFour(queAnalysis) != Hands.NONE)
 			{
@@ -232,29 +227,7 @@ public class QueueAnalyzer
 		}
 		return result;
 	}
-	/**
-	 * istwoPair takes in a que and determines if a two pairs exists and returns an Enum
-	 * 
-	 * @param que
-	 * @return result
-	 */
-	public Hands isTwoPair(int[] que)
-	{
-		Hands result = Hands.NONE;
-		if(que[0] == que[1] && que[2] == que[3])
-		{	
-			result = Hands.TWO_PAIR;
-		}
-		else if(que[0] == que[2] && que[1] == que[3])
-		{	
-			result = Hands.TWO_PAIR;
-		}
-		else if(que[0] == que[3] && que[1] == que[2])
-		{	
-			result = Hands.TWO_PAIR;
-		}
-		return result;
-	}
+	
 	/**
 	 * isRunOfFour takes in a que and determines if four elements are in rising consecutive
 	 *     order and returns an Enum

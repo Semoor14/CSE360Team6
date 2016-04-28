@@ -19,10 +19,11 @@ public class DiceHandler
 	
 	boolean rolled;
 	
-	Random rand = new Random();
+	private Random rand = new Random();
 	int die1;
 	int die2;
 	int selected;
+	boolean doubles;
 	
 	public DiceHandler(TrueTypeFont lFont, TrueTypeFont sFont, boolean main)
 	{
@@ -30,6 +31,7 @@ public class DiceHandler
 		rolled = false;
 		die1 = 0;
 		die2 = 0;
+		doubles = false;
 		// yPosition logic handles main diceHandler and runDiceHandler positions
 		int yPosition;
 		if(main)
@@ -55,8 +57,14 @@ public class DiceHandler
 		die2 = rand.nextInt(9) + 1;
 		
 		rolled = true;
+		if(die1 == die2)
+		{
+			doubles = true;
+		}
 		Die1Button.SetText("" + die1);
 		Die2Button.SetText("" + die2);
+		// for statistics
+		Game59State.diceRolls++;
 	}
 
 	/**
@@ -67,11 +75,12 @@ public class DiceHandler
 	{
 		die1 = 0;
 		die2 = 0;
+		doubles = false;
+		selected = 0;
 		Die1Button.SetText("");
 		Die2Button.SetText("");
 		Die1Button.SetSelected(false);
 		Die2Button.SetSelected(false);
-		selected = 0;
 	}
 
 	/**
@@ -145,9 +154,50 @@ public class DiceHandler
 		return result;
 	}
 	
+	// for variant rules, if doubles run this instead
+	public boolean isWithinBoundDoubles(int clickPositionX, int clickPositionY)
+	{
+		boolean result = false;
+		
+		if(Die1Button.isWithinBound(clickPositionX, clickPositionY))
+		{
+			Die1Button.InvertSelection();
+			result = true;
+		}
+		if(Die2Button.isWithinBound(clickPositionX, clickPositionY))
+		{
+			Die2Button.InvertSelection();
+			result = true;
+		}
+		
+		if(!Die1Button.GetSelected() && !Die2Button.GetSelected())
+		{
+			selected = 0;
+		}
+		else if (Die1Button.GetSelected() && !Die2Button.GetSelected())
+		{
+			selected = 1;
+		}
+		else if (!Die1Button.GetSelected() && Die2Button.GetSelected())
+		{
+			selected = 2;
+		}
+		else // Die1Button.GetSelected() && Die2Button.GetSelected()
+		{
+			selected = 3;
+		}
+		
+		return result;
+	}
+	
 	public int getSelected()
 	{
 		return selected;
+	}
+	
+	public boolean getDoubles()
+	{
+		return doubles;
 	}
 	
 	public int getDie1()

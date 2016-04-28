@@ -5,219 +5,384 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+import java.util.Random;
 
 import dice.game.myCode.QueueAnalyzer.Hands;
 
+/**
+ * A class is the state that has the actual gameplay. Handles UI logic and Game Logic through the render 
+ * and update methods. UI logic is deciding what to draw to the screen and what can be clicked. Game Logic is deciding
+ * what to do after a click has occurred. 
+ * @author Nicholas Stanton
+ */
 public class Game59State extends ParentGameState
 {
-	// first turn
-	private boolean firstTurn;
-	private LargeQueue largeQueue;
+	// Variables
+	/**
+	 * The number of the player's who turn it is. 
+	 */
+	private int playerNumberTurn;
+	/**
+	 * A random number generator for determining whose turn it is. 
+	 */
+	private Random rand = new Random();
+	/**
+	 * The number of the player who won the game. 
+	 */
+	private int whoWonTheGame;
+	/**
+	 * The number of the difference between the sum of all player's scores and the value for to win the variant sum rule. 
+	 */
+	private int playerSumDifference;
+	/**
+	 * A boolean if the player has rolled during their turn. 
+	 */
+	private boolean hasRolled;
+	/**
+	 * A boolean if the player has redeemed their queue during their turn. 
+	 */
+	private boolean hasRedeemed;
+	/**
+	 * A boolean if the player has confirmed the dice of their roll during their turn. 
+	 */
+	private boolean hasConfirmedRoll;
+	/**
+	 * A boolean if the player has confirmed redeeming a special hand during their turn. 
+	 */
+	private boolean hasConfirmedRedeem;
+	/**
+	 * A boolean if the player has clicked the end turn button during their turn. 
+	 */
+	private boolean endCurrentTurn;
+	/**
+	 * A boolean if the player is in the process of confirming redeeming a run during their turn. 
+	 */
+	private boolean isConfirmingRun;
+	/**
+	 * The hand which the player redeemed for their turn.
+	 */
+	private Hands confirmedHandForThisTurn;
+	/**
+	 * The hand which is currently represented by the selected large queue values. 
+	 */
+	private Hands currentHand;
+	/**
+	 * A integer for the number of elements in the run being redeemed this turn. 
+	 */
+	private int runNum;
+	/**
+	 * The number of rolls left for redeeming a run this turn. 
+	 */
+	private int numRunRollsLeft;
+	/** 
+	 * The number of dice rolls that have occured this game. 
+	 */
+	public static int diceRolls;
+
+	// Objects
+	/**
+	 * The object for player 1 in this game. 
+	 */
 	private Player player1;
-	private Player player2; 
+	/** 
+	 * The object for player 2 in this game. 
+	 */
+	private Player player2;
+	/** 
+	 * The object for player 3 in this game. 
+	 */
 	private Player player3;
-	private Player player4;
+	/**
+	 * The object for player 4 in this game. 
+	 */
+	private Player player4;	
+	/** 
+	 * The object for the dice rolled during regular gameplay. 
+	 */
 	private DiceHandler mainDiceHandler;
-	
+	/** 
+	 * The button for ending the current player's turn. 
+	 */
 	private CenteredTextButton endTurnButton;
+	/** 
+	 * The button for rolling the dice. 
+	 */
 	private CenteredTextButton rollButton;
-	
-	private CenteredTextBox QPromptBox;
-		
+	/** 
+	 * The button for confirming which die goes to score and which die goes to queue.
+	 */
 	private CenteredTextButton mainDieSelectedConfirmButton;
-	
-	private CenteredTextButton redeemButton;
-	
-	private PokerBox pokerBox;
-	
-	private CenteredTextButton rulesButton;
-	private CenteredTextButton exitButton;
-	
+	/** 
+	 * The object representing the player's queue whose turn it is, allows player to select queue values to be 
+	 * redeemed as a hand.
+	 */
+	private LargeQueue largeQueue;
+	/** 
+	 * The box showing what hand the selections of the large queue form.
+	 */
+	private CenteredTextBox QPromptBox;
+	/** 
+	 * The box showing what hand the player redeemed during their turn.
+	 */
 	private CenteredTextBox finishedRedeemBox;
-	
-	// says who won the game
+	/** 
+	 * The button for a player to begin redeeming a hand selected from the large queue. 
+	 */
+	private CenteredTextButton redeemButton;
+	/** 
+	 * The object that takes the large queue's selections and determines what hand it forms. 
+	 */
+	private QueueAnalyzer queueAnalyzer;
+	/** 
+	 * The object for the dice used while redeeming a run. 
+	 */
+	private DiceHandler runDiceHandler;
+	/** 
+	 * The button to confirm which die goes to the player's queue while redeeming a run.
+	 */
+	private CenteredTextButton runDieSelectedConfirmButton;
+	/** 
+	 * The object for letting players choose X for redeeming a three of a kind. 
+	 */
+	private SelectionList threeOfAKindList;
+	/**
+	 * The object for letting player choose X and Y for redeeming a four of a kind. 
+	 */
+	private SelectionListGroup fourOfAKindGroup;
+	/**
+	 * The object for letting players confirm or cancel the choices of redeeming a hand.
+	 */
+	private SelectionList confirmCancelList;
+	/** 
+	 * The object for displaying what happens when a player redeems a paticular hand. 
+	 */
+	private PokerBox pokerBox;
+	/**
+	 * The button for exiting the current game and returning to the main menu.
+	 */
+	private CenteredTextButton exitButton;
+	/**
+	 * The box that covers the screen and displays who won the game when the game finishes.
+	 */
 	private CenteredTextBox whoWonTheGameBox;
-	
-	// variant rules objects
+	/**
+	 * The box that displays the playerSumDifference. 
+	 */
 	private CenteredTextBox sumDifferenceBox; 
 	
-	private int playerNumberTurn;
-	
-	private boolean hasRolled;
-	private boolean hasRedeemed;
-	private boolean hasConfirmedRoll;
-	private boolean hasConfirmedRedeem;
-	
-	private Hands confirmedHandForThisTurn;
-	
-	private boolean endCurrentTurn;
-	private int whoWonTheGame;
-	
-	private QueueAnalyzer queueAnalyzer;
-	
-	private Hands currentHand;
-	
-	private DiceHandler runDiceHandler;
-	private CenteredTextButton runDieSelectedConfirmButton;
-	private SelectionList threeOfAKindList;
-	private SelectionListGroup fourOfAKindGroup;
-	private SelectionList confirmCancelList;
-	
-	private boolean isConfirmingRun;
-	private int runNum;
-	private int numRunRollsLeft;
-	
-	private int playerSumDifference;
-	
+	/**
+	 * The constructor, only initializes the stateID. The rest is initialized in the enter method. 
+	 * @param sID The id of this state, used in transitioning between states. 
+	 */
 	public Game59State(int sID)
 	{
 		super(sID);
 	}
-	
-	public void confirmMainDieSelected(int dieSelected, int unSelected)
+
+	/**
+	 * The method run when transitioning to this state. Initializes all button, boxes, objects and variables to their 
+	 * default values. Chooses a random player to go first. 
+	 *  
+	 */
+	@Override
+	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
 	{
-		getCurrentPlayerObject().addMainDieValue(dieSelected, unSelected);
-		largeQueue.setValues(getCurrentPlayerObject().getQueueValues());
-	}
-	
-	// when I click on the largeQueue I need to setCurrentHand, and update QPromptBox 
-	public void setCurrentHand()
-	{
-		queueAnalyzer = new QueueAnalyzer (largeQueue.getSelectedValues());
-		currentHand = queueAnalyzer.handFinder();
-		QPromptBox.SetText(currentHand.toString());
-	}
-	
-	public void newTurn()
-	{
-		// firstTurn logic
-		if(firstTurn)
-		{
-			
-		}
-		else
-		{
-			getCurrentPlayerObject().InvertAllBoxes();
-		}
-		// update playerNumberTurn
-		if((playerNumberTurn) < 4)
-		{
-			playerNumberTurn++;
-		}
-		else
-		{
-			playerNumberTurn = 1;
-		}
-		// show selected player
-		getCurrentPlayerObject().InvertAllBoxes();
+		super.enter(gameContainer, stateGame);
+
+		player1 = new Player("Player 1", 1, DiceGame.smallFont);
+		player2 = new Player("Player 2", 2, DiceGame.smallFont);
+		player3 = new Player("Player 3", 3, DiceGame.smallFont);
+		player4 = new Player("Player 4", 4, DiceGame.smallFont);
+		mainDiceHandler = new DiceHandler(DiceGame.largeFont, DiceGame.smallFont, true);
+		rollButton = new CenteredTextButton("Roll", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);
+		mainDieSelectedConfirmButton = new CenteredTextButton("Confirm Dice", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);
+		endTurnButton = new CenteredTextButton("End Turn", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);
+		largeQueue = new LargeQueue(DiceGame.mediumFont);
+		QPromptBox = new CenteredTextBox("None", Place.GS_QPROMPTBOX_XPOS, Place.GS_QPROMPTBOX_YPOS, Place.GS_QPROMPTBOX_WIDTH, Place.GS_QPROMPTBOX_HEIGHT, DiceGame.smallFont);
+		redeemButton = new CenteredTextButton("Redeem Hand", Place.GS_REDEEMBUTTON_XPOS, Place.GS_REDEEMBUTTON_YPOS, Place.GS_REDEEMBUTTON_WIDTH, Place.GS_REDEEMBUTTON_HEIGHT, DiceGame.smallFont);
+		runDiceHandler = new DiceHandler(DiceGame.largeFont, DiceGame.smallFont, false);
+		runDieSelectedConfirmButton = new CenteredTextButton("Confirm Dice", Place.GS_RUNDIECONFIRMBUTTON_XPOS, Place.GS_RUNDIECONFIRMBUTTON_YPOS, Place.GS_RUNDIECONFIRMBUTTON_WIDTH, Place.GS_RUNDIECONFIRMBUTTON_HEIGHT, DiceGame.smallFont);
+		threeOfAKindList = new SelectionList(new String[]{"0", "1", "2", "3"}, Place.GS_THREEOFKINDLIST_XPOS, Place.GS_THREEOFKINDLIST_YPOS, Place.GS_THREEOFKINDLIST_WIDTH, Place.GS_THREEOFKINDLIST_HEIGHT);
+		fourOfAKindGroup = new SelectionListGroup(new String [][] {new String[]{"0", "1", "2", "3"},new String[]{"1", "2"}}, Place.GS_FOUROFKINDGROUP_XPOS, Place.GS_FOUROFKINDGROUP_YPOS, Place.GS_FOUROFKINDGROUP_WIDTH, Place.GS_FOUROFKINDGROUP_ELEMENTHEIGHT, Place.GS_FOUROFKINDGROUP_ELEMENTSPACING);
+		confirmCancelList = new SelectionList(new String[]{"Confirm", "Cancel"}, Place.GS_CONFIRMCANCELLIST_XPOS, Place.GS_CONFIRMCANCELLIST_YPOS, Place.GS_CONFIRMCANCELLIST_WIDTH, Place.GS_CONFIRMCANCELLIST_HEIGHT);				
+		finishedRedeemBox = new CenteredTextBox("Redeemed", Place.GS_FINISHEDREDEEMBOX_XPOS, Place.GS_FINISHEDREDEEMBOX_YPOS, Place.GS_FINISHEDREDEEMBOX_WIDTH, Place.GS_FINISHEDREDEEMBOX_HEIGHT, DiceGame.smallFont);
+		exitButton = new CenteredTextButton("Return to Main", Place.GS_EXITBUTTON_XPOS, Place.GS_EXITBUTTON_YPOS, Place.GS_EXITBUTTON_WIDTH, Place.GS_EXITBUTTON_HEIGHT, DiceGame.smallFont); 
+		pokerBox = new PokerBox(DiceGame.smallFont);
+		whoWonTheGameBox = new CenteredTextBox("", Place.GS_WHOWONTHEGAMEBOX_XPOS, Place.GS_WHOWONTHEGAMEBOX_YPOS, Place.GS_WHOWONTHEGAMEBOX_WIDTH, Place.GS_WHOWONTHEGAMEBOX_HEIGHT, DiceGame.largeFont);
+		whoWonTheGameBox.SetSelected(true);
+		// variant rules object(s)
+		sumDifferenceBox = new CenteredTextBox("-" + DiceGame.SUM_NUM_TO_WIN, Place.GS_SUMDIFFERENCE_XPOS, Place.GS_SUMDIFFERENCE_YPOS, Place.GS_SUMDIFFERENCE_WIDTH, Place.GS_SUMDIFFERENCE_HEIGHT, DiceGame.smallFont);
 		
-		
-		// Reset Booleans
 		hasRolled = false;
 		hasRedeemed = false;
 		hasConfirmedRoll = false;
 		hasConfirmedRedeem = false;
 		isConfirmingRun = false;
+		
+		runNum = 0;
+		numRunRollsLeft = 0;
+		playerSumDifference = 0;
+	
+		// random player goes first
+		playerNumberTurn = rand.nextInt(3) + 1;
+		getCurrentPlayerObject().InvertAllBoxes();
 		endCurrentTurn = false;
-		// reset enums
-
+		whoWonTheGame = 0;
+		
 		currentHand = Hands.NONE;
 		confirmedHandForThisTurn = Hands.NONE;
-	
-		// reset objects
-		mainDiceHandler.resetDice();
-		runDiceHandler.resetDice();
-		largeQueue.resetSelections();
-		// set largeQueue values
-		largeQueue.setValues(getCurrentPlayerObject().getQueueValues());
-		confirmCancelList.resetSelection();
-		threeOfAKindList.resetSelection();
-		QPromptBox.SetText("None");
-		// first turn logic
-		firstTurn = false;
+		
+		diceRolls = 0;
+		
+		newTurn();
 	}
 	
-	public Player getCurrentPlayerObject()
+	/**
+	 * The method that handles player input, or clicks, and game logic. Basically, what can currently be clicked based 
+	 * on what actions the player has taken so far and what happens when that button is clicked. It uses the booleans
+	 * isConfirmingRun, hasRolled, hasRedeemed, hasConfirmedRoll, and hasConfirmedRedeem to determine what 
+	 * "sub update method" to run if a click occurred.   
+	 */
+	@Override
+	public void update(GameContainer gameContainer, StateBasedGame stateGame, int delta) throws SlickException 
 	{
-		Player result;
-		
-		if(playerNumberTurn == 1)
+		updateAlwaysNoClicking();
+		Input input = gameContainer.getInput();
+		if (input.isMousePressed(0))
 		{
-			result = player1;
-		}
-		else if(playerNumberTurn == 2)
-		{
-			result = player2;
-		}
-		else if (playerNumberTurn == 3)
-		{
-			result = player3;
-		}
-		else // playerNumberTurn == 4
-		{
-			result = player4;
-		}
-		return result;
-	}
-	
-	// methods for different turn "states"
-	
-	// always Update
-
-	public int checkForWin()
-	{
-		int winnerIs = 0;
-		
-		if(player1.checkForWin() != 0)
-		{
-			winnerIs = player1.checkForWin();	
-		}
-		if(player2.checkForWin() != 0)
-		{
-			winnerIs = player2.checkForWin();
-		}
-		if(player3.checkForWin() != 0)
-		{
-			winnerIs = player3.checkForWin();
-		}
-		if(player4.checkForWin() != 0)
-		{
-			winnerIs = player4.checkForWin();
-		}
-		
-		if(winnerIs == 0)
-		{
-			if(DiceGame.sumRule)
+			int mouseX = input.getMouseX();
+			int mouseY = input.getMouseY();
+			
+			updateAlwaysClicking(stateGame, mouseX, mouseY);
+			if(whoWonTheGame != 0)
 			{
-				winnerIs = variantCheckForWin();
+				// don't allow anything except hitting exit or rules
+			}
+			else if(isConfirmingRun)
+			{
+				updateIsConfirmingRun(mouseX, mouseY);
+			}
+			else if(!hasRolled && !hasRedeemed)
+			{
+				updateNoRollNoRedeem(mouseX, mouseY);
+			}
+			else if (hasRolled && !hasConfirmedRoll && !hasRedeemed)
+			{
+				updateNoConfirmRollNoRedeem(mouseX, mouseY);
+			}
+			else if (hasConfirmedRoll && !hasRedeemed)
+			{
+				updateNoRedeem(mouseX, mouseY);
+			}
+			else if (hasConfirmedRoll && hasRedeemed && !hasConfirmedRedeem)
+			{
+				updateNoConfirmRedeem(mouseX, mouseY);
+			}
+			else if (hasConfirmedRoll && hasConfirmedRedeem)
+			{
+				updateAllConfirmed(mouseX, mouseY);
+			}
+			else if (!hasRolled && hasRedeemed && !hasConfirmedRedeem)
+			{
+				updateNoRollNoConfirmRedeem(mouseX, mouseY);
+			}
+			else if(!hasRolled && hasConfirmedRedeem)
+			{
+				updateNoRoll(mouseX, mouseY);
+			}
+			else if (hasRolled && !hasConfirmedRoll && hasConfirmedRedeem)
+			{
+				updateNoConfirmRoll(mouseX, mouseY);
+			}
+			if(endCurrentTurn == true)
+			{
+				// logic for pair, 3 of a kind, 4 of a kind
+				if(confirmedHandForThisTurn == Hands.PAIR || confirmedHandForThisTurn == Hands.THREE_OF_KIND)
+				{
+					newTurn();
+				}
+				else if (confirmedHandForThisTurn == Hands.FOUR_OF_KIND)
+				{
+					newTurn();
+					newTurn();
+					newTurn();
+				}
+				
+				newTurn();
 			}
 		}
-		if(winnerIs != 0)
-		{
-			exitButton.SetSelected(true); // for end screen graphics
-		}
-		return winnerIs;
 	}
 	
-	public int variantCheckForWin()
+	/**
+	 * The method that handles output, or what is drawn to the screen. It uses the booleans isConfirmingRun, hasRolled, 
+	 * hasRedeemed, hasConfirmedRoll, and hasConfirmedRedeem to determine "sub render method" to run. 
+	 */
+	@Override
+	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
 	{
-		int result = 0;
-		int sum = player1.getScore() + player2.getScore() + player3.getScore() + player4.getScore();
-		if(sum == DiceGame.SUM_NUM_TO_WIN)
+		g.setBackground(Color.white); // move to enter??
+		alwaysRender(gameContainer, stateGame, g);
+
+		if(whoWonTheGame != 0)
 		{
-			result = playerNumberTurn;
+			whoWonTheGameBox.SetText("Player " + whoWonTheGame + " Wins!");
+			whoWonTheGameBox.render(gameContainer, stateGame, g);
+			exitButton.render(gameContainer, stateGame, g);
+		}	
+		else if(isConfirmingRun)
+		{
+			renderIsConfirmingRun(gameContainer, stateGame, g);
 		}
-		playerSumDifference = sum - DiceGame.SUM_NUM_TO_WIN; // calculate so textbox render correctly
-		return result;
+		else if(!hasRolled && !hasRedeemed)
+		{
+			renderNoRollNoRedeem(gameContainer, stateGame, g);
+		}
+		else if (hasRolled && !hasConfirmedRoll && !hasRedeemed)
+		{
+			renderNoConfirmRollNoRedeem(gameContainer, stateGame, g);
+		}
+		else if (hasConfirmedRoll && !hasRedeemed)
+		{
+			renderNoRedeem(gameContainer, stateGame, g);
+		}
+		else if (hasConfirmedRoll && hasRedeemed && !hasConfirmedRedeem)
+		{
+			renderNoConfirmRedeem(gameContainer, stateGame, g);
+		}
+		else if (hasConfirmedRoll && hasConfirmedRedeem)
+		{
+			renderAllConfirmed(gameContainer, stateGame, g);
+		}
+		else if (!hasRolled && hasRedeemed && !hasConfirmedRedeem)
+		{
+			renderNoRollNoConfirmRedeem(gameContainer, stateGame, g);
+		}
+		else if(!hasRolled && hasConfirmedRedeem)
+		{
+			renderNoRoll(gameContainer, stateGame, g);
+		}
+		else if (hasRolled && !hasConfirmedRoll && hasConfirmedRedeem)
+		{
+			renderNoConfirmRoll(gameContainer, stateGame, g);
+		}					
 	}
-	
+
+	// Begin update logic
+	/**
+	 * The method called by update to run game logic that must be checked every frame whether a click occured or not.
+	 */
 	public void updateAlwaysNoClicking()
 	{
 		whoWonTheGame = checkForWin();
 	}
 	
+	/**
+	 * The method called by update to run game logic that must be checked every frame that a click occurs.
+	 * @param stateGame the game itself
+	 * @param clickPositionX the X coordinate of the mouse click. 
+	 * @param clickPositionY the Y coordinate of the mouse click. 
+	 */
 	public void updateAlwaysClicking(StateBasedGame stateGame, int clickPositionX, int clickPositionY)
 	{
 		if(exitButton.isWithinBound(clickPositionX, clickPositionY))
@@ -225,16 +390,13 @@ public class Game59State extends ParentGameState
 			stateGame.enterState(DiceGame.MAIN);			
 		}
 	}
-	
-	public void resetRedemption()
-	{
-		// if cancel is hit, deselect things
-		confirmCancelList.resetSelection();
-		threeOfAKindList.resetSelection();
-		fourOfAKindGroup.resetSelection();
-	}
-	
-	// Update
+		
+	// Update "sub methods"
+	/**
+	 * The method called by update when player has not rolled the dice and has not began redeeming a hand. 
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateNoRollNoRedeem(int clickPositionX, int clickPositionY)
 	{
 		if(rollButton.isWithinBound(clickPositionX, clickPositionY))
@@ -257,33 +419,53 @@ public class Game59State extends ParentGameState
 		}
 	}
 	
+	/**
+	 * The method called by update when the player has rolled but hasn't confirmed it and hasn't started
+	 * to redeem a hand. 
+	 * @param clickPositionX X coordinate of the mouse click.
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateNoConfirmRollNoRedeem(int clickPositionX, int clickPositionY)
-	{
-		mainDiceHandler.isWithinBound(clickPositionX, clickPositionY);
-		
-		if(mainDiceHandler.getSelected() != 0)
+	{	
+		if(!DiceGame.doublesRule || !mainDiceHandler.getDoubles()) // no doubles rule
 		{
-			if(mainDieSelectedConfirmButton.isWithinBound(clickPositionX, clickPositionY))
+			mainDiceHandler.isWithinBound(clickPositionX, clickPositionY);
+			if(mainDiceHandler.getSelected() != 0)
 			{
-				if(mainDiceHandler.getSelected() == 1)
+				if(mainDieSelectedConfirmButton.isWithinBound(clickPositionX, clickPositionY))
 				{
-					confirmMainDieSelected(mainDiceHandler.getDie1(), mainDiceHandler.getDie2());
+					if(mainDiceHandler.getSelected() == 1)
+					{
+						confirmMainDieSelected(mainDiceHandler.getDie1(), mainDiceHandler.getDie2());
+					}
+					else // diceHandler.getSelected() == 2
+					{
+						confirmMainDieSelected(mainDiceHandler.getDie2(), mainDiceHandler.getDie1());
+					}
+					hasConfirmedRoll = true;
 				}
-				else // diceHandler.getSelected() == 2
-				{
-					confirmMainDieSelected(mainDiceHandler.getDie2(), mainDiceHandler.getDie1());
-				}
-				hasConfirmedRoll = true;
-				setCurrentHand(); // with new value things in queue move so need to reset current hand
 			}
 		}
-
+		else // DiceGame.doublesRule && mainDiceHandler.getDoubles()
+		{
+			mainDiceHandler.isWithinBoundDoubles(clickPositionX, clickPositionY);
+			if(mainDieSelectedConfirmButton.isWithinBound(clickPositionX, clickPositionY))
+			{
+				confirmMainDieSelectedDoubles(mainDiceHandler.getDie1(), mainDiceHandler.getDie2(), mainDiceHandler.getSelected());
+				hasConfirmedRoll = true;
+			}			
+		}
 		if(largeQueue.isWithinBound(clickPositionX, clickPositionY))
 		{
 			setCurrentHand();
 		}
 	}
 	
+	/**
+	 * The method called by update when the player has rolled and confirmed it but has not began to redeem a hand. 
+	 * @param clickPositionX X coordinate of the mouse click
+	 * @param clickPositionY Y coordinate of the mouse click
+	 */
 	public void updateNoRedeem(int clickPositionX, int clickPositionY)
 	{
 		if(largeQueue.isWithinBound(clickPositionX, clickPositionY))
@@ -305,6 +487,12 @@ public class Game59State extends ParentGameState
 		}
 	}
 	
+	/**
+	 * The method called by update when the player has rolled and confirmed it and has begun redeeming a hand but has 
+	 * not confirmed redeeming their hand. 
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateNoConfirmRedeem (int clickPositionX, int clickPositionY)
 	{
 
@@ -366,6 +554,11 @@ public class Game59State extends ParentGameState
 				
 	}
 	
+	/**
+	 * The method called by update when the player has rolled, redeemed, and confirmed both of these actions. 
+	 * @param clickPositionX X coordinate of the mouse click. 
+-	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateAllConfirmed(int clickPositionX, int clickPositionY)
 	{
 		if(endTurnButton.isWithinBound(clickPositionX, clickPositionY))
@@ -374,9 +567,13 @@ public class Game59State extends ParentGameState
 		}		
 	}
 	
+	/**
+	 * The method called by update when the player hasn't rolled, but has redeemed and hasn't confirmed that redeem.  
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateNoRollNoConfirmRedeem(int clickPositionX, int clickPositionY)
 	{
-		
 		int confirmCancelDecision = -1; // 0 means confirm was hit, 1 means cancel was hit
 		
 		if(currentHand == Hands.THREE_OF_KIND)
@@ -435,6 +632,11 @@ public class Game59State extends ParentGameState
 		}
 	}
 	
+	/**
+	 * The method called by update when the player has not rolled but has redeemed a hand and confirmed it. 
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateNoRoll(int clickPositionX, int clickPositionY)
 	{
 		if(rollButton.isWithinBound(clickPositionX, clickPositionY))
@@ -444,29 +646,52 @@ public class Game59State extends ParentGameState
 		}		
 	}
 	
+	/**
+	 * The method called by update when the player has rolled but has not confirmed it and has redeemed a hand and 
+	 * confirmed it. 
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateNoConfirmRoll (int clickPositionX, int clickPositionY)
 	{
-		mainDiceHandler.isWithinBound(clickPositionX, clickPositionY);
-		if(mainDiceHandler.getSelected() != 0)
+		if(!DiceGame.doublesRule || !mainDiceHandler.getDoubles()) // no doubles rule
 		{
+			mainDiceHandler.isWithinBound(clickPositionX, clickPositionY);
+			if(mainDiceHandler.getSelected() != 0)
+			{
+				if(mainDieSelectedConfirmButton.isWithinBound(clickPositionX, clickPositionY))
+				{
+					if(mainDiceHandler.getSelected() == 1)
+					{
+						confirmMainDieSelected(mainDiceHandler.getDie1(), mainDiceHandler.getDie2());
+					}
+					else // diceHandler.getSelected() == 2
+					{
+						confirmMainDieSelected(mainDiceHandler.getDie2(), mainDiceHandler.getDie1());
+					}
+					hasConfirmedRoll = true;
+				}
+			}
+		}
+		else // DiceGame.doublesRule && mainDiceHandler.getDoubles()
+		{
+			mainDiceHandler.isWithinBoundDoubles(clickPositionX, clickPositionY);
 			if(mainDieSelectedConfirmButton.isWithinBound(clickPositionX, clickPositionY))
 			{
-				if(mainDiceHandler.getSelected() == 1)
-				{
-					confirmMainDieSelected(mainDiceHandler.getDie1(), mainDiceHandler.getDie2());
-				}
-				else // diceHandler.getSelected() == 2
-				{
-					confirmMainDieSelected(mainDiceHandler.getDie2(), mainDiceHandler.getDie1());
-				}
+				confirmMainDieSelectedDoubles(mainDiceHandler.getDie1(), mainDiceHandler.getDie2(), mainDiceHandler.getSelected());
 				hasConfirmedRoll = true;
-				setCurrentHand();
-			}
+			}			
 		}
 	}
 	
 	// SpecialHandsUpdateMethods
-	
+	/**
+	 * The method called by updateNoConfirmRedeem or updateNoRollNoConfirmRedeem when the player tries to redeem a pair, 
+	 * a five of a kind, or any type of run and needs to confirm it.   
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 * @return integer of whether the confirm button or cancel button was hit or neither.  
+	 */
 	public int updateConfirmSimpleHands (int clickPositionX, int clickPositionY)
 	{
 		int result = -1;
@@ -480,6 +705,13 @@ public class Game59State extends ParentGameState
 		return result;
 	}
 	
+	/**
+	 * The method called by updateNoConfirmRedeem or updateNoRollNoConfirmRedeem when the player tries to redeem a 
+	 * three of a kind and needs to confirm it.   
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 * @return integer of whether the confirm button or cancel button was hit or neither. 
+	 */
 	public int updateConfirmThreeOfAKind (int clickPositionX, int clickPositionY)
 	{
 		int result = -1;
@@ -505,7 +737,13 @@ public class Game59State extends ParentGameState
 		return result;
 	}
 	
-	
+	/**
+	 * The method called by updateNoConfirmRedeem or updateNoRollNoConfirmRedeem when a player tries to redeem a 
+	 * four of a kind and needs to confirm it. 
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 * @return integer of whether the confirm button or cancel button was hit or neither.
+	 */
 	public int updateConfirmFourOfAKind (int clickPositionX, int clickPositionY)
 	{	
 		int result = -1;
@@ -531,53 +769,12 @@ public class Game59State extends ParentGameState
 		
 		return result;
 	}
-	
-
-	
-	public void threeOfAKindAction(int selectedIndex)
-	{
-		// selectedIndex is also the number printed on that item of selection list, just lined up properly
-		getCurrentPlayerObject().changeScore(selectedIndex, true);
-		if(playerNumberTurn != 1)
-		{
-			player1.changeScore(3-selectedIndex, false);
-		}
-		if(playerNumberTurn != 2)
-		{
-			player2.changeScore(3-selectedIndex, false);
-		}
-		if(playerNumberTurn != 3)
-		{
-			player3.changeScore(3-selectedIndex, false);
-		}
-		if(playerNumberTurn != 4)
-		{
-			player4.changeScore(3-selectedIndex, false);
-		}
-	}
-	
-	public void fourOfAKindAction(int firstIndex, int secondIndex)
-	{
-		// firstIndex is for X, secondIndex is for Y, selectedIndex+1 so it lines up properly
-		getCurrentPlayerObject().changeScore(firstIndex*(secondIndex+1), true);
-		if(playerNumberTurn != 1)
-		{
-			player1.changeScore(6-firstIndex*(secondIndex+1), false);
-		}
-		if(playerNumberTurn != 2)
-		{
-			player2.changeScore(6-firstIndex*(secondIndex+1), false);
-		}
-		if(playerNumberTurn != 3)
-		{
-			player3.changeScore(6-firstIndex*(secondIndex+1), false);
-		}
-		if(playerNumberTurn != 4)
-		{
-			player4.changeScore(6-firstIndex*(secondIndex+1), false);
-		}
-	}	
-	
+		
+	/**
+	 * The method called by update when the player has confirmed the redemption of a run and needs to roll dice for it. 
+	 * @param clickPositionX X coordinate of the mouse click. 
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
 	public void updateIsConfirmingRun (int clickPositionX, int clickPositionY)
 	{
 		runDiceHandler.isWithinBound(clickPositionX, clickPositionY);
@@ -605,8 +802,448 @@ public class Game59State extends ParentGameState
 		}	
 	}
 	
+	// Rendering
+	/**
+	 * The method called by render every frame for objects that must always be rendered. 
+	 * @param gameContainer
+	 * @param stateGame
+	 * @param g
+	 */
+	public void alwaysRender (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		// diceHandler.render(gameContainer, stateGame, g);
+		player1.render(gameContainer, stateGame, g);
+		player2.render(gameContainer, stateGame, g);
+		player3.render(gameContainer, stateGame, g);
+		player4.render(gameContainer, stateGame, g);
+		pokerBox.render(gameContainer, stateGame, g);
+		exitButton.render(gameContainer, stateGame, g);
+		variantAlwaysRender(gameContainer, stateGame, g);
+	}
 	
-	// maybe other methods to help updateIsConfirmingRun
+	/**
+	 * The method called by alwaysRender to render objects related to variant rules that are rendered every frame if
+	 * those variant rules are chosen. 
+	 * @param gameContainer
+	 * @param stateGame
+	 * @param g
+	 */
+	public void variantAlwaysRender (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		if(DiceGame.sumRule)
+		{	
+			sumDifferenceBox.SetText("" + playerSumDifference);
+			sumDifferenceBox.render(gameContainer, stateGame, g);
+		}
+
+	}	
+	
+	/**
+	 * The method called by render when the player has not rolled the dice and has not begun redeeming a hand. 
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game.
+	 * @param g Graphics object to used for drawing boxes and text to the screen.
+	 */
+	public void renderNoRollNoRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		rollButton.render(gameContainer, stateGame, g);
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		largeQueue.render(gameContainer, stateGame, g);
+		if(currentHand != Hands.NONE)
+		{
+			redeemButton.render(gameContainer, stateGame, g);
+		}
+		QPromptBox.render(gameContainer, stateGame, g);
+	}
+	
+	/**
+	 * The method called by render when the player has rolled but has not confirmed it and has not redeemed a hand. 
+	 * @param gameContainer the appGameContainer that holds the game.
+	 * @param stateGame the actual game.
+	 * @param g Graphics object used for drawing boxes and text to the screen. 
+	 */
+	public void renderNoConfirmRollNoRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		if(!DiceGame.doublesRule || !mainDiceHandler.getDoubles()) // no doubles rule or no doubles
+		{
+			if(mainDiceHandler.getSelected() != 0)
+			{
+				mainDieSelectedConfirmButton.render(gameContainer, stateGame, g);
+			}
+		}
+		else // doubles rule and doubles
+		{
+			mainDieSelectedConfirmButton.render(gameContainer, stateGame, g);
+		}
+		largeQueue.render(gameContainer, stateGame, g);
+		QPromptBox.render(gameContainer, stateGame, g);
+	}
+	
+	/**
+	 * The method called by render when the player has rolled but has not redeemed a hand. 
+	 * @param gameContainer the appGameContainer that holds the game.  
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen. 
+	 */
+	public void renderNoRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		largeQueue.render(gameContainer, stateGame, g);
+		if(currentHand != Hands.NONE)
+		{
+			redeemButton.render(gameContainer, stateGame, g);
+		}
+		endTurnButton.render(gameContainer, stateGame, g);
+		QPromptBox.render(gameContainer, stateGame, g);	
+	}
+
+	/**
+	 * The method called by render when the palyer has rolled and confirmed it but has not redeemed a hand. 
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game.
+	 * @param g Graphics object used for drawing boxes and text to the screen. 
+	 */
+	public void renderNoConfirmRedeem (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		largeQueue.render(gameContainer, stateGame, g);
+		
+		if(currentHand == Hands.THREE_OF_KIND)
+		{
+			renderConfirmThreeOfAKind (gameContainer, stateGame, g);	
+		}
+		else if (currentHand == Hands.FOUR_OF_KIND)
+		{
+			renderConfirmFourOfAKind (gameContainer, stateGame, g);
+		}
+		else // all other hand types
+		{
+			renderConfirmSimpleHands (gameContainer, stateGame, g);
+		}
+		
+		QPromptBox.render(gameContainer, stateGame, g);
+	}
+
+	/**
+	 * The method called by render when the player has rolled, redeemed a hand, and confirmed both. 
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderAllConfirmed(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		endTurnButton.render(gameContainer, stateGame, g);
+		finishedRedeemBox.render(gameContainer, stateGame, g);
+	}
+	
+	/**
+	 * The method called by render when the player has not rolled but has redeemed a hand and has not confirmed that redemption. 
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game.
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderNoRollNoConfirmRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		largeQueue.render(gameContainer, stateGame, g);
+		
+		if(currentHand == Hands.THREE_OF_KIND)
+		{
+			renderConfirmThreeOfAKind (gameContainer, stateGame, g);	
+		}
+		else if (currentHand == Hands.FOUR_OF_KIND)
+		{
+			renderConfirmFourOfAKind (gameContainer, stateGame, g);
+		}
+		else // all other hand types
+		{
+			renderConfirmSimpleHands (gameContainer, stateGame, g);
+		}
+			
+		QPromptBox.render(gameContainer, stateGame, g);
+	}
+
+	/**
+	 * The method called by render when the player has not rolled but has redeemed a hand and confirmed it.  
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderNoRoll(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		rollButton.render(gameContainer, stateGame, g);
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		finishedRedeemBox.render(gameContainer, stateGame, g);
+	}
+
+	/**
+	 * The method called by render when the player has rolled but has not confirmed it and has redeemed and confirmed it. 
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderNoConfirmRoll (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		if(!DiceGame.doublesRule || !mainDiceHandler.getDoubles()) // no doubles rule or no doubles
+		{
+			if(mainDiceHandler.getSelected() != 0)
+			{
+				mainDieSelectedConfirmButton.render(gameContainer, stateGame, g);
+			}
+		}
+		else // doubles rule and doubles
+		{
+			mainDieSelectedConfirmButton.render(gameContainer, stateGame, g);
+		}
+		finishedRedeemBox.render(gameContainer, stateGame, g);
+	}
+
+	// SpecialHandsRenderMethods
+	/**
+	 * The method called by renderNoConfirmRedeem or renderNoRollNoConfirmRedeem when a player tries to redeem a pair,
+	 * a five of a kind, or any run and needs to confirm it.  
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderConfirmSimpleHands (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		confirmCancelList.render(gameContainer, stateGame, g);
+	}
+
+	/**
+	 * The method called by renderNoConfirmRedeem or renderNoRollNoConfirmRedeem when a player tries to redeem a three of
+	 * a kind and needs to confirm it.  
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderConfirmThreeOfAKind (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		threeOfAKindList.render(gameContainer, stateGame, g);
+		if(threeOfAKindList.getSelectedIndex() != -1)
+		{
+			confirmCancelList.render(gameContainer, stateGame, g);
+		}
+	}
+	
+	/**
+	 * The method called by renderNoConfirmRedeem or renderNoRollNoConfirmRedeem when a player tries to redeem a four of
+	 * a kind and needs to confirm it. 
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderConfirmFourOfAKind (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		fourOfAKindGroup.render(gameContainer, stateGame, g);
+		if(fourOfAKindGroup.getSelectionListAtIndex(0).getSelectedIndex() != -1 && fourOfAKindGroup.getSelectionListAtIndex(1).getSelectedIndex() != -1)		
+		{
+			confirmCancelList.render(gameContainer, stateGame, g);
+		}
+	}
+	
+	/**
+	 * The method called by render when the player has redeemed a run, confirmed it, and needs to roll the dice for it. 
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object used for drawing boxes and text to the screen.
+	 */
+	public void renderIsConfirmingRun (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	{
+		mainDiceHandler.render(gameContainer, stateGame, g);
+		runDiceHandler.render(gameContainer, stateGame, g);
+		QPromptBox.render(gameContainer, stateGame, g);
+		if(runDiceHandler.getSelected() != 0)
+		{
+			runDieSelectedConfirmButton.render(gameContainer, stateGame, g);
+		}
+		
+	}
+		
+	/**
+	 * Method used to get the object of the player whose turn it is currently. 
+	 * @return the actual player object requested. 
+	 */
+	public Player getCurrentPlayerObject()
+	{
+		Player result;
+		
+		if(playerNumberTurn == 1)
+		{
+			result = player1;
+		}
+		else if(playerNumberTurn == 2)
+		{
+			result = player2;
+		}
+		else if (playerNumberTurn == 3)
+		{
+			result = player3;
+		}
+		else // playerNumberTurn == 4
+		{
+			result = player4;
+		}
+		return result;
+	}
+	
+	/**
+	 * The method called by update when the current turn is ended to start a new turn by resetting variables and changing
+	 * whose turn it is.  
+	 */
+	public void newTurn()
+	{
+		getCurrentPlayerObject().InvertAllBoxes();
+
+		// update playerNumberTurn
+		if((playerNumberTurn) < 4)
+		{
+			playerNumberTurn++;
+		}
+		else
+		{
+			playerNumberTurn = 1;
+		}
+		// show selected player
+		getCurrentPlayerObject().InvertAllBoxes();
+				
+		// Reset Booleans
+		hasRolled = false;
+		hasRedeemed = false;
+		hasConfirmedRoll = false;
+		hasConfirmedRedeem = false;
+		isConfirmingRun = false;
+		endCurrentTurn = false;
+		// reset enums
+
+		currentHand = Hands.NONE;
+		confirmedHandForThisTurn = Hands.NONE;
+	
+		// reset objects
+		mainDiceHandler.resetDice();
+		runDiceHandler.resetDice();
+		largeQueue.resetSelections();
+		// set largeQueue values
+		largeQueue.setValues(getCurrentPlayerObject().getQueueValues());
+		resetRedemption();
+		QPromptBox.SetText("None");
+		// first turn logic
+	}
+
+	/**
+	 * The method called by alwaysUpdate to check if any player has won the game yet. 
+	 * @return The integer of the player's number who won the game. 0 if nobody has won. 
+	 */
+	public int checkForWin()
+	{
+		int winnerIs = 0;
+		
+		if(player1.checkForWin() != 0)
+		{
+			winnerIs = player1.checkForWin();	
+		}
+		if(player2.checkForWin() != 0)
+		{
+			winnerIs = player2.checkForWin();
+		}
+		if(player3.checkForWin() != 0)
+		{
+			winnerIs = player3.checkForWin();
+		}
+		if(player4.checkForWin() != 0)
+		{
+			winnerIs = player4.checkForWin();
+		}
+		
+		if(winnerIs == 0)
+		{
+			if(DiceGame.sumRule)
+			{
+				winnerIs = variantCheckForWin();
+			}
+		}
+		if(winnerIs != 0)
+		{
+			exitButton.SetSelected(true); // for end screen graphics
+		}
+		return winnerIs;
+	}
+	
+	/**
+	 * The method called by checkForWin if variant rules for new win conditions have been choosen.
+	 * @return The integer of the player's number who won the game. 0 if nobody has won.
+	 */
+	public int variantCheckForWin()
+	{
+		int result = 0;
+		int sum = player1.getScore() + player2.getScore() + player3.getScore() + player4.getScore();
+		if(sum == DiceGame.SUM_NUM_TO_WIN)
+		{
+			result = playerNumberTurn;
+		}
+		playerSumDifference = sum - DiceGame.SUM_NUM_TO_WIN; // calculate so textbox render correctly
+		return result;
+	}
+	
+	/**
+	 * The method called by updateNoConfirmRollNoRedeem or updateNoConfirmRoll to add the selected die to the 
+	 * current player's score and the unselected die to the currentPlayer's queue.  
+	 * @param dieSelected
+	 * @param unSelected
+	 */
+	public void confirmMainDieSelected(int dieSelected, int unSelected)
+	{
+		getCurrentPlayerObject().addMainDieValue(dieSelected, unSelected);
+		largeQueue.setValues(getCurrentPlayerObject().getQueueValues());
+		setCurrentHand(); // with new value things in queue move so need to reset current hand
+	}
+	
+	/**
+	 * The method called by updateNoConfirmRollNoRedeem or updateNoConfirmRoll when doubles are rolled and the doubles
+	 * variant rule is chosen. It adds selected dice to score and unselected dice to queue. 
+	 * @param die1 
+	 * @param die2 
+	 * @param diceSelected 
+	 */
+	public void confirmMainDieSelectedDoubles(int die1, int die2, int diceSelected)
+	{
+		getCurrentPlayerObject().addMainDieValueDoubles(die1, die2, diceSelected);
+		largeQueue.setValues(getCurrentPlayerObject().getQueueValues());
+		setCurrentHand(); // with new value things in queue move so need to reset current hand
+	}
+	
+	// when I click on the largeQueue I need to setCurrentHand, and update QPromptBox
+	/**
+	 * The method used to figure out what hand is formed by the current large queue selections.
+	 */
+	public void setCurrentHand()
+	{
+		queueAnalyzer = new QueueAnalyzer (largeQueue.getSelectedValues());
+		currentHand = queueAnalyzer.handFinder();
+		QPromptBox.SetText(currentHand.toString());
+	}
+	
+	/**
+	 * The method called by updateNoRollNoConfirmRedeen or updateNoConfirmRedeem when the cancel button is hit while
+	 * a player had redeemed a hand but not confirmed it. Also used by newTurn. 
+	 */
+	public void resetRedemption()
+	{
+		// if cancel is hit, deselect things
+		confirmCancelList.resetSelection();
+		threeOfAKindList.resetSelection();
+		fourOfAKindGroup.resetSelection();
+	}
+
+	/**
+	 * The method called by updateIsConfirmingRun when a player rolls the dice and has selected one to go to his queue. 
+	 * @param dieSelected the value of the die that is selected.
+	 * @param unSelected the value of the die that is unselected.
+	 */
 	public void confirmRunDieSelected(int dieSelected, int unSelected)
 	{
 		getCurrentPlayerObject().addRunDie(dieSelected);
@@ -651,342 +1288,58 @@ public class Game59State extends ParentGameState
 		}
 	}
 	
-	
-	// Rendering
-	public void renderNoRollNoRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	/**
+	 * The method called when a player confirms a three of a kind to add X to his score and subtract 3-X from 
+	 * opponents' scores. 
+	 * @param selectedIndex the index of the selectionList that chooses X for the three of a kind action. 
+	 */
+	public void threeOfAKindAction(int selectedIndex)
 	{
-		rollButton.render(gameContainer, stateGame, g);
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		largeQueue.render(gameContainer, stateGame, g);
-		if(currentHand != Hands.NONE)
+		// selectedIndex is also the number printed on that item of selection list, just lined up properly
+		getCurrentPlayerObject().changeScore(selectedIndex, true);
+		if(playerNumberTurn != 1)
 		{
-			redeemButton.render(gameContainer, stateGame, g);
+			player1.changeScore(3-selectedIndex, false);
 		}
-		QPromptBox.render(gameContainer, stateGame, g);
-	}
-	
-	public void renderNoConfirmRollNoRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		if(mainDiceHandler.getSelected() != 0)
+		if(playerNumberTurn != 2)
 		{
-			mainDieSelectedConfirmButton.render(gameContainer, stateGame, g);
+			player2.changeScore(3-selectedIndex, false);
 		}
-		largeQueue.render(gameContainer, stateGame, g);
-		QPromptBox.render(gameContainer, stateGame, g);
-	}
-	
-	public void renderNoRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		largeQueue.render(gameContainer, stateGame, g);
-		if(currentHand != Hands.NONE)
+		if(playerNumberTurn != 3)
 		{
-			redeemButton.render(gameContainer, stateGame, g);
+			player3.changeScore(3-selectedIndex, false);
 		}
-		endTurnButton.render(gameContainer, stateGame, g);
-		QPromptBox.render(gameContainer, stateGame, g);	
-	}
-	
-	public void renderNoConfirmRedeem (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		largeQueue.render(gameContainer, stateGame, g);
-		
-		if(currentHand == Hands.THREE_OF_KIND)
+		if(playerNumberTurn != 4)
 		{
-			renderConfirmThreeOfAKind (gameContainer, stateGame, g);	
-		}
-		else if (currentHand == Hands.FOUR_OF_KIND)
-		{
-			renderConfirmFourOfAKind (gameContainer, stateGame, g);
-		}
-		else // all other hand types
-		{
-			renderConfirmSimpleHands (gameContainer, stateGame, g);
-		}
-		
-		QPromptBox.render(gameContainer, stateGame, g);
-	}
-	
-	public void renderAllConfirmed(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		endTurnButton.render(gameContainer, stateGame, g);
-		finishedRedeemBox.render(gameContainer, stateGame, g);
-	}
-	
-	public void renderNoRollNoConfirmRedeem(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		largeQueue.render(gameContainer, stateGame, g);
-		
-		if(currentHand == Hands.THREE_OF_KIND)
-		{
-			renderConfirmThreeOfAKind (gameContainer, stateGame, g);	
-		}
-		else if (currentHand == Hands.FOUR_OF_KIND)
-		{
-			renderConfirmFourOfAKind (gameContainer, stateGame, g);
-		}
-		else // all other hand types
-		{
-			renderConfirmSimpleHands (gameContainer, stateGame, g);
-		}
-			
-		QPromptBox.render(gameContainer, stateGame, g);
-	}
-	
-	public void renderNoRoll(GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		rollButton.render(gameContainer, stateGame, g);
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		finishedRedeemBox.render(gameContainer, stateGame, g);
-	}
-	
-	public void renderNoConfirmRoll (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		if(mainDiceHandler.getSelected() != 0)
-		{
-			mainDieSelectedConfirmButton.render(gameContainer, stateGame, g);
-		}
-		finishedRedeemBox.render(gameContainer, stateGame, g);
-	}
-
-	// SpecialHandsRenderMethods
-	
-	public void renderConfirmSimpleHands (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		confirmCancelList.render(gameContainer, stateGame, g);
-	}
-
-	public void renderConfirmThreeOfAKind (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		threeOfAKindList.render(gameContainer, stateGame, g);
-		if(threeOfAKindList.getSelectedIndex() != -1)
-		{
-			confirmCancelList.render(gameContainer, stateGame, g);
+			player4.changeScore(3-selectedIndex, false);
 		}
 	}
 	
-	public void renderConfirmFourOfAKind (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
+	/**
+	 * The method called when a player confirms a three of a kind to add X* to his score and subtract 6-X*Y from
+	 * opponents' scores. 
+	 * @param firstIndex the index of the selectionList that chooses X. 
+	 * @param secondIndex the index of the selectionList that chooses Y.
+	 */
+	public void fourOfAKindAction(int firstIndex, int secondIndex)
 	{
-		fourOfAKindGroup.render(gameContainer, stateGame, g);
-		if(fourOfAKindGroup.getSelectionListAtIndex(0).getSelectedIndex() != -1 && fourOfAKindGroup.getSelectionListAtIndex(1).getSelectedIndex() != -1)		
+		// firstIndex is for X, secondIndex is for Y, selectedIndex+1 so it lines up properly
+		getCurrentPlayerObject().changeScore(firstIndex*(secondIndex+1), true);
+		if(playerNumberTurn != 1)
 		{
-			confirmCancelList.render(gameContainer, stateGame, g);
+			player1.changeScore(6-firstIndex*(secondIndex+1), false);
 		}
-	}
-	
-	public void renderIsConfirmingRun (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		mainDiceHandler.render(gameContainer, stateGame, g);
-		runDiceHandler.render(gameContainer, stateGame, g);
-		QPromptBox.render(gameContainer, stateGame, g);
-		if(runDiceHandler.getSelected() != 0)
+		if(playerNumberTurn != 2)
 		{
-			runDieSelectedConfirmButton.render(gameContainer, stateGame, g);
+			player2.changeScore(6-firstIndex*(secondIndex+1), false);
 		}
-		
-	}
-		
-	// always render method
-	public void alwaysRender (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		// diceHandler.render(gameContainer, stateGame, g);
-		player1.render(gameContainer, stateGame, g);
-		player2.render(gameContainer, stateGame, g);
-		player3.render(gameContainer, stateGame, g);
-		player4.render(gameContainer, stateGame, g);
-		pokerBox.render(gameContainer, stateGame, g);
-		rulesButton.render(gameContainer, stateGame, g);
-		exitButton.render(gameContainer, stateGame, g);
-		variantAlwaysRender(gameContainer, stateGame, g);
-	}
-	
-	public void variantAlwaysRender (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
-	{
-		if(DiceGame.sumRule)
-		{	
-			sumDifferenceBox.SetText("" + playerSumDifference);
-			sumDifferenceBox.render(gameContainer, stateGame, g);
+		if(playerNumberTurn != 3)
+		{
+			player3.changeScore(6-firstIndex*(secondIndex+1), false);
 		}
-
-	}
-	
-	@Override
-	public void update(GameContainer gameContainer, StateBasedGame stateGame, int delta) throws SlickException 
-	{
-		updateAlwaysNoClicking();
-		Input input = gameContainer.getInput();
-		if (input.isMousePressed(0))
+		if(playerNumberTurn != 4)
 		{
-			int mouseX = input.getMouseX();
-			int mouseY = input.getMouseY();
-			
-			updateAlwaysClicking(stateGame, mouseX, mouseY);
-			if(whoWonTheGame != 0)
-			{
-				// don't allow anything except hitting exit or rules
-			}
-			else if(isConfirmingRun)
-			{
-				updateIsConfirmingRun(mouseX, mouseY);
-			}
-			else if(!hasRolled && !hasRedeemed)
-			{
-				updateNoRollNoRedeem(mouseX, mouseY);
-			}
-			else if (hasRolled && !hasConfirmedRoll && !hasRedeemed)
-			{
-				updateNoConfirmRollNoRedeem(mouseX, mouseY);
-			}
-			else if (hasConfirmedRoll && !hasRedeemed)
-			{
-				updateNoRedeem(mouseX, mouseY);
-			}
-			else if (hasConfirmedRoll && hasRedeemed && !hasConfirmedRedeem)
-			{
-				updateNoConfirmRedeem(mouseX, mouseY);
-			}
-			else if (hasConfirmedRoll && hasConfirmedRedeem)
-			{
-				updateAllConfirmed(mouseX, mouseY);
-			}
-			else if (!hasRolled && hasRedeemed && !hasConfirmedRedeem)
-			{
-				updateNoRollNoConfirmRedeem(mouseX, mouseY);
-			}
-			else if(!hasRolled && hasConfirmedRedeem)
-			{
-				updateNoRoll(mouseX, mouseY);
-			}
-			else if (hasRolled && !hasConfirmedRoll && hasConfirmedRedeem)
-			{
-				updateNoConfirmRoll(mouseX, mouseY);
-			}
-			if(endCurrentTurn == true)
-			{
-				// logic for pair
-				if(confirmedHandForThisTurn == Hands.PAIR)
-				{
-					// by re-checking the hand when dice confirmed it overrides what was there
-					// only affecting pair. 
-					System.out.println ("TRIED TO SKIP TURN");
-					newTurn();
-				}
-				newTurn();
-			}
+			player4.changeScore(6-firstIndex*(secondIndex+1), false);
 		}
-	}
-	
-	@Override
-	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
-	{
-		g.setBackground(Color.white); // move to enter??
-		alwaysRender(gameContainer, stateGame, g);
-
-		if(whoWonTheGame != 0)
-		{
-			whoWonTheGameBox.SetText("Player " + whoWonTheGame + " Wins!");
-			whoWonTheGameBox.render(gameContainer, stateGame, g);
-			exitButton.render(gameContainer, stateGame, g);
-		}	
-		else if(isConfirmingRun)
-		{
-			renderIsConfirmingRun(gameContainer, stateGame, g);
-		}
-		else if(!hasRolled && !hasRedeemed)
-		{
-			renderNoRollNoRedeem(gameContainer, stateGame, g);
-		}
-		else if (hasRolled && !hasConfirmedRoll && !hasRedeemed)
-		{
-			renderNoConfirmRollNoRedeem(gameContainer, stateGame, g);
-		}
-		else if (hasConfirmedRoll && !hasRedeemed)
-		{
-			renderNoRedeem(gameContainer, stateGame, g);
-		}
-		else if (hasConfirmedRoll && hasRedeemed && !hasConfirmedRedeem)
-		{
-			renderNoConfirmRedeem(gameContainer, stateGame, g);
-		}
-		else if (hasConfirmedRoll && hasConfirmedRedeem)
-		{
-			renderAllConfirmed(gameContainer, stateGame, g);
-		}
-		else if (!hasRolled && hasRedeemed && !hasConfirmedRedeem)
-		{
-			renderNoRollNoConfirmRedeem(gameContainer, stateGame, g);
-		}
-		else if(!hasRolled && hasConfirmedRedeem)
-		{
-			renderNoRoll(gameContainer, stateGame, g);
-		}
-		else if (hasRolled && !hasConfirmedRoll && hasConfirmedRedeem)
-		{
-			renderNoConfirmRoll(gameContainer, stateGame, g);
-		}					
-	}
-	
-	@Override
-	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
-	{
-		super.enter(gameContainer, stateGame);
-		
-		largeQueue = new LargeQueue(DiceGame.mediumFont);
-		player1 = new Player("Player 1", 1, DiceGame.smallFont);
-		player2 = new Player("Player 2", 2, DiceGame.smallFont);
-		player3 = new Player("Player 3", 3, DiceGame.smallFont);
-		player4 = new Player("Player 4", 4, DiceGame.smallFont);
-		mainDiceHandler = new DiceHandler(DiceGame.largeFont, DiceGame.smallFont, true);
-		endTurnButton = new CenteredTextButton("End Turn", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);
-		rollButton = new CenteredTextButton("Roll", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);
-		QPromptBox = new CenteredTextBox("None", Place.GS_QPROMPTBOX_XPOS, Place.GS_QPROMPTBOX_YPOS, Place.GS_QPROMPTBOX_WIDTH, Place.GS_QPROMPTBOX_HEIGHT, DiceGame.smallFont);
-		rulesButton = new CenteredTextButton("View Rules", Place.GS_RULESBUTTON_XPOS, Place.GS_RULESBUTTON_YPOS, Place.GS_RULESBUTTON_WIDTH, Place.GS_RULESBUTTON_HEIGHT, DiceGame.smallFont);
-		exitButton = new CenteredTextButton("Return to Main", Place.GS_EXITBUTTON_XPOS, Place.GS_EXITBUTTON_YPOS, Place.GS_EXITBUTTON_WIDTH, Place.GS_EXITBUTTON_HEIGHT, DiceGame.smallFont);
-		finishedRedeemBox = new CenteredTextBox("Redeemed", Place.GS_FINISHEDREDEEMBOX_XPOS, Place.GS_FINISHEDREDEEMBOX_YPOS, Place.GS_FINISHEDREDEEMBOX_WIDTH, Place.GS_FINISHEDREDEEMBOX_HEIGHT, DiceGame.smallFont); 
-		pokerBox = new PokerBox(DiceGame.smallFont);
-		
-		mainDieSelectedConfirmButton = new CenteredTextButton("Confirm Dice", Place.GS_ENDTURNROLLDIECONFIRM_XPOS, Place.GS_ENDTURNROLLDIECONFIRM_YPOS, Place.GS_ENDTURNROLLDIECONFIRM_WIDTH, Place.GS_ENDTURNROLLDIECONFIRM_HEIGHT, DiceGame.smallFont);		
-		redeemButton = new CenteredTextButton("Redeem Hand", Place.GS_REDEEMBUTTON_XPOS, Place.GS_REDEEMBUTTON_YPOS, Place.GS_REDEEMBUTTON_WIDTH, Place.GS_REDEEMBUTTON_HEIGHT, DiceGame.smallFont);
-		
-		// whoWonTheGameBox
-		whoWonTheGameBox = new CenteredTextBox("", Place.GS_WHOWONTHEGAMEBOX_XPOS, Place.GS_WHOWONTHEGAMEBOX_YPOS, Place.GS_WHOWONTHEGAMEBOX_WIDTH, Place.GS_WHOWONTHEGAMEBOX_HEIGHT, DiceGame.largeFont);
-		// set Selected to true so it shows up black and goes over rest
-		whoWonTheGameBox.SetSelected(true);
-		
-		// new objects
-		runDiceHandler = new DiceHandler(DiceGame.largeFont, DiceGame.smallFont, false);
-		runDieSelectedConfirmButton = new CenteredTextButton("Confirm Dice", Place.GS_RUNDIECONFIRMBUTTON_XPOS, Place.GS_RUNDIECONFIRMBUTTON_YPOS, Place.GS_RUNDIECONFIRMBUTTON_WIDTH, Place.GS_RUNDIECONFIRMBUTTON_HEIGHT, DiceGame.smallFont);
-		threeOfAKindList = new SelectionList(new String[]{"0", "1", "2", "3"}, Place.GS_THREEOFKINDLIST_XPOS, Place.GS_THREEOFKINDLIST_YPOS, Place.GS_THREEOFKINDLIST_WIDTH, Place.GS_THREEOFKINDLIST_HEIGHT);
-		fourOfAKindGroup = new SelectionListGroup(new String [][] {new String[]{"0", "1", "2", "3"},new String[]{"1", "2"}}, Place.GS_FOUROFKINDGROUP_XPOS, Place.GS_FOUROFKINDGROUP_YPOS, Place.GS_FOUROFKINDGROUP_WIDTH, Place.GS_FOUROFKINDGROUP_ELEMENTHEIGHT, Place.GS_FOUROFKINDGROUP_ELEMENTSPACING);
-		confirmCancelList = new SelectionList(new String[]{"Confirm", "Cancel"}, Place.GS_CONFIRMCANCELLIST_XPOS, Place.GS_CONFIRMCANCELLIST_YPOS, Place.GS_CONFIRMCANCELLIST_WIDTH, Place.GS_CONFIRMCANCELLIST_HEIGHT);				
-
-		// variant rules
-		sumDifferenceBox = new CenteredTextBox("-" + DiceGame.SUM_NUM_TO_WIN, Place.GS_SUMDIFFERENCE_XPOS, Place.GS_SUMDIFFERENCE_YPOS, Place.GS_SUMDIFFERENCE_WIDTH, Place.GS_SUMDIFFERENCE_HEIGHT, DiceGame.smallFont);
-		
-		hasRolled = false;
-		hasRedeemed = false;
-		hasConfirmedRoll = false;
-		hasConfirmedRedeem = false;
-		isConfirmingRun = false;
-		
-		runNum = 0;
-		numRunRollsLeft = 0;
-		playerSumDifference = 0;
-		
-		playerNumberTurn = 0;
-		endCurrentTurn = false;
-		firstTurn = true;
-		whoWonTheGame = 0;
-		
-		currentHand = Hands.NONE;
-		confirmedHandForThisTurn = Hands.NONE;
-		
-		newTurn();
-	}
+	}	
 }
-

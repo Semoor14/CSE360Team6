@@ -40,6 +40,7 @@ public class DiceGame extends StateBasedGame
 
     // variables for variant rules
     public static boolean sumRule;
+    public static boolean doublesRule;
     
     /** 
      * initializes font variables to font type
@@ -86,7 +87,7 @@ public class DiceGame extends StateBasedGame
 	{
 		super(name);
 	    sumRule = false;
-		
+		doublesRule = false;
 	}
 	
 	/**

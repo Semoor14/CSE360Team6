@@ -8,6 +8,8 @@ public class SetupState extends ParentGameState
 {   
 	private CenteredTextButton exitButton;
 	private CenteredTextButton sumRuleButton; 
+	private CenteredTextButton doublesRuleButton;
+	private CenteredTextBox titleBox;
 	
 	public SetupState(int sID) 
 	{ 
@@ -18,10 +20,17 @@ public class SetupState extends ParentGameState
 	{ 
 		super.enter(gameContainer, stateGame); 
 		exitButton = new CenteredTextButton("Return to Main", Place.SS_EXITBUTTON_XPOS, Place.SS_EXITBUTTON_YPOS, Place.SS_EXITBUTTON_WIDTH, Place.SS_EXITBUTTON_HEIGHT, DiceGame.smallFont);
-		sumRuleButton = new CenteredTextButton("Sum Rule", Place.SS_SUMRULEBUTTON_XPOS, Place.SS_SUMRULEBUTTON_YPOS, Place.SS_SUMRULEBUTTON_WIDTH, Place.SS_SUMRULEBUTTON_HEIGHT, DiceGame.smallFont);
+		sumRuleButton = new CenteredTextButton("Sum Rule", Place.SS_SUMRULEBUTTON_XPOS, Place.SS_SUMRULEBUTTON_YPOS, Place.SS_SUMRULEBUTTON_WIDTH, Place.SS_SUMRULEBUTTON_HEIGHT, DiceGame.mediumFont);
+		titleBox = new CenteredTextBox("Choose Rules", Place.SS_TITLEBOX_XPOS, Place.SS_TITLEBOX_YPOS, Place.SS_TITLEBOX_WIDTH, Place.SS_TITLEBOX_HEIGHT, DiceGame.mediumFont);
 		if(DiceGame.sumRule)
 		{
 			sumRuleButton.SetSelected(true);
+		}
+		
+		doublesRuleButton = new CenteredTextButton("Doubles Rule", Place.SS_DOUBLESRULEBUTTON_XPOS, Place.SS_DOUBLESRULEBUTTON_YPOS, Place.SS_DOUBLESRULEBUTTON_WIDTH, Place.SS_DOUBLESRULEBUTTON_HEIGHT, DiceGame.mediumFont);
+		if(DiceGame.doublesRule)
+		{
+			doublesRuleButton.SetSelected(true);
 		}
 	}
 	
@@ -29,6 +38,8 @@ public class SetupState extends ParentGameState
 	{ 
 		exitButton.render(gameContainer, stateGame, g);
 		sumRuleButton.render(gameContainer, stateGame, g);
+		doublesRuleButton.render(gameContainer, stateGame, g);
+		titleBox.render(gameContainer, stateGame, g);
 	}
 	
 	public void update(GameContainer gameContainer, StateBasedGame stateGame, int delta) throws SlickException 
@@ -50,11 +61,29 @@ public class SetupState extends ParentGameState
 			{
 				DiceGame.sumRule = true;
 			}
+			else // sumRuleButton.GetSelected() == false
+			{
+				DiceGame.sumRule = false;
+			}
+			
+			if(doublesRuleButton.GetSelected() == true)
+			{
+				DiceGame.doublesRule = true;
+			}
+			else // doublesRuleButton.GetSelected() == false
+			{
+				DiceGame.doublesRule = false;
+			}
 			stateGame.enterState(DiceGame.MAIN);
 		}
 		if(sumRuleButton.isWithinBound(clickPositionX, clickPositionY))
 		{
 			sumRuleButton.InvertSelection();
 		}
+		if(doublesRuleButton.isWithinBound(clickPositionX, clickPositionY))
+		{
+			doublesRuleButton.InvertSelection();
+		}
+
 	}    
 }
