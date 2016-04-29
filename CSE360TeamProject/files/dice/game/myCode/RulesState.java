@@ -3,11 +3,29 @@ package dice.game.myCode;
 import org.newdawn.slick.*; import org.newdawn.slick.state.StateBasedGame;   
 // Referenced classes of package dice.game.myCode: 
 // ParentGameState, CenteredTextButton, DiceGame, ReadRules   
+/**
+ * This class is the state that displays the rules of the game. There are 2 pages to view each with near 20 strings, 1 string
+ * per line. It allows players to toggle which page of the rules they are viewing or return to main menu. 
+ * @author Nicholas Stanton
+ *
+ */
 public class RulesState extends ParentGameState 
 {
+	/**
+	 * Button allowing user to exit this state
+	 */
 	private CenteredTextButton exitButton;
+	/**
+	 * Button that moves from page 1 to page 2
+	 */
 	private CenteredTextButton nextPageButton;
+	/**
+	 * Button that moves from page 2 to page 1
+	 */
 	private CenteredTextButton prevPageButton;
+	/**
+	 * The variable that keeps track of which page of the rules the user is viewing. 
+	 */
 	private int pageNumber; 
 	
 	private final String P1_L1 = "Objective:";
@@ -53,12 +71,18 @@ public class RulesState extends ParentGameState
 	private final String P2_L18 = "may also add both values to their score or both to their queue.";
 	
 	
-	
+	/**
+	 * Constructor of this class, sets its state id. 
+	 * @param sID the id of the state
+	 */
 	public RulesState(int sID) 
 	{
 		super(sID); 
 	}   
 	
+	/**
+	 * The method run when transitioning to this state. Initializes all buttons and variables. 
+	 */
 	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
 	{ 
 		super.enter(gameContainer, stateGame); 
@@ -67,6 +91,62 @@ public class RulesState extends ParentGameState
 		prevPageButton = new CenteredTextButton("Previous Page", Place.RS_PREVPAGEBUTTON_XPOS, Place.RS_BUTTON_YPOS, Place.RS_BUTTON_WIDTH, Place.RS_BUTTON_HEIGHT, DiceGame.smallFont);
 		pageNumber = 1;
 	}   
+
+	/**
+	 * The method that handles the player clicking buttons. Chooses sub update methods to run based on the current pageNumber. 
+	 */
+	public void update(GameContainer gameContainer, StateBasedGame stateGame, int arg2) throws SlickException 
+	{ 
+		Input input = gameContainer.getInput(); if(input.isMousePressed(0)) 
+		{ 
+			int mouseX = input.getMouseX(); 
+			int mouseY = input.getMouseY(); 
+			if(pageNumber == 1)
+			{
+				updatePage1(mouseX, mouseY);
+			}
+			else // pageNumber == 2
+			{
+				updatePage2(stateGame, mouseX, mouseY);
+			}
+ 
+			} 
+		}   
+	
+	/**
+	 * The update method for page 1, allowing player to go to next page. 
+	 * @param clickPositionX X coordinate of the mouse click.
+	 * @param clickPositionY Y coordinate of the mouse click.
+	 */
+	public void updatePage1(int clickPositionX, int clickPositionY) 
+	{ 
+		if(nextPageButton.isWithinBound(clickPositionX, clickPositionY))
+		{
+			pageNumber++;
+		}
+	}  
+	
+	/**
+	 * The update method for page 2, allowing player to go the previous page or return to the main menu. 
+	 * @param stateGame the actual game
+	 * @param clickPositionX X coordinate of the mouse click.
+	 * @param clickPositionY Y coordinate of the mouse click. 
+	 */
+	public void updatePage2(StateBasedGame stateGame, int clickPositionX, int clickPositionY)
+	{
+		if(exitButton.isWithinBound(clickPositionX, clickPositionY))
+		{
+			stateGame.enterState(DiceGame.MAIN);
+		}		
+		if(prevPageButton.isWithinBound(clickPositionX, clickPositionY))
+		{
+			pageNumber--;
+		}
+	}
+	
+	/**
+	 * The method that handles output, or what is drawn to the screen. Chooses a sub render method based on current pageNumber. 
+	 */
 	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
 	{ 
 		if(pageNumber == 1)
@@ -79,6 +159,13 @@ public class RulesState extends ParentGameState
 		}
 	}   
 	
+	/**
+	 * The method that handles output for page 1. 
+	 * @param gameContainer appGamContainer that holds the actual game. 
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object to used for drawing boxes and text to the screen.
+	 * @throws SlickException
+	 */
 	public void renderPage1 (GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException
 	{
 		g.setFont (DiceGame.smallBoldFont);
@@ -118,6 +205,13 @@ public class RulesState extends ParentGameState
 		nextPageButton.render(gameContainer, stateGame, g);
 	}
 
+	/**
+	 * The method that handles output for page 1. 
+	 * @param gameContainer appGamContainer that holds the actual game.
+	 * @param stateGame the actual game. 
+	 * @param g Graphics object to used for drawing boxes and text to the screen.
+	 * @throws SlickException
+	 */
 	public void renderPage2 (GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException
 	{
 		g.setFont (DiceGame.smallBoldFont);
@@ -146,41 +240,4 @@ public class RulesState extends ParentGameState
 		prevPageButton.render(gameContainer, stateGame, g);
 	}
 	
-	public void update(GameContainer gameContainer, StateBasedGame stateGame, int arg2) throws SlickException 
-	{ 
-		Input input = gameContainer.getInput(); if(input.isMousePressed(0)) 
-		{ 
-			int mouseX = input.getMouseX(); 
-			int mouseY = input.getMouseY(); 
-			if(pageNumber == 1)
-			{
-				updatePage1(mouseX, mouseY);
-			}
-			else // pageNumber == 2
-			{
-				updatePage2(stateGame, mouseX, mouseY);
-			}
- 
-			} 
-		}   
-	
-	public void updatePage1(int clickPositionX, int clickPositionY) 
-	{ 
-		if(nextPageButton.isWithinBound(clickPositionX, clickPositionY))
-		{
-			pageNumber++;
-		}
-	}   
-	public void updatePage2(StateBasedGame stateGame, int clickPositionX, int clickPositionY)
-	{
-		if(exitButton.isWithinBound(clickPositionX, clickPositionY))
-		{
-			stateGame.enterState(DiceGame.MAIN);
-		}		
-		if(prevPageButton.isWithinBound(clickPositionX, clickPositionY))
-		{
-			pageNumber--;
-		}
-	}
 }
-

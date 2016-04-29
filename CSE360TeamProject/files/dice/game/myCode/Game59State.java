@@ -11,7 +11,7 @@ import java.util.Random;
 import dice.game.myCode.QueueAnalyzer.Hands;
 
 /**
- * A class is the state that has the actual gameplay. Handles UI logic and Game Logic through the render 
+ * This class is the state that has the actual gameplay. Handles UI logic and Game Logic through the render 
  * and update methods. UI logic is deciding what to draw to the screen and what can be clicked. Game Logic is deciding
  * what to do after a click has occurred. 
  * @author Nicholas Stanton
@@ -181,9 +181,10 @@ public class Game59State extends ParentGameState
 	}
 
 	/**
-	 * The method run when transitioning to this state. Initializes all button, boxes, objects and variables to their 
-	 * default values. Chooses a random player to go first. 
-	 *  
+	 * The method run when transitioning to this state. Initializes all buttons, boxes, objects, and variables to their default values.
+	 * Chooses a random player to go first.
+	 * @param gameContainer the appGameContainer that holds the game.
+	 * @param stateGame the actual game. 
 	 */
 	@Override
 	public void enter(GameContainer gameContainer, StateBasedGame stateGame) throws SlickException 
@@ -242,7 +243,10 @@ public class Game59State extends ParentGameState
 	 * The method that handles player input, or clicks, and game logic. Basically, what can currently be clicked based 
 	 * on what actions the player has taken so far and what happens when that button is clicked. It uses the booleans
 	 * isConfirmingRun, hasRolled, hasRedeemed, hasConfirmedRoll, and hasConfirmedRedeem to determine what 
-	 * "sub update method" to run if a click occurred.   
+	 * "sub update method" to run if a click occurred.
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game.
+	 * @param int delta used for how much time has passed.    
 	 */
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateGame, int delta) throws SlickException 
@@ -316,7 +320,10 @@ public class Game59State extends ParentGameState
 	
 	/**
 	 * The method that handles output, or what is drawn to the screen. It uses the booleans isConfirmingRun, hasRolled, 
-	 * hasRedeemed, hasConfirmedRoll, and hasConfirmedRedeem to determine "sub render method" to run. 
+	 * hasRedeemed, hasConfirmedRoll, and hasConfirmedRedeem to determine "sub render method" to run.
+	 * @param gameContainer the appGameContainer that holds the game. 
+	 * @param stateGame the actual game
+	 * @param g Graphics object to used for drawing boxes and text to the screen.
 	 */
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
@@ -807,7 +814,7 @@ public class Game59State extends ParentGameState
 	 * The method called by render every frame for objects that must always be rendered. 
 	 * @param gameContainer
 	 * @param stateGame
-	 * @param g
+	 * @param g Graphics object to used for drawing boxes and text to the screen.
 	 */
 	public void alwaysRender (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
 	{
@@ -826,7 +833,7 @@ public class Game59State extends ParentGameState
 	 * those variant rules are chosen. 
 	 * @param gameContainer
 	 * @param stateGame
-	 * @param g
+	 * @param g Graphics object to used for drawing boxes and text to the screen.
 	 */
 	public void variantAlwaysRender (GameContainer gameContainer, StateBasedGame stateGame, Graphics g)
 	{
