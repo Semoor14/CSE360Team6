@@ -158,7 +158,16 @@ public class Place
 	public static final int SS_TITLEBOX_WIDTH = 240;
 	public static final int SS_TITLEBOX_HEIGHT = 48;
 	
+	// Rules State
+	public static final int RS_XPOS = 16;
+	public static final int RS_YPOS = 12;
+	public static final int RS_YDIFFERENCE = 20; 
+	
+	public static final int RS_EXITBUTTON_XPOS = 464;
+	public static final int RS_PREVPAGEBUTTON_XPOS = 16;
+	public static final int RS_BUTTON_YPOS = 432;
+	public static final int RS_BUTTON_WIDTH = 160;
+	public static final int RS_BUTTON_HEIGHT = 32;
 	
 
-	
 }

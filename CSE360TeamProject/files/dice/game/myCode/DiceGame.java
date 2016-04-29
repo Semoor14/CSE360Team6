@@ -30,6 +30,7 @@ public class DiceGame extends StateBasedGame
         
     //global references to the three fonts used in the game
     public static TrueTypeFont smallFont;
+    public static TrueTypeFont smallBoldFont;
     public static TrueTypeFont mediumFont;
     public static TrueTypeFont largeFont;
     public static TrueTypeFont veryLargeFont;
@@ -49,6 +50,9 @@ public class DiceGame extends StateBasedGame
     {
 		Font sFont = new Font("Arial", Font.PLAIN, 18);
 		DiceGame.smallFont = new TrueTypeFont(sFont,false);
+		
+		Font suFont = new Font("Arial", Font.BOLD, 18);
+		DiceGame.smallBoldFont = new TrueTypeFont(suFont,false);
 		
 		Font mFont = new Font("Arial", Font.PLAIN, 26);
 		DiceGame.mediumFont = new TrueTypeFont(mFont,false);

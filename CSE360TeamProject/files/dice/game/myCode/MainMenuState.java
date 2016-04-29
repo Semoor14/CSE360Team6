@@ -113,9 +113,9 @@ public class MainMenuState  extends ParentGameState
 		
 		gameNameBox = new CenteredTextBox("59", Place.MS_GAMENAMEBOX_XPOS, Place.MS_GAMENAMEBOX_YPOS, Place.MS_GAMENAMEBOX_WIDTH, Place.MS_GAMENAMEBOX_HEIGHT, DiceGame.veryLargeFont);				
 		gameStartButton = new CenteredTextButton("Play Game", Place.MS_GAMESTARTBUTTON_XPOS, Place.MS_GAMESTARTBUTTON_YPOS, Place.MS_GAMESTARTBUTTON_WIDTH, Place.MS_GAMESTARTBUTTON_HEIGHT, DiceGame.mediumFont);
-		gameSetupButton = new CenteredTextButton("Variant Rules", Place.MS_GAMESETUPBUTTON_XPOS, Place.MS_GAMESETUPBUTTON_YPOS, Place.MS_GAMESETUPBUTTON_WIDTH, Place.MS_GAMESETUPBUTTON_HEIGHT, DiceGame.mediumFont); 
-		gameRulesButton = new CenteredTextButton("Rules", Place.MS_GAMERULESBUTTON_XPOS, Place.MS_GAMERULESBUTTON_YPOS, Place.MS_GAMERULESBUTTON_WIDTH, Place.MS_GAMERULESBUTTON_HEIGHT, DiceGame.mediumFont); 
-		gameStatisticsButton = new CenteredTextButton("Statistics", Place.MS_GAMESTATISTICSBUTTON_XPOS, Place.MS_GAMESTATISTICSBUTTON_YPOS, Place.MS_GAMESTATISTICSBUTTON_WIDTH, Place.MS_GAMESTATISTICSBUTTON_HEIGHT, DiceGame.mediumFont);
+		gameSetupButton = new CenteredTextButton("Pick Variants", Place.MS_GAMESETUPBUTTON_XPOS, Place.MS_GAMESETUPBUTTON_YPOS, Place.MS_GAMESETUPBUTTON_WIDTH, Place.MS_GAMESETUPBUTTON_HEIGHT, DiceGame.mediumFont); 
+		gameRulesButton = new CenteredTextButton("View Rules", Place.MS_GAMERULESBUTTON_XPOS, Place.MS_GAMERULESBUTTON_YPOS, Place.MS_GAMERULESBUTTON_WIDTH, Place.MS_GAMERULESBUTTON_HEIGHT, DiceGame.mediumFont); 
+		gameStatisticsButton = new CenteredTextButton("View Stats", Place.MS_GAMESTATISTICSBUTTON_XPOS, Place.MS_GAMESTATISTICSBUTTON_YPOS, Place.MS_GAMESTATISTICSBUTTON_WIDTH, Place.MS_GAMESTATISTICSBUTTON_HEIGHT, DiceGame.mediumFont);
 		gameExitButton = new CenteredTextButton("Exit", Place.MS_GAMEEXITBUTTON_XPOS, Place.MS_GAMEEXITBUTTON_YPOS, Place.MS_GAMEEXITBUTTON_WIDTH, Place.MS_GAMEEXITBUTTON_HEIGHT, DiceGame.mediumFont);
 	}
 }

@@ -22,6 +22,7 @@ public class StatisticsState extends ParentGameState
 	}   
 	public void render(GameContainer gameContainer, StateBasedGame stateGame, Graphics g) throws SlickException 
 	{ 
+		g.setFont (DiceGame.smallFont);
 		g.drawString((new StringBuilder("Stats:\n")).append(stats).toString(), 20F, 20F); 
 		exitButton.render(gameContainer, stateGame, g); 
 	}   
