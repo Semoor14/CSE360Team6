@@ -169,7 +169,8 @@ public class Game59State extends ParentGameState
 	/**
 	 * The box that displays the playerSumDifference. 
 	 */
-	private CenteredTextBox sumDifferenceBox; 
+	private CenteredTextBox sumDifferenceBox;
+	 
 	
 	/**
 	 * The constructor, only initializes the stateID. The rest is initialized in the enter method. 
@@ -1177,9 +1178,22 @@ public class Game59State extends ParentGameState
 		{
 			exitButton.SetSelected(true); // for end screen graphics
 		}
+		if(winnerIs != 0)
+		{
+			printStats(winnerIs);
+		}
 		return winnerIs;
 	}
-	
+	/**
+	 * the method creates a StatsReadWrite class and calls the write method
+	 */
+	private void printStats(int winnerIs) 
+	{
+		StatsReadWrite fileHandler = new StatsReadWrite();
+		fileHandler.write(diceRolls, winnerIs);
+		
+	}
+
 	/**
 	 * The method called by checkForWin if variant rules for new win conditions have been choosen.
 	 * @return The integer of the player's number who won the game. 0 if nobody has won.

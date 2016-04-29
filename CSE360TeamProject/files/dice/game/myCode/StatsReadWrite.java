@@ -1,5 +1,9 @@
 package dice.game.myCode;
-
+/**
+ * This class is for reading and writing to a stats.txt file to record statistics
+ * @author Nicholas Miller
+ * @version 4/29/2016
+ */
 import java.io.*; 
 import java.util.Iterator; 
 
@@ -12,7 +16,9 @@ public class StatsReadWrite
 	private int gamesPlayed; 
 	private int diceRolled; 
 	private int playerRecords[];
-	
+	/**
+	 * constructor
+	 */
 	public StatsReadWrite() 
 	{ 
 		gamesPlayed = 0; 
@@ -23,7 +29,12 @@ public class StatsReadWrite
 			playerRecords[index] = 0;
 		}
 	}   
-	
+	/**
+	 * method for writing new stats to the file, first checks if previous
+	 * statistics exist or not
+	 * @param dice
+	 * @param winner
+	 */
 	public void write(int dice, int winner) 
 	{ 
 		boolean fileExists = true; 
@@ -36,6 +47,7 @@ public class StatsReadWrite
 		{ 
 			fileExists = false; 
 		} 
+		//read previous stats if fileExits
 		if(fileExists) 
 		{ 
 			gamesPlayed = ((Integer) previousStats.get("Games Played")).intValue(); 
@@ -48,7 +60,7 @@ public class StatsReadWrite
 				playerRecords[count] = ((Integer)currentPlayer.get("Rounds Won")).intValue(); 
 			}   
 		} 
-		
+		//add new stats
 		gamesPlayed++; 
 		diceRolled += dice; 
 		playerRecords[winner - 1]++; 
@@ -57,7 +69,7 @@ public class StatsReadWrite
 		data.put("Dice Rolled", Integer.valueOf(diceRolled)); 
 		JSONArray players = new JSONArray(); 
 		JSONObject play1 = new JSONObject(); 
-		
+		//creat players
 		for(int i = 0; i < 4; i++) 
 		{ 
 			play1 = new JSONObject(); 
@@ -67,7 +79,7 @@ public class StatsReadWrite
 		}   
 		
 		data.put("Players", players); 
-		
+		//write updated numbers to file
 		try 
 		{ 
 			FileWriter file = new FileWriter("./stats.txt"); 
@@ -80,7 +92,10 @@ public class StatsReadWrite
 			e.printStackTrace(); 
 		} 	
 	}  
-	
+	/**
+	 * returns all stats with values seperated by a new line character (\n)
+	 * @return
+	 */
 	public String getStats() 
 	{ 
 		String result = ""; 
@@ -100,7 +115,10 @@ public class StatsReadWrite
 		}
 		return result;
 	}
-	
+	/**
+	 * updates stats from stats file or throws exception
+	 * @throws FileNotFoundException
+	 */
 	private void update() throws FileNotFoundException 
 	{ 
 		JSONObject previousStats = null; 
@@ -112,17 +130,21 @@ public class StatsReadWrite
 		{ 
 			throw e; 
 		} 
-		gamesPlayed = ((Integer)previousStats.get("Games Played")).intValue(); 
-		diceRolled = ((Integer)previousStats.get("Dice Rolled")).intValue(); 
+		gamesPlayed = (int) ((Long) (previousStats.get("Games Played"))).intValue(); 
+		diceRolled = (int) ((Long) (previousStats.get("Dice Rolled"))).intValue(); 
 		JSONArray playerResults = (JSONArray)previousStats.get("Players"); 
 		Iterator iterator = playerResults.iterator(); 
 		for(int count = 0; iterator.hasNext(); count++) 
 		{ 
 			JSONObject currentPlayer = (JSONObject)iterator.next(); 
-			playerRecords[count] = ((Integer)currentPlayer.get("Rounds Won")).intValue();
+			playerRecords[count] = (int) ((Long) currentPlayer.get("Rounds Won")).intValue();
 		}
 	}
-		
+	/**
+	 * class to parse json objects	
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	private JSONObject read() throws FileNotFoundException 
 	{ 
 		JSONParser parser = new JSONParser(); 
