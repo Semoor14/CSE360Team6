@@ -8,9 +8,9 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * DiceHandler is responcible for dice rolling activities in our game 
+ * DiceHandler is responsible for dice rolling activities in our game 
  * Two dice boxes are created side by side at the top of our game container
- * @author Scott Moore
+ * @author Edward Borroughs, Nicholas Stanton, and Scott Moore
  */
 public class DiceHandler 
 {	
@@ -25,6 +25,12 @@ public class DiceHandler
 	int selected;
 	boolean doubles;
 	
+	/**
+	 * Constructor for the DiceHandler.
+	 * @param lFont
+	 * @param sFont
+	 * @param main
+	 */
 	public DiceHandler(TrueTypeFont lFont, TrueTypeFont sFont, boolean main)
 	{
 		selected = 0;
@@ -64,7 +70,6 @@ public class DiceHandler
 		Die1Button.SetText("" + die1);
 		Die2Button.SetText("" + die2);
 		// for statistics
-		Game59State.diceRolls++;
 		Game59State.diceRolls++;
 	}
 
@@ -209,5 +214,15 @@ public class DiceHandler
 	public int getDie2()
 	{
 		return die2;
+	}
+	
+	public CenteredTextButton getDie1Button()
+	{
+		return Die1Button;
+	}
+	
+	public CenteredTextButton getDie2Button()
+	{
+		return Die2Button;
 	}
 }
