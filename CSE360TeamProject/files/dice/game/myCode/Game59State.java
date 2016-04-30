@@ -79,7 +79,10 @@ public class Game59State extends ParentGameState
 	 * The number of dice rolls that have occured this game. 
 	 */
 	public static int diceRolls;
-
+	/**
+	 * boolean to make sure stats are not printed multiple times
+	 */
+	private boolean statsWritten;
 	// Objects
 	/**
 	 * The object for player 1 in this game. 
@@ -236,6 +239,7 @@ public class Game59State extends ParentGameState
 		confirmedHandForThisTurn = Hands.NONE;
 		
 		diceRolls = 0;
+		statsWritten = false;
 		
 		newTurn();
 	}
@@ -1178,7 +1182,7 @@ public class Game59State extends ParentGameState
 		{
 			exitButton.SetSelected(true); // for end screen graphics
 		}
-		if(winnerIs != 0)
+		if(winnerIs != 0 && statsWritten == false)
 		{
 			printStats(winnerIs);
 		}

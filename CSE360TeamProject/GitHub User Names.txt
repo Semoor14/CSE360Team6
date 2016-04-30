@@ -1,0 +1,25 @@
+njmille5 - Nicholas Miller
+
+Worked on stats, comments documentation, worked on rule state which wasn't implemented. 
+Junit tests on D2. 
+
+nsstanto - Nicholas Stanton
+
+Worked on primary game, was in charge of piecing group code together into 
+main game state. 
+
+
+xeuorux - Kyle Chapman
+
+Set up slick structure with game states to be flushed out by team, did selection lsit and selection 
+list group. Documentation. 
+
+EBorroughs - Edward Borroughs
+
+Worked on JUnits on D2, Large queue code with Nic Stanton, and worked on dicehandler. 
+Documentation edits on other classes.
+
+Semoor14 - Scott Moore
+
+Primarily worked on queue analyzer. Worked on object for primary game state. Did a lot 
+of documentation which was sent as txt doc to nic stanton as I did not want to mess up the game and my EGit was being buggy. 

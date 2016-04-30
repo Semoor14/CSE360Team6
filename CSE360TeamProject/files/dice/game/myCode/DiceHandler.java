@@ -65,6 +65,7 @@ public class DiceHandler
 		Die2Button.SetText("" + die2);
 		// for statistics
 		Game59State.diceRolls++;
+		Game59State.diceRolls++;
 	}
 
 	/**
