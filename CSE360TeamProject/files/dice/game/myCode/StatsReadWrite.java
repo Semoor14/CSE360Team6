@@ -50,14 +50,14 @@ public class StatsReadWrite
 		//read previous stats if fileExits
 		if(fileExists) 
 		{ 
-			gamesPlayed = ((Integer) previousStats.get("Games Played")).intValue(); 
-			diceRolled = ((Integer)previousStats.get("Dice Rolled")).intValue(); 
+			gamesPlayed = (int) ((Long) (previousStats.get("Games Played"))).intValue(); 
+			diceRolled = (int) ((Long) (previousStats.get("Dice Rolled"))).intValue(); 
 			JSONArray playerResults = (JSONArray)previousStats.get("Players"); 
 			Iterator iterator = playerResults.iterator(); 
 			for(int count = 0; iterator.hasNext(); count++) 
 			{ 
 				JSONObject currentPlayer = (JSONObject)iterator.next(); 
-				playerRecords[count] = ((Integer)currentPlayer.get("Rounds Won")).intValue(); 
+				playerRecords[count] = (int) ((Long)currentPlayer.get("Rounds Won")).intValue(); 
 			}   
 		} 
 		//add new stats
