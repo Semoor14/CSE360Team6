@@ -5,9 +5,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * A box containing text about the effect of redeeming a certain kind of poker hand.
+ * @author Nicholas Stanton and Scott Moore
+ */
 public class PokerBox 
 {		
-	//P,R3,R4,R5,3K,4K,5K
+	/**
+	 * The different texts for each kind of hand.
+	 */
 	private final String PAIR_TEXT = "P: Skip"; 
 	private final String RUN_THREE_TEXT = "R3: Q+new3";
 	private final String RUN_FOUR_TEXT = "R4: Q+new4,";
@@ -20,11 +26,21 @@ public class PokerBox
 	private final String FOUR_KIND_TEXT_2 = "OpS-(6-X*Y),Extra";
 	private final String FIVE_KIND_TEXT = "5K: Win";
 	
+	/**
+	 * The different smaller boxes making up the box.
+	 */
 	private CenteredTextBox smallBox;
-	// always keep empty, its just a box
 	private CenteredTextBox largeBox;
+	
+	/**
+	 * The font the strings display in.
+	 */
 	private TrueTypeFont stringFont;
 	
+	/**
+	 * Initializes the PokerBox with all its different text lines.
+	 * @param smallFont The font to display the text in.
+	 */
 	public PokerBox(TrueTypeFont smallFont)
 	{
 		//centered text box 'poker hand'	
@@ -33,6 +49,12 @@ public class PokerBox
 		stringFont = smallFont;
 	}
 	
+	/**
+	 * Renders the different boxes of the pokerbox.
+	 * @param gameContainer The container for the whole game.
+	 * @param game The StateBasedGame handler.
+	 * @param g The graphics object.
+	 */
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
 	{
 		smallBox.render(gameContainer, game, g);
