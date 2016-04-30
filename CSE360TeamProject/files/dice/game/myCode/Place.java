@@ -70,7 +70,7 @@ public class Place
 	// main YPos
 	public static final int DH_MAINDIEBUTTON_YPOS = 16;
 	// run YPos
-	public static final int DH_RUNDIEBUTTON_YPOS = 184+16; // 208
+	public static final int DH_RUNDIEBUTTON_YPOS = 200;
 	public static final int DH_DIEBUTTON_WIDTH = 64;
 	public static final int DH_DIEBUTTON_HEIGHT = 64;
 	
