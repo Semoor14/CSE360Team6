@@ -1185,6 +1185,7 @@ public class Game59State extends ParentGameState
 		if(winnerIs != 0 && statsWritten == false)
 		{
 			printStats(winnerIs);
+			statsWritten = true;
 		}
 		return winnerIs;
 	}

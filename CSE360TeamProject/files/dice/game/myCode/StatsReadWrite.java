@@ -105,7 +105,7 @@ public class StatsReadWrite
 		} 
 		catch(FileNotFoundException e) 
 		{ 
-			return "No Game Statistics Stored yet"; 
+			return "No Games Played yet - Win a game to make some stats"; 
 		} 
 		result = (new StringBuilder(String.valueOf(result))).append("Games Played: ").append(gamesPlayed).append("\n").toString(); 
 		result = (new StringBuilder(String.valueOf(result))).append("Dice Rolled: ").append(diceRolled).append("\n").toString(); 
