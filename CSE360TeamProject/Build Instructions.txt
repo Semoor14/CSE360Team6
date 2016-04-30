@@ -1,0 +1,48 @@
+Build Instructions:
+
+The items for our deliverable can be found in this Git page. 
+
+.TXT FILES
+1. GitHub User Names.txt- contains all of our GitHub IDs with our coorsponding names. Additionally 
+I have included a description of what each of us contributed which you should find on git.
+
+2. Backlog.txt Describes our backlog in detail, which maps to a specific user story and includes
+	our implementation strategy at the bottom of the page with a tag for completed. If the backlog
+	item was excluded, the decision making logic was included. 
+
+THE GAME
+
+The game is contained in the 59_Game.Zip file whoich can be downloaded from blackboard.
+the file contains:
+- the game executable
+- all external libraries necessary to run the game
+- a stats file 
+
+Instructions.
+
+1. Download 59_Game.Zip from blackboard.
+
+2. Extraxt all from 59_Game.zip into another folder.
+
+3. Double click 59_Game.exe to run the game.
+
+NOTE: Make sure that all external libraries from 59_Game.zip are in the same folder as the 
+executable when extracted or the game will not run.  
+
+NAVIGATING THE MENU
+
+Strongly Suggested- to view rules by clicking the 'View Rules' tab. Do this before playing.
+
+Play game- Select 'Play game' button to try the game with defaul rules.
+
+After the first play through -> view statistics and they if you would like select the 
+'Pick Variants' Button to change the variants and replay.
+
+Enjoy!
+
+
+
+
+
+
+
