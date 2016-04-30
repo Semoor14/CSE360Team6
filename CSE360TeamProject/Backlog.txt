@@ -1,0 +1,75 @@
+Feature Backlog
+Backlog
+1. Button to begin game taking the player from main menu state to play game state –> User story 2 
+2. Dice Roll Logic. This logic must record two values, add one to queue and the other value to score–> User story 10
+3. Dice Results Queue, implement an active queue which can be manipulated –> User story 12
+4. UI for showing whose turn it is, actions during turn, etc. An indicator for the current players turn and a list of avaliable actions–> User story 13
+5. Ability to decide between dice (which in queue, which in points) UI fucntionality for selecting dice to either add to your score –> User story 11
+6. Detect when a player has won and end the game  –> User story 3
+7. Ability for player change turn a player nextTurn() fucntion, turn switch goes in order player 1,2,3,4–> User story 9
+8. Ability for player to select special action and target of that action, special action will be redemed by patterns in queue –> User story 12
+9. Stats File, detect and/or create it, function built into game using JSon –> User story 20
+10. Read stats file and parse its information –> User story 14
+11. Main menu with button to start game (UI) menu state will also contain a statstics view, setup and end game. –> User story 19
+12. Button to view statistics statistics will be linked to txt file using JSon–> User story 15
+13. UI for statistics, a centeredTextButton will be added when clicked game will enter statistics state, statistics will be displayed–> User story 21
+14. Button to set game up game variants may be selected from this state  –> User story 6
+15. UI for game setup 'pick variants' button int he main menu changes state to setup state, variant rules(sum rule and double rule) may be selected from here.–> User story 1
+16. Turn order selection during beginning of game, turn order is chosen at random at the beginning of the game–> User story 8
+17. Ability to view default game rules, button will be added in the main menu state, state will change to game rules state and display how to play. –> User story 16
+18. Ability to set variant game rules, after selecting a variant the game state will update to accomodate additional rules–> User story 5
+19. Ability to set game options–> User story 4 [Decided not to implement]
+20. Ability to view currently active options and variant rules–> User story 17 [Decided not to implement]
+21. Ability to view poker hand combos, displayed when selected to the player knows what they are able to do. -> User story 18 
+
+Backlog Accomplishments - 100%
+
+1. Button to begin game -  has been implemented, this button is made from centeredTextButton 
+	class and is displayed in main menu as play game. [COMPLETED]
+2. Dice roll - handles by booleans hasRolled to determine if player has rolled, calls method in 
+	mainDiceHandler.getDie1() and mainDiceHandler.getDie2() returning two values between
+	1 and 10. [COMPLETED]
+3. Dice Results Queue - Implemented in LargeQue.Java and SmallQueue.Java Sets centered text 
+	boxes onto interface. Fills with values passed in setValues[], array is updated and displayed.
+	[COMPLETED]
+4. UI for showing whose turn it is. - invertSelected() inverts the player boxes identifying whose
+	turn it is by inverting the player score box. [COMPLETED]
+5. Ability to decide between dice (which to add to queue and which to add to score)- Dicehandler.java
+	Listens for a selected value, that selected value is then either passed to Player.java 
+	through main game state or largequeue.java/smallqueue.java through game state. Successfully 
+	tested. [COMPLETED].
+6. Detect when a player has won the game. - In the update method the game state checks for a winner 
+	each frame. whoWonTheGame = checkForWinner(); Updates teh gamestate if there is a winner 
+	and passes a player index to id the winning player. [COMPLETED]
+7. Ability for player to change turn.- newTurn(); resets boolean values indicating rolls, queueselections
+	etc. and increments to player id. [COMPLETED]
+8. Ability for players to select special action and target that action. - The ability to select a special action is 
+	accomplished by using queueAnalyser.java and manipulating the player score and turn in the gamestate. The targetable
+	actions were decided to not be included as it may be confusing to the player [COMPLETED]
+9. Stats File, detect and/or create it - 
+
+10. Read Stats File and parse information- 
+
+11. Main menu buttons to start game - CenteredTextButtons in game state allow player to successfully
+	start the game. The game states change appropriatly. [COMPLETED]
+12. Button to view Statistics- CenteredTextButton in game allows player to enter statistics state successfully,
+	stats may be viewed.[COMPLETED]
+
+13. UI for Statistics-
+
+14. Button to set up game variants - CeneteredtextButton in main menu game state takes player to variants game state.
+	Players change rules form this state. [COMPLETED]
+15. Game Variant Buttons- Invert when selected, game variant selections alter main game state. [COMPLETED]
+16. Turn order random - Turn order is selected at the beginning of the game by a random number generator [COMPLETED]
+17. Ability to view default game rules - a centered text button has been implemented to the main menu state
+	this button takes you to a game rules state where you may view the rules to the game or return to the main menu. [COMPLETED]
+18. Ability to set vriant rules- Two implemented variant rules may be set, a sum rule where players may reach a score or 168 exactly and a doubles rule.
+	This is done by confirming selected rules in 'pick variants' main menu tabe and set up state in the game. [COMPLETED] 
+19. Ability to set game options- We did not implement this state. Since there are not any audio options we decided that the user
+	would not have much use for game options. Visually the game is simple so adding a displya change option also seemed like functionality which would not be used.
+	thus, we decided not to implement this item. [DISREGARDED]
+20. Ability to view rules in a seperate window while playing the game - we decided to use a redeemable hands list instead of a seperate window. 
+	This would make the game window cluttered. Instead we implemented a box on the righ part of the screen showing avaliable hands. [COMPLETED]
+21. Ability to view poker hands- When the large queue boxes are selected if a hand is seen the potential redeemable actions are displayed below the large queue.
+	This action string is generated using queueAnalyser.java and displayer in the main game state. [COMPLETED]
+
