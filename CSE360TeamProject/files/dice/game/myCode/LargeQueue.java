@@ -24,6 +24,10 @@ public class LargeQueue
 	
 	private int numSelected; 
 	
+	/**
+	 * Initializes a large queue with give boxes set in the positions they are supposed to be set in.
+	 * @param mediumFont The font that the texts in the boxes are displayed in.
+	 */
 	public LargeQueue (TrueTypeFont mediumFont)
 	{
 		QButton1 = new CenteredTextButton("", Place.LQ_BUTTON1_XPOS, Place.LQ_BUTTON_YPOS, Place.LQ_BUTTON_WIDTH, Place.LQ_BUTTON_HEIGHT, mediumFont);
@@ -35,7 +39,12 @@ public class LargeQueue
 		numSelected = 0;
 	}
 	
-	//renders qeueue buttons in game container with font and font size used from 
+	/**
+	 * Renders the different buttons of the queue.
+	 * @param gameContainer The container for the whole game.
+	 * @param game The StateBasedGame handler.
+	 * @param g The graphics object.
+	 */
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g)
 	{
 		QButton1.render(gameContainer, game, g);
@@ -50,7 +59,7 @@ public class LargeQueue
 	 * queue boxes, if the box contains a 0 the box is not clickable.
 	 * @param clickPositionX
 	 * @param clickPositionY
-	 * @return
+	 * @return Whether or not the click position successfully pressed one of the buttons.
 	 */
 	public boolean isWithinBound(int clickPositionX, int clickPositionY)
 	{
@@ -84,23 +93,19 @@ public class LargeQueue
 	}
 	
 	/**
-	 * sets rolled value to the queue 
-	 * @param newValues rolled value
+	 * Sets rolled value to the queue 
+	 * @param newValues The values to put i nto the queue.
 	 */
 	public void setValues(int [] newValues)
 	{
-		values[0] = newValues[0];
-		values[1] = newValues[1];
-		values[2] = newValues[2];
-		values[3] = newValues[3];
-		values[4] = newValues[4];
+		values = newValues.clone();
 		setBoxesText();
 	}
 	
 	/**
-	 * sets the displayed text of the large que box equal to the value
+	 * Sets the displayed text of the large queue box equal to the values in the list of values.
 	 */
-	public void setBoxesText()
+	private void setBoxesText()
 	{
 		QButton1.SetText(values[4] + "");
 		QButton2.SetText(values[3] + "");
@@ -110,7 +115,7 @@ public class LargeQueue
 	}
 	
 	/**
-	 * used to reset selection at the end of each turn
+	 * Sets all boxes selection status to false.
 	 */
 	public void resetSelections()
 	{
@@ -123,11 +128,10 @@ public class LargeQueue
 	}
 
 	/**
-	 * formats selected que value into an array based on selected boxes
-	 * array used in queue and queue analyse for turn logic.
-	 * @return
+	 * Returns a boolean array of the selection status of each of the five buttons.
+	 * @return A 5 sided boolean array containing the status of each button.
 	 */
-	public boolean [] getBooleanSelectedIndexes()
+	public boolean[] getBooleanSelectedIndexes()
 	{
 		numSelected = 0;
 		boolean[] selectedQueue = new boolean[5];
@@ -177,7 +181,6 @@ public class LargeQueue
 
 	public int [] getSelectedIndexes()
 	{
-
 		boolean [] selectedQueue = getBooleanSelectedIndexes();
 		int [] result = new int [numSelected];
 		int indexToInsert = 0;
@@ -192,7 +195,4 @@ public class LargeQueue
 		}
 		return result;
 	}
-	
-	
-	
 }

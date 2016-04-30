@@ -71,6 +71,10 @@ public class CenteredTextBox
 		return selected;
 	}
 	
+	/**
+	 * Set the text of this text box.
+	 * @param newText The new text to put into this box.
+	 */
 	public void SetText(String newText)
 	{
 		text = newText;
