@@ -99,8 +99,8 @@ public class Place
 	public static final int PB_SMALLBOX_YPOS = 128;
 	public static final int PB_BOX_WIDTH = 160;
 	public static final int PB_SMALLBOX_HEIGHT = 32;
-	public static final int PB_LARGEBOX_YPOS = 128+32;
-	public static final int PB_LARGEBOX_HEIGHT = 256-32;
+	public static final int PB_LARGEBOX_YPOS = 160;
+	public static final int PB_LARGEBOX_HEIGHT = 224;
 	
 	public static final int PB_STRING_XSPACING = 4;
 	public static final int PB_STRING_YSPACING = 2;
@@ -118,22 +118,22 @@ public class Place
 	public static final int MS_GAMESTARTBUTTON_HEIGHT = 48;	
 
 	public static final int MS_GAMESETUPBUTTON_XPOS = 224;
-	public static final int MS_GAMESETUPBUTTON_YPOS = 144+64;
+	public static final int MS_GAMESETUPBUTTON_YPOS = 208;
 	public static final int MS_GAMESETUPBUTTON_WIDTH = 192;
 	public static final int MS_GAMESETUPBUTTON_HEIGHT = 48;	
 
 	public static final int MS_GAMERULESBUTTON_XPOS = 224;
-	public static final int MS_GAMERULESBUTTON_YPOS = 144+128;
+	public static final int MS_GAMERULESBUTTON_YPOS = 272;
 	public static final int MS_GAMERULESBUTTON_WIDTH = 192;
 	public static final int MS_GAMERULESBUTTON_HEIGHT = 48;	
 
 	public static final int MS_GAMESTATISTICSBUTTON_XPOS = 224;
-	public static final int MS_GAMESTATISTICSBUTTON_YPOS = 144+192;
+	public static final int MS_GAMESTATISTICSBUTTON_YPOS = 336;
 	public static final int MS_GAMESTATISTICSBUTTON_WIDTH = 192;
 	public static final int MS_GAMESTATISTICSBUTTON_HEIGHT = 48;	
 
 	public static final int MS_GAMEEXITBUTTON_XPOS = 224;
-	public static final int MS_GAMEEXITBUTTON_YPOS = 144+256;
+	public static final int MS_GAMEEXITBUTTON_YPOS = 400;
 	public static final int MS_GAMEEXITBUTTON_WIDTH = 192;
 	public static final int MS_GAMEEXITBUTTON_HEIGHT = 48;	
 	
